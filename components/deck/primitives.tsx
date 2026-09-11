@@ -381,8 +381,8 @@ export function HBars({
   return (
     <div className={cn('flex flex-col gap-2', className)}>
       {data.map((d, i) => (
-        <div key={i} className="grid grid-cols-[minmax(0,10rem)_1fr_auto] items-center gap-3 text-xs md:text-sm">
-          <span className="truncate text-muted-foreground">{d.label}</span>
+        <div key={i} className="grid grid-cols-[minmax(0,14rem)_1fr_auto] items-center gap-3 text-xs md:text-sm">
+          <span className="whitespace-normal text-muted-foreground">{d.label}</span>
           <div className="h-5 overflow-hidden rounded bg-secondary">
             <div className={cn('h-full rounded', toneBg[d.tone ?? 'primary'])} style={{ width: `${Math.max((d.value / m) * 100, 0.6)}%` }} />
           </div>
@@ -611,18 +611,19 @@ export function Funnel({ steps, className }: { steps: { label: string; value: nu
   const max = steps[0].value
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      {steps.map((s, i) => (
-        <div key={i} className="grid grid-cols-[1fr_auto] items-center gap-4">
-          <div
-            className={cn('flex h-11 items-center justify-between rounded-md px-3 text-sm font-semibold text-background', toneBg[s.tone ?? 'primary'])}
-            style={{ width: `${Math.max((s.value / max) * 100, 14)}%`, minWidth: '12rem' }}
-          >
-            <span className="truncate">{s.label}</span>
-            <span className="pl-3 tabular-nums">{s.display}</span>
-          </div>
-          <span className="w-48 text-right text-xs text-muted-foreground">{s.note}</span>
-        </div>
-      ))}
+  {steps.map((s, i) => (
+  <div key={i} className="grid grid-cols-[12rem_minmax(0,1fr)_5rem_11rem] items-center gap-3 text-sm">
+  <span className="whitespace-normal leading-snug text-muted-foreground">{s.label}</span>
+  <div className="h-7 overflow-hidden rounded-md bg-secondary">
+  <div
+  className={cn('h-full rounded-md', toneBg[s.tone ?? 'primary'])}
+  style={{ width: `${Math.max((s.value / max) * 100, 2)}%` }}
+  />
+  </div>
+  <span className="text-right font-semibold tabular-nums">{s.display}</span>
+  <span className="text-xs leading-snug text-muted-foreground">{s.note}</span>
+  </div>
+  ))}
     </div>
   )
 }

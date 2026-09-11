@@ -443,13 +443,14 @@ export const anexoB: SlideDef[] = [
     node: (
       <Slide block={B} chapter="Informe 1.1 (piloto); datos complementarios">
         <Title>A31. Caso real: un cliente del piloto en operación</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Pendiente title="Pendiente: gráficos del cliente real" owner="Ricky" className="min-h-48">
+        <div className="mt-3 grid gap-6 md:grid-cols-2">
+          <Pendiente title="Pendiente: gráficos del cliente real" owner="Ricky">
             Exportar de DEYE Cloud o FusionSolar: producción mensual del último año, comparación producción real vs. estimada, y si
             existe, la factura antes y después. Pegar como imagen acá.
           </Pendiente>
           <Table
             align="left"
+            compact
             headers={['Concepto', 'Valor']}
             rows={[
               ['Configuración instalada (módulos, inversor)', <Pendiente key="1" title="">Completar</Pendiente>],
@@ -462,7 +463,7 @@ export const anexoB: SlideDef[] = [
             ]}
           />
         </div>
-        <Body className="mt-4">Cuidado con el nombre del cliente: presentar de forma anonimizada (barrio y tipo de vivienda) salvo autorización expresa.</Body>
+        <Body className="mt-2">Cuidado con el nombre del cliente: presentar de forma anonimizada (barrio y tipo de vivienda) salvo autorización expresa.</Body>
       </Slide>
     ),
   },
