@@ -371,22 +371,27 @@ export function HBars({
   valueFormat = (v: number) => String(v),
   className,
   max,
+  dense,
 }: {
   data: { label: string; value: number; tone?: Tone; note?: string }[]
   valueFormat?: (v: number) => string
   className?: string
   max?: number
+  dense?: boolean
 }) {
   const m = max ?? Math.max(...data.map((d) => d.value), 1)
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div className={cn('flex flex-col', dense ? 'gap-[3px]' : 'gap-2', className)}>
       {data.map((d, i) => (
-        <div key={i} className="grid grid-cols-[minmax(0,14rem)_1fr_auto] items-center gap-3 text-xs md:text-sm">
-          <span className="whitespace-normal text-muted-foreground">{d.label}</span>
-          <div className="h-5 overflow-hidden rounded bg-secondary">
+        <div
+          key={i}
+          className={cn('grid items-center gap-3', dense ? 'grid-cols-[minmax(0,8rem)_1fr_auto] text-[11px]' : 'grid-cols-[minmax(0,14rem)_1fr_auto] text-xs md:text-sm')}
+        >
+          <span className="leading-snug text-muted-foreground">{d.label}</span>
+          <div className={cn('overflow-hidden rounded bg-secondary', dense ? 'h-3.5' : 'h-5')}>
             <div className={cn('h-full rounded', toneBg[d.tone ?? 'primary'])} style={{ width: `${Math.max((d.value / m) * 100, 0.6)}%` }} />
           </div>
-          <span className="w-40 text-right font-semibold tabular-nums">
+          <span className={cn('text-right font-semibold tabular-nums', dense ? 'w-20' : 'w-40')}>
             {valueFormat(d.value)}
             {d.note && <span className="ml-1 font-normal text-muted-foreground">{d.note}</span>}
           </span>
@@ -487,7 +492,7 @@ export function Lines({
   )
 }
 
-/** Cash-flow style: bars for annual, line for cumulative. */
+/** Bars (annual) + line (cumulative). With dualAxis, bars use the left axis and the line the right axis. */
 export function BarsPlusLine({
   labels,
   bars,
@@ -495,10 +500,13 @@ export function BarsPlusLine({
   height = 340,
   width = 620,
   valueFormat = (v: number) => String(v),
+  lineFormat,
   unit,
   barName = 'Anual',
   lineName = 'Acumulado',
   className,
+  dualAxis = false,
+  showBarValues = false,
 }: {
   labels: string[]
   bars: number[]
@@ -506,35 +514,47 @@ export function BarsPlusLine({
   height?: number
   width?: number
   valueFormat?: (v: number) => string
+  lineFormat?: (v: number) => string
   unit?: string
   barName?: string
   lineName?: string
   className?: string
+  dualAxis?: boolean
+  showBarValues?: boolean
 }) {
   const padL = 66
-  const padR = 16
-  const padT = 20
+  const padR = dualAxis ? 66 : 16
+  const padT = 24
   const padB = 40
-  const all = [...bars, ...line, 0]
+  const lf = lineFormat ?? valueFormat
+  const all = dualAxis ? [...bars, 0] : [...bars, ...line, 0]
   const { ticks, lo, hi } = niceTicks(Math.min(...all), Math.max(...all))
+  const lineScale = dualAxis ? niceTicks(Math.min(...line, 0), Math.max(...line)) : { ticks, lo, hi }
   const plotH = height - padT - padB
   const plotW = width - padL - padR
   const n = labels.length
   const bw = plotW / n
   const x = (i: number) => padL + bw * i + bw / 2
   const y = (v: number) => padT + plotH - ((v - lo) / (hi - lo)) * plotH
-  const path = line.map((v, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${y(v)}`).join(' ')
+  const yl = (v: number) => padT + plotH - ((v - lineScale.lo) / (lineScale.hi - lineScale.lo)) * plotH
+  const path = line.map((v, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${yl(v)}`).join(' ')
   return (
     <div className={cn('w-full', className)}>
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img">
-        {ticks.map((t, i) => (
+        {ticks.map((tk, i) => (
           <g key={i}>
-            <line x1={padL} x2={width - padR} y1={y(t)} y2={y(t)} className="stroke-border" strokeWidth={1} />
-            <text x={padL - 8} y={y(t) + 3} textAnchor="end" className="fill-muted-foreground text-[11px]">
-              {valueFormat(t)}
+            <line x1={padL} x2={width - padR} y1={y(tk)} y2={y(tk)} className="stroke-border" strokeWidth={1} />
+            <text x={padL - 8} y={y(tk) + 3} textAnchor="end" className="fill-muted-foreground text-[11px]">
+              {valueFormat(tk)}
             </text>
           </g>
         ))}
+        {dualAxis &&
+          lineScale.ticks.map((tk, i) => (
+            <text key={i} x={width - padR + 8} y={yl(tk) + 3} textAnchor="start" className="fill-accent text-[11px]">
+              {lf(tk)}
+            </text>
+          ))}
         <line x1={padL} x2={width - padR} y1={y(0)} y2={y(0)} className="stroke-foreground/50" strokeWidth={1.2} />
         {unit && (
           <text x={padL} y={12} className="fill-muted-foreground text-[11px]">
@@ -542,20 +562,31 @@ export function BarsPlusLine({
           </text>
         )}
         {bars.map((v, i) => (
-          <rect
-            key={i}
-            x={x(i) - bw * 0.3}
-            y={Math.min(y(v), y(0))}
-            width={bw * 0.6}
-            height={Math.max(Math.abs(y(v) - y(0)), 1)}
-            rx={2}
-            className={v < 0 ? 'fill-destructive/80' : 'fill-primary/80'}
-          />
+          <g key={i}>
+            <rect
+              x={x(i) - bw * 0.3}
+              y={Math.min(y(v), y(0))}
+              width={bw * 0.6}
+              height={Math.max(Math.abs(y(v) - y(0)), 1)}
+              rx={2}
+              className={v < 0 ? 'fill-destructive/80' : 'fill-primary/80'}
+            />
+            {showBarValues && (
+              <text x={x(i)} y={Math.min(y(v), y(0)) - 4} textAnchor="middle" className="fill-foreground text-[10px] font-semibold">
+                {valueFormat(v)}
+              </text>
+            )}
+          </g>
         ))}
         <path d={path} fill="none" className="stroke-accent" strokeWidth={2.5} />
         {line.map((v, i) => (
-          <circle key={i} cx={x(i)} cy={y(v)} r={3} className="fill-accent" />
+          <circle key={i} cx={x(i)} cy={yl(v)} r={3} className="fill-accent" />
         ))}
+        {dualAxis && (
+          <text x={x(n - 1)} y={yl(line[n - 1]) - 10} textAnchor="end" className="fill-accent text-[11px] font-semibold">
+            {lf(line[n - 1])}
+          </text>
+        )}
         {labels.map((l, i) => (
           <text key={i} x={x(i)} y={height - padB + 16} textAnchor="middle" className="fill-muted-foreground text-[11px]">
             {l}
@@ -565,9 +596,11 @@ export function BarsPlusLine({
       <div className="mt-1 flex justify-center gap-5 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2.5 w-2.5 rounded-sm bg-primary/80" /> {barName}
+          {dualAxis && ' (eje izquierdo)'}
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-0.5 w-5 bg-accent" /> {lineName}
+          {dualAxis && ' (eje derecho)'}
         </span>
       </div>
     </div>
@@ -606,24 +639,26 @@ export function Donut({ data, size = 220, className }: { data: { label: string; 
   )
 }
 
-/** Funnel: descending widths with retention note. */
+/** Funnel: label on the left, proportional bar, value outside the bar, note on the right. */
 export function Funnel({ steps, className }: { steps: { label: string; value: number; display: string; note?: string; tone?: Tone }[]; className?: string }) {
   const max = steps[0].value
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
-  {steps.map((s, i) => (
-  <div key={i} className="grid grid-cols-[12rem_minmax(0,1fr)_5rem_11rem] items-center gap-3 text-sm">
-  <span className="whitespace-normal leading-snug text-muted-foreground">{s.label}</span>
-  <div className="h-7 overflow-hidden rounded-md bg-secondary">
-  <div
-  className={cn('h-full rounded-md', toneBg[s.tone ?? 'primary'])}
-  style={{ width: `${Math.max((s.value / max) * 100, 2)}%` }}
-  />
-  </div>
-  <span className="text-right font-semibold tabular-nums">{s.display}</span>
-  <span className="text-xs leading-snug text-muted-foreground">{s.note}</span>
-  </div>
-  ))}
+    <div className={cn('flex flex-col gap-3', className)}>
+      {steps.map((s, i) => {
+        const pct = Math.max((s.value / max) * 100, 1.5)
+        return (
+          <div key={i} className="grid grid-cols-[12rem_1fr_11rem] items-center gap-3">
+            <span className="text-sm leading-snug text-foreground/90">{s.label}</span>
+            <div className="flex items-center gap-3">
+              <div className="h-9 flex-1">
+                <div className={cn('h-9 rounded-md', toneBg[s.tone ?? 'primary'])} style={{ width: `${pct}%` }} />
+              </div>
+              <span className="w-20 shrink-0 text-right font-serif text-base font-bold tabular-nums">{s.display}</span>
+            </div>
+            {s.note ? <span className="text-xs leading-snug text-muted-foreground">{s.note}</span> : <span />}
+          </div>
+        )
+      })}
     </div>
   )
 }

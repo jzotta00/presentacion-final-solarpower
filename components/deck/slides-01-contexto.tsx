@@ -1,4 +1,4 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars, HBars, Donut, ArgentinaMap, Pendiente } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars, HBars, Donut, ArgentinaMap, Pendiente, BarsPlusLine } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
 
@@ -57,10 +57,35 @@ export const contexto: SlideDef[] = [
     nav: 'Subsidios energéticos',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 1.2 y 2.2.11" source="CIPPEC (2023) con base en Secretaría de Energía, Presupuesto Abierto, ASAP y BCRA. Figura 2.8 del informe.">
+      <Slide block={B} chapter="Informe 1.2 y 2.2.11" source="CIPPEC (2023) con base en Secretaría de Energía, Presupuesto Abierto, ASAP y BCRA (Figura 2.8 del informe; recreado como gráfico nativo a partir de esos mismos datos).">
         <Title>Décadas de subsidios suprimieron la señal de precio</Title>
         <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-2-8-subsidios-pbi.png" caption="Figura 2.8. Subsidios energéticos en Argentina como porcentaje del PBI, 2004 a 2022." />
+          <Bars
+            height={300}
+            unit="Subsidios energéticos, % del PBI"
+            valueFormat={(v) => `${v.toLocaleString('es-AR')}%`}
+            data={[
+              { label: '2004', value: 0.5, tone: 'muted' },
+              { label: '2005', value: 0.4, tone: 'muted' },
+              { label: '2006', value: 0.4, tone: 'muted' },
+              { label: '2007', value: 0.7, tone: 'muted' },
+              { label: '2008', value: 1.2, tone: 'muted' },
+              { label: '2009', value: 1.4, tone: 'muted' },
+              { label: '2010', value: 1.6, tone: 'muted' },
+              { label: '2011', value: 1.7, tone: 'muted' },
+              { label: '2012', value: 2.0, tone: 'primary' },
+              { label: '2013', value: 3.0, tone: 'primary' },
+              { label: '2014', value: 3.4, tone: 'destructive' },
+              { label: '2015', value: 2.8, tone: 'primary' },
+              { label: '2016', value: 1.9, tone: 'muted' },
+              { label: '2017', value: 1.2, tone: 'muted' },
+              { label: '2018', value: 1.5, tone: 'muted' },
+              { label: '2019', value: 1.0, tone: 'muted' },
+              { label: '2020', value: 1.9, tone: 'muted' },
+              { label: '2021', value: 2.3, tone: 'primary' },
+              { label: '2022', value: 2.0, tone: 'primary' },
+            ]}
+          />
           <div className="flex flex-col gap-3">
             <Stat tone="destructive" value="3,4% del PBI" label="Pico de subsidios energéticos, 2014 a 2015" />
             <Stat tone="destructive" value="< 40%" label="Cobertura del costo real del suministro por la tarifa residencial hasta 2023 (CIPPEC)" />
@@ -116,17 +141,47 @@ export const contexto: SlideDef[] = [
     nav: 'Argentina en el mundo',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.2.9" source="Statista y fuentes oficiales por país, sep-2023 (Figura 2.7 del informe); ENRE 05/2026 para el valor argentino actual.">
+      <Slide block={B} chapter="Informe 2.2.9 (Figura 2.7 recreada)" source="Statista y fuentes oficiales por país, precios residenciales en USD/kWh, septiembre 2023 (Figura 2.7 del informe). Argentina: informe 2.2.9 (pre-2024) y ENRE 05/2026.">
         <Title>De las tarifas más bajas del mundo a una normalización con margen por recorrer</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-2-7-precio-paises.png" caption="Figura 2.7. Precios de electricidad residencial por país (USD/kWh), septiembre 2023." />
+        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
+          <HBars
+            dense
+            valueFormat={(v) => `USD ${v.toFixed(2).replace('.', ',')}`}
+            max={0.55}
+            data={[
+              { label: 'Irlanda', value: 0.53, tone: 'muted' },
+              { label: 'Italia', value: 0.46, tone: 'muted' },
+              { label: 'Reino Unido', value: 0.44, tone: 'muted' },
+              { label: 'Bélgica', value: 0.43, tone: 'muted' },
+              { label: 'Alemania', value: 0.4, tone: 'muted' },
+              { label: 'Países Bajos', value: 0.35, tone: 'muted' },
+              { label: 'Dinamarca', value: 0.35, tone: 'muted' },
+              { label: 'Francia', value: 0.28, tone: 'muted' },
+              { label: 'Australia', value: 0.28, tone: 'muted' },
+              { label: 'Uruguay', value: 0.26, tone: 'primary' },
+              { label: 'España', value: 0.24, tone: 'muted' },
+              { label: 'Japón', value: 0.22, tone: 'muted' },
+              { label: 'Kenia', value: 0.22, tone: 'muted' },
+              { label: 'Perú', value: 0.19, tone: 'primary' },
+              { label: 'Sudáfrica', value: 0.18, tone: 'muted' },
+              { label: 'Estados Unidos', value: 0.17, tone: 'muted' },
+              { label: 'Brasil', value: 0.17, tone: 'primary' },
+              { label: 'México', value: 0.12, tone: 'primary' },
+              { label: 'Noruega', value: 0.11, tone: 'muted' },
+              { label: 'China', value: 0.08, tone: 'muted' },
+              { label: 'Emiratos Árabes', value: 0.08, tone: 'muted' },
+              { label: 'India', value: 0.08, tone: 'muted' },
+              { label: 'Rusia', value: 0.06, tone: 'muted' },
+              { label: 'Venezuela', value: 0.05, tone: 'primary' },
+              { label: 'Turquía', value: 0.05, tone: 'muted' },
+            ]}
+          />
           <div className="flex flex-col gap-3">
-            <Stat tone="destructive" value="USD 0,01 a 0,05" label="por kWh en Argentina antes de 2024, entre los más bajos del mundo" />
+            <Stat tone="destructive" value="USD 0,01 a 0,05" label="por kWh en Argentina antes de 2024, entre los más bajos del mundo (no figura en el ranking de Statista)" />
             <Stat tone="primary" value="USD 0,26 / 0,19" label="por kWh residencial en Uruguay y Chile: la normalización argentina todavía tiene camino" />
             <Body>
               A nivel internacional los precios residenciales suben 2% a 4% anual en términos reales (EIA 1998 a 2023; Eurostat 2010 a
-              2023). Esa tendencia estructural es uno de los fundamentos del modelo: la cuota en UVA da previsibilidad frente a un
-              costo que tiende a crecer.
+              2023). La cuota en UVA da previsibilidad frente a un costo que tiende a crecer.
             </Body>
           </div>
         </div>
@@ -138,10 +193,27 @@ export const contexto: SlideDef[] = [
     nav: 'Generación distribuida hoy',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.2.1" source="Secretaría de Energía, Reporte Anual de Generación Distribuida 2024 (feb-2025). Figura 2.1 del informe.">
+      <Slide block={B} chapter="Informe 2.2.1 (Figura 2.1 recreada)" source="Secretaría de Energía, Reporte Anual de Generación Distribuida 2024 (feb-2025) para el total a diciembre 2024; serie mensual mayo 2023 a abril 2024 según Figura 2.1 del informe (Secretaría de Energía).">
         <Title>Generación distribuida residencial: un mercado prácticamente vacío</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-2-1-evolucion-gd.png" caption="Figura 2.1. Usuarios-generadores activos y potencia acumulada de generación distribuida en Argentina, 2018 a 2024." />
+        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
+          <div className="flex flex-col justify-center">
+            <BarsPlusLine
+              height={300}
+              labels={['May 23', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic', 'Ene 24', 'Feb', 'Mar', 'Abr']}
+              bars={[53, 23, 48, 73, 47, 54, 49, 38, 52, 34, 46, 46]}
+              line={[1261, 1284, 1332, 1405, 1452, 1506, 1555, 1593, 1645, 1679, 1725, 1771]}
+              unit="Usuarios-generadores nuevos por mes"
+              valueFormat={(v) => v.toLocaleString('es-AR')}
+              barName="Nuevos por mes"
+              lineName="Acumulado"
+              dualAxis
+              showBarValues
+            />
+            <Body className="mt-1 text-xs">
+              En el mismo período la potencia acumulada pasó de 23.280 kW a 37.584 kW. Entre 23 y 73 conexiones nuevas por mes en todo el
+              país, para 12 millones de casas.
+            </Body>
+          </div>
           <div className="flex flex-col gap-3">
             <Stat value="2.290" label="usuarios-generadores activos a diciembre de 2024, con 58,99 MW instalados (+92% vs. 30,69 MW en 2023)" />
             <Stat tone="destructive" value="1.299" label="instalaciones residenciales (5,9 MW). El segmento comercial-industrial concentra el 78% de la potencia" />

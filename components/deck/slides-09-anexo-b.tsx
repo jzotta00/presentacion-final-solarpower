@@ -340,6 +340,7 @@ export const anexoB: SlideDef[] = [
             ['A30', 'Firma digital del contrato', 'Si se incorpora al proceso comercial: herramienta, validez legal y flujo.'],
             ['A31', 'Caso real del piloto', 'Datos y gráficos de un cliente real en operación.'],
             ['A32', 'Lista consolidada de pendientes', 'Checklist de todo lo que falta completar antes de la defensa.'],
+            ['PDF', 'Folletos de SolarPower', 'Ricky tiene dos piezas propias listas para mostrar si el tribunal pregunta: "Sistemas solares On Grid, Off Grid e Híbridos" (esquemas de funcionamiento) y el instructivo "Trámites a Distancia" (apoderamiento en TAD para el medidor bidireccional).'],
           ].map(([id, t, d]) => (
             <div key={id} className="flex gap-3 rounded-lg border border-border bg-card/50 p-3">
               <span className="font-serif font-bold text-primary">{id}</span>
@@ -500,6 +501,11 @@ export const anexoB: SlideDef[] = [
                 'Downpayment: USD 300 a 600 (cap. 1 y 2) vs. USD 600 (cap. 4). UVA: $1.850,06 (30/03) vs. $2.007 (30/06). Indicar cuál se usa.',
                 'Equipos de instalación por año: informe 3.4.7 (3 a 4 en Año 1, más de 20 en Año 5) vs. resumen Tabla 1 (2 y 13).',
                 'Resumen ejecutivo: la versión revisada tiene datos que contradicen el informe (Brasil, Chile y México; menos de 5.000 sistemas y menos de 0,5%; degradación 0,4%; GHI 4,5 con PR 78%). Usar la versión corregida.',
+                'Figura 3.4 del informe: la imagen dice "4,8 kWp, 8 × 600 Wp, microinversores Enphase IQ8H"; el texto dice 9 × 580 Wp con inversor de string DEYE/Huawei. Reemplazar la imagen.',
+                'Figura 3.5 del informe: el título dice "4,8 kWp". Regenerar con el sistema de 5,22 kWp.',
+                'Figura 2.1 del informe: la leyenda dice "2018 a 2024" pero el gráfico cubre mayo 2023 a abril 2024. Corregir la leyenda.',
+                'Figura 3.7 del informe: dice "45 a 90 días calendario"; el texto dice 45 a 70 días hábiles. Alinear.',
+                'Ricky menciona "varios datos que están mal" en los esquemas: pedirle la lista concreta para corregir informe y deck a la vez.',
               ]}
             />
           </div>

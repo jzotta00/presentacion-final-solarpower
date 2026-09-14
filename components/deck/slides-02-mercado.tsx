@@ -1,6 +1,7 @@
 import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Funnel, ArgentinaMap, HBars } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
+import { PorterDiagram, Stars } from './diagrams'
 
 const B = '2 · Mercado'
 
@@ -183,21 +184,42 @@ export const mercado: SlideDef[] = [
     nav: 'Cinco fuerzas de Porter',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.6.1, Figura 2.14" source="Elaboración propia (Porter, 2008).">
+      <Slide block={B} chapter="Informe 2.6.1 (Figura 2.14 recreada)" source="Elaboración propia (Porter, 2008). Contenido según sección 2.6.1 del informe.">
         <Title>Cinco fuerzas de Porter: un nicho sin rivalidad directa</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[2fr_3fr]">
-          <Figura src="/figuras/fig-2-14-porter.png" caption="Figura 2.14. Cinco fuerzas de Porter para el arrendamiento solar residencial en Argentina." />
-          <Table
-            align="left"
-            compact
-            headers={['Fuerza', 'Nivel', 'Argumento']}
-            rows={[
-              ['Rivalidad entre competidores', <Ok key="1">Baja</Ok>, 'No existe ninguna empresa con arrendamiento estructurado, cuota UVA, mantenimiento y monitoreo. Los actuales son instaladores de venta directa.'],
-              ['Amenaza de nuevos entrantes', <span key="2" className="font-semibold text-primary">Media</span>, 'Barreras: capital intensivo, contratos de largo plazo, red de instaladores, plataforma de monitoreo. No insuperables en 3 a 5 años para un actor con capital.'],
-              ['Poder de proveedores', <span key="3" className="font-semibold text-primary">Medio</span>, 'Múltiples importadores (LONGi, JA Solar, Trina, Canadian; DEYE, Huawei, Growatt). Estrategia: 2 a 3 proveedores por componente.'],
-              ['Poder de clientes', <Ok key="4">Bajo a medio</Ok>, 'Hogares individuales, oferta nueva, contrato estándar. Crece con la madurez del mercado.'],
-              ['Amenaza de sustitutos', <Bad key="5">Media a alta</Bad>, 'Compra directa con crédito accesible, eficiencia energética del hogar, o seguir pagando la tarifa y esperar.'],
-            ]}
+        <div className="mt-3 min-h-0 flex-1">
+          <PorterDiagram
+            forces={{
+              top: {
+                title: 'Amenaza de nuevos entrantes',
+                level: 'Media',
+                tone: 'primary',
+                items: ['Barreras: capital intensivo, contratos de largo plazo, red de instaladores, plataforma de monitoreo', 'No insuperables en 3 a 5 años para un actor con capital'],
+              },
+              left: {
+                title: 'Poder de proveedores',
+                level: 'Medio',
+                tone: 'primary',
+                items: ['Múltiples importadores: LONGi, JA Solar, Trina, Canadian; DEYE, Huawei, Growatt', 'Estrategia: 2 a 3 proveedores por componente'],
+              },
+              center: {
+                title: 'Rivalidad entre competidores',
+                level: 'Baja',
+                tone: 'accent',
+                items: ['Ninguna empresa ofrece arrendamiento estructurado con cuota UVA, mantenimiento y monitoreo', 'Los actuales son instaladores de venta directa'],
+              },
+              right: {
+                title: 'Poder de clientes',
+                level: 'Bajo a medio',
+                tone: 'accent',
+                items: ['Hogares individuales, oferta nueva, contrato estándar', 'Crece con la madurez del mercado'],
+              },
+              bottom: {
+                title: 'Amenaza de sustitutos',
+                level: 'Media a alta',
+                tone: 'destructive',
+                items: ['Compra directa con crédito accesible', 'Eficiencia energética del hogar', 'Seguir pagando la tarifa y esperar'],
+              },
+            }}
           />
         </div>
       </Slide>
@@ -238,16 +260,30 @@ export const mercado: SlideDef[] = [
     nav: 'Factores críticos de éxito',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.6.3, Figura 2.19" source="Elaboración propia; benchmark Sunrun (Form 10-K 2023); piloto SolarPower.">
-        <Title>Cinco factores críticos de éxito frente a la competencia</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-2-19-fce.png" caption="Figura 2.19. Factores Críticos de Éxito: SolarPower vs. instalador convencional vs. compra directa (★★★ alto, ★★ medio, ★ bajo, ☆ no aplica)." />
+      <Slide block={B} chapter="Informe 2.6.3 (Figura 2.19 recreada)" source="Elaboración propia; benchmark Sunrun (Form 10-K 2023); piloto SolarPower. Escala: ★★★ alto, ★★ medio, ★ bajo, ☆ no aplica.">
+        <Title>Factores críticos de éxito frente a la competencia</Title>
+        <div className="mt-3 grid gap-6 md:grid-cols-[3fr_2fr]">
+          <Table
+            align="left"
+            compact
+            headers={['Factor crítico de éxito', 'SolarPower (proyectado)', 'Instaladores convencionales', 'Compra directa']}
+            rows={[
+              ['Modelo de cuota sin inversión inicial', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" n={1} />],
+              ['Servicio de mantenimiento incluido', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
+              ['Monitoreo y garantía de producción', <Stars key="a" n={3} />, <Stars key="b" n={2} />, <Stars key="c" na />],
+              ['Indexación anti-inflación (UVA)', <Stars key="a" n={3} />, <Stars key="b" na />, <Stars key="c" na />],
+              ['Accesibilidad (cero CAPEX)', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
+              ['Reputación y confianza de marca', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
+              ['Velocidad de instalación', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
+              ['Flexibilidad del producto', <Stars key="a" n={2} />, <Stars key="b" n={3} />, <Stars key="c" n={2} />],
+            ]}
+          />
           <Bullets
             dense
             items={[
               <><Hi>Cuota con baja barrera de entrada</Hi> (FCE principal): 10% inicial vs. USD 3.000 a 4.000 de compra directa.</>,
               <><Hi>Mantenimiento incluido y garantía de producción</Hi>: producción mínima anual garantizada, con compensación en cuota si no se alcanza.</>,
-              <><Hi>Monitoreo en tiempo real</Hi>: producción, consumo, ahorro acumulado y CO₂ evitado visibles para el cliente; herramienta de retención.</>,
+              <><Hi>Monitoreo en tiempo real</Hi>: producción, consumo, ahorro acumulado y CO₂ evitado visibles para el cliente.</>,
               <><Hi>Indexación UVA</Hi>: protege el ingreso real de la empresa y mantiene el diferencial de ahorro del cliente.</>,
               <><Hi>Reputación y confianza de marca</Hi>: desventaja inicial; se construye con referidos (cada referido reduce el CAC 40 a 60%), certificaciones ISO 9001 e IRAM.</>,
             ]}

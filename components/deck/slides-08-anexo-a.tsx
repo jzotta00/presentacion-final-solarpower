@@ -1,4 +1,4 @@
-import { Slide, Title, Body, Bullets, Divider, Figura, Table } from './primitives'
+import { Slide, Title, Body, Bullets, Divider, Figura, Table, Pendiente } from './primitives'
 import type { SlideDef } from './types'
 
 const B = 'Anexo'
@@ -346,6 +346,24 @@ export const anexoA: SlideDef[] = [
             ]}
           />
         </div>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'A13b · Figuras 3.5 y 3.6 originales',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe Figuras 3.5 y 3.6 (versión original)" source="Elaboración propia con datos PVGIS y Edenor (2024); perfiles de consumo residencial Argentina (CNT 2022).">
+        <Title>A13b. Balance mensual y perfil horario (figuras originales del informe)</Title>
+        <div className="mt-3 grid min-h-0 flex-1 gap-4 md:grid-cols-2">
+          <Figura src="/figuras/fig-3-5-balance-mensual.png" caption="Figura 3.5. Balance energético mensual, hogar N1 del AMBA con 380 kWh/mes." />
+          <Figura src="/figuras/fig-3-6-perfil-horario.png" caption="Figura 3.6. Perfil horario de generación y consumo en verano e invierno." />
+        </div>
+        <Pendiente className="mt-3" title="Advertencia para el equipo" owner="Ricky">
+          El título de la Figura 3.5 dice "4,8 kWp" (configuración anterior); el sistema estándar del informe es 5,22 kWp. Regenerar ambas
+          figuras con los datos de PVGIS del sistema actual antes de la defensa, o retirarlas del informe.
+        </Pendiente>
       </Slide>
     ),
   },

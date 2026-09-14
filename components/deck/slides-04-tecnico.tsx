@@ -1,6 +1,7 @@
 import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Steps, Pendiente } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
+import { OnGridDiagram, Stepper } from './diagrams'
 
 const B = '4 · Técnico'
 
@@ -146,23 +147,26 @@ export const tecnico: SlideDef[] = [
     nav: 'Arquitectura on-grid',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.1, Figura 3.4" source="Elaboración propia. Figura 3.4 del informe.">
+      <Slide block={B} chapter="Informe 3.2.1 (Figura 3.4 recreada con el sistema estándar de 5,22 kWp)" source="Elaboración propia según informe 3.1.6, 3.1.7 y 3.2.1: 9 módulos TOPCon de 580 Wp en dos strings (5 + 4), inversor de string DEYE o Huawei de 5 kW, protecciones AEA 90364-7-712 y ENRE 314/2018.">
         <Title>Arquitectura del sistema on-grid</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-3-4-diagrama-ongrid.png" caption="Figura 3.4. Diagrama de bloques del sistema on-grid SolarPower: dos strings DC (amarillo), inversor, tablero del hogar, medidor bidireccional y conexión con la red de Edenor/Edesur (verde). Monitoreo por Wi-Fi." />
+        <div className="mt-3 grid min-h-0 flex-1 gap-5 md:grid-cols-[2fr_1fr]">
+          <div className="flex items-center">
+            <OnGridDiagram />
+          </div>
           <div className="flex flex-col gap-3">
             <Body>
-              Durante las horas de sol, los módulos generan corriente continua que el inversor convierte en alterna de 230 V y 50 Hz
-              con factor de potencia mayor a 0,99. La energía se inyecta al tablero del hogar mediante un interruptor dedicado.
+              De día los módulos generan corriente continua en dos strings independientes; el inversor la convierte en alterna de 230 V y
+              50 Hz con factor de potencia mayor a 0,99 y la entrega al tablero del hogar por un interruptor dedicado.
             </Body>
             <Body>
-              Si la generación supera el consumo instantáneo, el excedente fluye a la red y el medidor bidireccional lo registra como
-              exportación. Si el consumo supera la generación (de noche), la red cubre la diferencia. No hay gestión activa de cargas:
-              ambas fuentes se suman en el tablero.
+              Si la generación supera el consumo instantáneo, el excedente sale a la red y el medidor bidireccional lo registra como
+              inyección. De noche la red cubre el consumo. No hay gestión activa de cargas: ambas fuentes se suman en el tablero.
             </Body>
-            <Body>
-              Todos los sistemas SolarPower son on-grid e incluyen medición de consumo, producción y autoconsumo.
-            </Body>
+            <Pendiente title="Nota para el equipo: Figura 3.4 del informe">
+              La imagen original de la Figura 3.4 dice "Plan SolarPower 4,8 kWp, 8 × 600 Wp, microinversores Enphase IQ8H", que es la
+              configuración anterior. El texto del informe describe 9 × 580 Wp con inversor de string DEYE/Huawei. Reemplazar la
+              figura en el informe por este diagrama o uno equivalente.
+            </Pendiente>
           </div>
         </div>
       </Slide>
@@ -217,16 +221,37 @@ export const tecnico: SlideDef[] = [
     nav: 'Estacionalidad y perfil horario',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.2, Figuras 3.5 y 3.6" source="Elaboración propia con datos PVGIS y Edenor (2024); perfiles de consumo residencial Argentina (CNT 2022). Figuras 3.5 y 3.6 del informe.">
+      <Slide block={B} chapter="Informe 3.2.2" source="Informe TPP, sección 3.2.2, con datos PVGIS y Edenor (2024) y perfiles de consumo residencial (CNT 2022).">
         <Title>Generación vs. consumo: variación estacional y horaria</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-4 md:grid-cols-2">
-          <Figura src="/figuras/fig-3-5-balance-mensual.png" caption="Figura 3.5. Balance energético mensual, hogar N1 del AMBA con 380 kWh/mes: generación vs. consumo, balance neto y crédito acumulado." />
-          <Figura src="/figuras/fig-3-6-perfil-horario.png" caption="Figura 3.6. Perfil horario de generación (amarillo) y consumo (azul) en verano e invierno: autoconsumo directo (verde), excedente inyectado y consumo cubierto por la red (rojo)." />
+        <div className="mt-4 grid gap-4 md:grid-cols-4">
+          <Stat tone="primary" value="~648 kWh/mes" label="generación máxima del sistema estándar en diciembre y enero" />
+          <Stat tone="destructive" value="240 a 264 kWh/mes" label="generación mínima en junio y julio: una variación de casi 2,7 veces" />
+          <Stat value="40 a 55%" label="factor de simultaneidad (autoconsumo directo) en verano" />
+          <Stat value="55 a 70%" label="factor de simultaneidad en invierno, con menor generación y consumo diurno alto" />
         </div>
-        <Body className="mt-3">
-          Generación máxima en diciembre y enero (~648 kWh/mes) y mínima en junio y julio (~240 a 264 kWh/mes), una variación de casi
-          2,7 veces. El consumo es alto en verano (aire acondicionado) y en invierno (calefón y calefacción eléctrica).
-        </Body>
+        <div className="mt-5 grid gap-6 md:grid-cols-2">
+          <Bullets
+            dense
+            items={[
+              'El consumo del hogar es alto en verano (aire acondicionado) y en invierno (calefón y calefacción eléctrica), con valles en otoño y primavera.',
+              'La generación sigue la irradiación: 1,5 kWh/m²/día en invierno frente a 6,3 en verano en el AMBA.',
+              'El crédito de balance neto se acumula sobre todo en primavera y en días de verano con bajo uso de aire acondicionado, y se consume en invierno.',
+            ]}
+          />
+          <Bullets
+            dense
+            items={[
+              'Perfil horario: la generación se concentra entre las 9 y las 17 h con pico al mediodía solar; el consumo residencial tiene picos a la mañana temprano y entre las 19 y las 23 h.',
+              'Lo que se genera y no se consume en el momento se inyecta a precio MEM; lo que se consume de noche se paga a tarifa minorista. Por eso la energía vale más autoconsumida que inyectada.',
+              'Los créditos no utilizados se acumulan sin vencimiento durante el contrato.',
+            ]}
+          />
+        </div>
+        <Pendiente className="mt-4" title="Nota para el equipo: Figuras 3.5 y 3.6 del informe">
+          Las figuras originales son ilegibles al proyectar y la 3.5 dice "4,8 kWp" en el título. No dispongo de los 12 valores mensuales
+          ni de las curvas horarias para reconstruirlas sin inventar. Si Ricky exporta los valores desde PVGIS (o desde el monitoreo de un
+          sistema del piloto), se reconstruyen con el mismo formato que el resto del deck. Las figuras originales quedan en el anexo.
+        </Pendiente>
       </Slide>
     ),
   },
@@ -313,29 +338,35 @@ export const tecnico: SlideDef[] = [
     nav: 'Habilitación ante la distribuidora',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.4.4, Figura 3.7, Tabla 3.10" source="Procedimiento Edenor/Edesur (2025), Decreto 986/2018, ENRE 314/2018, Res. SE 235/2024 y 287/2025; experiencia operativa 2025 a 2026.">
+      <Slide block={B} chapter="Informe 3.4.4, Tabla 3.10 (Figura 3.7 recreada)" source="Procedimiento Edenor/Edesur (2025), Decreto 986/2018, ENRE 314/2018, Res. SE 235/2024 y 287/2025; experiencia operativa 2025 a 2026.">
         <Title>Habilitación: ocho pasos, 45 a 70 días hábiles</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[2fr_3fr]">
-          <Figura src="/figuras/fig-3-7-habilitacion.png" caption="Figura 3.7. Flujo de habilitación de un sistema de generación distribuida ante Edenor/Edesur." />
+        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
+          <Stepper
+            steps={[
+              { title: 'Formulario 1A: solicitud de conexión', owner: 'SolarPower / cliente', time: '10 días háb.' },
+              { title: 'Formulario 1B: proyecto técnico', detail: 'Unifilar firmado, especificaciones, certificados', owner: 'Ingeniero habilitado SolarPower', time: '5 a 10 días háb.' },
+              { title: 'Inspección técnica presencial', owner: 'Inspector de la distribuidora', time: '15 días háb.', ownerTone: 'muted' },
+              { title: 'Formulario 2A: acta de aprobación', owner: 'Edenor / Edesur', time: '5 días háb.', ownerTone: 'muted' },
+              { title: 'Formulario 2B: solicitud de medidor bidireccional', owner: 'SolarPower / cliente', time: 'Inmediato' },
+              { title: 'Instalación del medidor bidireccional', owner: 'Cuadrilla de la distribuidora', time: '10 días háb.', ownerTone: 'muted' },
+              { title: 'Activación de tarifa UGD en facturación', owner: 'Sistema de la distribuidora', time: '5 días háb.', ownerTone: 'muted' },
+              { title: 'Registro en el RUGER', owner: 'SolarPower', time: '15 días háb.' },
+            ]}
+          />
           <div className="flex flex-col gap-3">
-            <Steps
-              columns={2}
-              steps={[
-                { title: 'Formulario 1A: solicitud de conexión', meta: '10 días hábiles' },
-                { title: 'Formulario 1B: proyecto técnico', meta: '5 a 10 días hábiles' },
-                { title: 'Inspección presencial de la distribuidora', meta: '15 días hábiles' },
-                { title: 'Formulario 2A: acta de aprobación', meta: '5 días hábiles' },
-                { title: 'Formulario 2B: solicitud de medidor', meta: 'Inmediato' },
-                { title: 'Instalación del medidor bidireccional', meta: '10 días hábiles' },
-                { title: 'Activación de tarifa UGD', meta: '5 días hábiles' },
-                { title: 'Registro en el RUGER', meta: '15 días hábiles' },
-              ]}
-            />
             <Body>
-              Plazo efectivo 2025 a 2026: <Hi>45 a 70 días hábiles</Hi> (frente a 90 a 120 en 2022 y 2023) gracias a la plataforma digital
-              de las distribuidoras. Entre instalación y medidor, el inversor opera en modo zero-export y el cliente ya autoconsume de
-              día. La Res. SE 287/2025 prohíbe cargos por interconexión y fija plazos bajo apercibimiento de multa.
+              Plazo efectivo 2025 a 2026: <Hi>45 a 70 días hábiles</Hi> (frente a 90 a 120 en 2022 y 2023) gracias a la plataforma digital de
+              las distribuidoras. Entre instalación y medidor, el inversor opera en modo zero-export y el cliente ya autoconsume de día.
             </Body>
+            <Body>
+              La Res. SE 287/2025 prohíbe cargos por interconexión y fija plazos bajo apercibimiento de multa. Círculo naranja: paso a cargo
+              de SolarPower; gris: a cargo de la distribuidora.
+            </Body>
+            <Pendiente title="Pendiente: apoderamiento en TAD" owner="Ricky">
+              El instructivo de SolarPower "Trámites a Distancia" muestra un paso previo real: el cliente apodera al matriculado de
+              SolarPower en TAD (clave fiscal nivel 2, trámite "Usuario-Generador · Generación Distribuida") para que gestione el medidor
+              bidireccional. No está en el informe. Decidir si se agrega como paso 0 en el informe y en esta slide.
+            </Pendiente>
           </div>
         </div>
       </Slide>
