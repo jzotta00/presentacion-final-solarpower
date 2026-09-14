@@ -1,4 +1,5 @@
-import { Slide, Title, Body, Bullets, Divider, Figura, Table, Pendiente } from './primitives'
+import { Slide, Title, Body, Bullets, Divider, Figura, Table, Pendiente, HBars } from './primitives'
+import { Stepper } from './diagrams'
 import type { SlideDef } from './types'
 
 const B = 'Anexo'
@@ -210,13 +211,27 @@ export const anexoA: SlideDef[] = [
     nav: 'A9 · Renovables y GD por región',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe Figuras 2.2 y 2.4" source="Secretaría de Energía (Figura 2.2, 37,58 MW al cierre de 2023); CAMMESA, Informe de Generación 2023 (Figura 2.4).">
-        <Title>A9. Capacidad instalada de GD por jurisdicción y renovables por región del SADI</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-4 md:grid-cols-2">
-          <Figura src="/figuras/fig-2-2-gd-jurisdiccion.png" caption="Figura 2.2. Capacidad instalada de generación distribuida por jurisdicción, cierre de 2023." />
-          <Figura src="/figuras/fig-2-4-renovables-sadi.png" caption="Figura 2.4. Potencia instalada de renovables por región del SADI (MW)." />
+      <Slide block={B} chapter="Informe Tabla 2.2 (Figura 2.2 recreada) y Figura 2.4" source="Secretaría de Energía, potencia de GD por jurisdicción al cierre de 2023 (total 37,58 MW); CAMMESA, Informe de Generación 2023 (Figura 2.4).">
+        <Title>A9. Capacidad de GD por jurisdicción (2023) y renovables por región del SADI</Title>
+        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-2">
+          <div className="flex flex-col justify-center">
+            <HBars
+              valueFormat={(v) => `${v.toLocaleString('es-AR')} kW`}
+              data={[
+                { label: 'Córdoba', value: 15151, tone: 'primary', note: '40,3%' },
+                { label: 'Buenos Aires', value: 8554, tone: 'primary', note: '22,7%' },
+                { label: 'San Juan', value: 3527, tone: 'muted', note: '9,4%' },
+                { label: 'CABA', value: 2943, tone: 'primary', note: '7,8%' },
+                { label: 'Misiones', value: 2112, tone: 'muted', note: '5,6%' },
+                { label: 'Mendoza', value: 1654, tone: 'muted', note: '4,4%' },
+                { label: 'La Pampa', value: 642, tone: 'muted', note: '1,7%' },
+                { label: 'Resto del país', value: 2001, tone: 'muted', note: '5,3%' },
+              ]}
+            />
+            <Body className="mt-2 text-xs">Total 37.584 kW. Usuarios-generadores: Córdoba 815, Buenos Aires 508, CABA 119, San Juan 89, La Pampa 49, Mendoza 46, Misiones 12, resto 133.</Body>
+          </div>
+          <Figura src="/figuras/fig-2-4-renovables-sadi.png" caption="Figura 2.4. Potencia instalada de renovables por región del SADI (MW). Fotovoltaica: Cuyo 564 MW, NOA 778 MW, BAS + GBA 48 MW." />
         </div>
-        <Body className="mt-3">Fotovoltaica utility-scale: Cuyo 564 MW, NOA 778 MW, BAS+GBA apenas 48 MW. El interior tiene el recurso; el AMBA tiene el mercado residencial de alto valor.</Body>
       </Slide>
     ),
   },
@@ -317,6 +332,44 @@ export const anexoA: SlideDef[] = [
           />
         </div>
         <Body className="mt-3">Cuello de botella frecuente en el paso 2: certificación IRAM 210013-21 de inversores; la IEC 62109 es aceptada como equivalente. Tiempo total contrato a medidor: 60 a 90 días calendario.</Body>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'A12b · Apoderamiento en TAD',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Material de SolarPower (no está en el informe)" source="SolarPower, instructivo Trámites a Distancia: cómo autorizar en TAD al matriculado de SolarPower para gestionar el medidor bidireccional.">
+        <Title>A12b. Apoderamiento en TAD: cómo el cliente habilita a SolarPower</Title>
+        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
+          <Stepper
+            steps={[
+              { title: 'Ingresar a tramitesadistancia.gob.ar', owner: 'Cliente', time: 'Paso 1', ownerTone: 'accent' },
+              { title: 'Clic en "Ingresar"', owner: 'Cliente', time: 'Paso 2', ownerTone: 'accent' },
+              { title: 'Iniciar sesión con clave fiscal de AFIP', detail: 'Nivel 2 o superior; con otras opciones no figura el apoderamiento. Si es una sociedad, entra el dueño o apoderado', owner: 'Cliente', time: 'Paso 3', ownerTone: 'accent' },
+              { title: 'Clic en "Apoderados"', detail: 'Si es una sociedad, cambiar al rol de sociedad', owner: 'Cliente', time: 'Paso 4', ownerTone: 'accent' },
+              { title: 'Nuevo apoderado: cargar el CUIT del matriculado de SolarPower y "Agregar"', owner: 'Cliente', time: 'Paso 5', ownerTone: 'accent' },
+              { title: 'Elegir "Especificar los trámites que puede realizar"', detail: 'No dar poder sobre todos los trámites', owner: 'Cliente', time: 'Paso 6', ownerTone: 'accent' },
+              { title: 'Buscar "Generación Distribuida"', owner: 'Cliente', time: 'Paso 7', ownerTone: 'accent' },
+              { title: 'Tildar "Usuario-Generador · Generación Distribuida" y confirmar', owner: 'Cliente', time: 'Paso 8', ownerTone: 'accent' },
+            ]}
+          />
+          <div className="flex flex-col gap-3">
+            <Body>
+              El apoderamiento se limita a un único trámite (Usuario-Generador · Generación Distribuida) del Ministerio de Economía. A partir
+              de ahí, SolarPower presenta los formularios, sigue la inspección y registra en el RUGER en nombre del cliente.
+            </Body>
+            <Body>
+              Requisito excluyente: clave fiscal nivel 2 o superior. Es el punto donde más clientes se traban, y por eso el instructivo
+              existe.
+            </Body>
+            <Pendiente title="Nota">
+              Los datos personales del matriculado (nombre y CUIT) no se muestran en la presentación. El instructivo original está disponible
+              si el tribunal lo pide.
+            </Pendiente>
+          </div>
+        </div>
       </Slide>
     ),
   },

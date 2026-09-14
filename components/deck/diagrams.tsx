@@ -72,8 +72,9 @@ export function PorterDiagram({ forces }: { forces: { top: Force; left: Force; c
 }
 
 /* =====================================================================
-   ON-GRID BLOCK DIAGRAM (SVG). Flows: DC amber, AC green, grid grey,
-   data blue. Content: informe 3.2.1, 3.1.6, 3.1.7.
+   ON-GRID DIAGRAM with line icons (own drawings), brochure-like flows:
+   amber = generación DC, green = AC / inyección, grey = red, blue = datos.
+   Content: informe 3.2.1, 3.1.6, 3.1.7.
    ===================================================================== */
 
 const C = {
@@ -81,21 +82,85 @@ const C = {
   ac: 'oklch(0.74 0.15 162)',
   grid: 'oklch(0.7 0.02 255)',
   data: 'oklch(0.7 0.12 240)',
-  box: 'oklch(0.24 0.02 255)',
-  boxStroke: 'oklch(0.35 0.02 255)',
-  text: 'oklch(0.95 0.01 255)',
+  ink: 'oklch(0.95 0.01 255)',
   muted: 'oklch(0.72 0.02 255)',
 }
 
-function Box({ x, y, w, h, title, sub, accent }: { x: number; y: number; w: number; h: number; title: string; sub: string[]; accent?: string }) {
+function Icon({ x, y, kind, color }: { x: number; y: number; kind: 'sun' | 'panel' | 'inverter' | 'house' | 'meter' | 'tower' | 'cloud'; color: string }) {
+  const sw = 2.2
+  const common = { fill: 'none', stroke: color, strokeWidth: sw, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      {kind === 'sun' && (
+        <>
+          <circle cx={0} cy={0} r={9} {...common} />
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+            <line key={a} x1={0} y1={-14} x2={0} y2={-19} transform={`rotate(${a})`} {...common} />
+          ))}
+        </>
+      )}
+      {kind === 'panel' && (
+        <>
+          <path d="M -34 -6 L -22 -22 L 34 -22 L 22 -6 Z" {...common} />
+          <line x1={-15} y1={-22} x2={-25} y2={-6} {...common} />
+          <line x1={4} y1={-22} x2={-6} y2={-6} {...common} />
+          <line x1={23} y1={-22} x2={13} y2={-6} {...common} />
+          <line x1={-28} y1={-14} x2={28} y2={-14} {...common} />
+          <line x1={0} y1={-6} x2={0} y2={6} {...common} />
+          <line x1={-10} y1={6} x2={10} y2={6} {...common} />
+        </>
+      )}
+      {kind === 'inverter' && (
+        <>
+          <rect x={-22} y={-26} width={44} height={52} rx={5} {...common} />
+          <rect x={-14} y={-18} width={28} height={9} rx={1.5} {...common} />
+          <path d="M -13 12 C -8 0, -2 0, 0 12 S 8 24, 13 12" {...common} />
+          <line x1={-22} y1={-8} x2={-27} y2={-8} {...common} />
+          <line x1={22} y1={-8} x2={27} y2={-8} {...common} />
+        </>
+      )}
+      {kind === 'house' && (
+        <>
+          <path d="M -30 0 L 0 -26 L 30 0" {...common} />
+          <path d="M -22 -6 L -22 26 L 22 26 L 22 -6" {...common} />
+          <rect x={-6} y={8} width={12} height={18} {...common} />
+          <rect x={-17} y={2} width={8} height={8} {...common} />
+        </>
+      )}
+      {kind === 'meter' && (
+        <>
+          <rect x={-24} y={-24} width={48} height={48} rx={6} {...common} />
+          <path d="M -15 8 A 15 15 0 0 1 15 8" {...common} />
+          <line x1={0} y1={8} x2={9} y2={-3} {...common} />
+          <rect x={-14} y={12} width={28} height={7} rx={1.5} {...common} />
+        </>
+      )}
+      {kind === 'tower' && (
+        <>
+          <path d="M -6 -30 L -18 30 M 6 -30 L 18 30" {...common} />
+          <path d="M -6 -30 L 6 -30 M -9 -14 L 9 -14 M -12 2 L 12 2 M -15 18 L 15 18" {...common} />
+          <path d="M -26 -18 L 26 -18" {...common} />
+          <path d="M -9 -14 L 9 2 M 9 -14 L -9 2 M -12 2 L 12 18 M 12 2 L -12 18" {...common} strokeWidth={1.4} />
+        </>
+      )}
+      {kind === 'cloud' && (
+        <>
+          <path d="M -22 8 A 9 9 0 0 1 -14 -8 A 13 13 0 0 1 12 -10 A 9 9 0 0 1 20 8 Z" {...common} />
+          <path d="M -8 -18 A 12 12 0 0 1 8 -18" {...common} strokeWidth={1.4} />
+        </>
+      )}
+    </g>
+  )
+}
+
+function Label({ x, y, title, sub, color, anchor = 'middle' }: { x: number; y: number; title: string; sub: string[]; color?: string; anchor?: 'middle' | 'start' | 'end' }) {
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx={8} fill={C.box} stroke={accent ?? C.boxStroke} strokeWidth={accent ? 2 : 1.2} />
-      <text x={x + w / 2} y={y + 20} textAnchor="middle" fill={C.text} fontSize={13} fontWeight={700}>
+      <text x={x} y={y} textAnchor={anchor} fill={color ?? C.ink} fontSize={13} fontWeight={700}>
         {title}
       </text>
       {sub.map((s, i) => (
-        <text key={i} x={x + w / 2} y={y + 38 + i * 14} textAnchor="middle" fill={C.muted} fontSize={10.5}>
+        <text key={i} x={x} y={y + 15 + i * 13} textAnchor={anchor} fill={C.muted} fontSize={10.5}>
           {s}
         </text>
       ))}
@@ -103,12 +168,12 @@ function Box({ x, y, w, h, title, sub, accent }: { x: number; y: number; w: numb
   )
 }
 
-function Flow({ d, color, label, lx, ly, dashed }: { d: string; color: string; label?: string; lx?: number; ly?: number; dashed?: boolean }) {
+function Flow({ d, color, label, lx, ly, dashed, both }: { d: string; color: string; label?: string; lx?: number; ly?: number; dashed?: boolean; both?: boolean }) {
   return (
     <g>
-      <path d={d} fill="none" stroke={color} strokeWidth={3} strokeDasharray={dashed ? '6 5' : undefined} markerEnd="url(#arr)" />
+      <path d={d} fill="none" stroke={color} strokeWidth={3} strokeDasharray={dashed ? '6 5' : undefined} markerEnd="url(#arr)" markerStart={both ? 'url(#arr)' : undefined} />
       {label && (
-        <text x={lx} y={ly} textAnchor="middle" fill={color} fontSize={10.5} fontWeight={600}>
+        <text x={lx} y={ly} textAnchor="middle" fill={color} fontSize={11} fontWeight={600}>
           {label}
         </text>
       )}
@@ -118,57 +183,77 @@ function Flow({ d, color, label, lx, ly, dashed }: { d: string; color: string; l
 
 export function OnGridDiagram() {
   return (
-    <svg viewBox="0 0 760 400" className="w-full" role="img" aria-label="Diagrama de bloques del sistema on-grid">
+    <svg viewBox="0 0 760 430" className="w-full" role="img" aria-label="Esquema del sistema on-grid">
       <defs>
-        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke" />
         </marker>
       </defs>
 
-      {/* Row 1: strings */}
-      <Box x={20} y={30} w={170} h={78} title="String 1 · 5 módulos" sub={['TOPCon 580 Wp c/u', 'Voc string 246,6 V']} accent={C.dc} />
-      <Box x={20} y={130} w={170} h={78} title="String 2 · 4 módulos" sub={['TOPCon 580 Wp c/u', 'Total 9 × 580 = 5.220 Wp']} accent={C.dc} />
+      {/* Paneles */}
+      <Icon x={95} y={50} kind="sun" color={C.dc} />
+      <Icon x={130} y={110} kind="panel" color={C.dc} />
+      <Label x={130} y={140} title="Módulos fotovoltaicos" sub={['9 × 580 Wp TOPCon = 5,22 kWp', 'Dos strings: 5 + 4 módulos']} />
 
-      {/* Inverter */}
-      <Box x={270} y={80} w={190} h={96} title="Inversor de string 5 kW" sub={['DEYE SUN-5K o Huawei 5KTL', '2 MPPT independientes', 'Seccionador DC · anti-isla']} accent={C.ac} />
+      {/* Inversor */}
+      <Icon x={380} y={100} kind="inverter" color={C.ac} />
+      <Label x={380} y={150} title="Inversor de string 5 kW" sub={['DEYE o Huawei · 2 MPPT', 'Seccionador DC · anti-isla ENRE 314']} />
+      <Flow d="M 200 100 L 350 100" color={C.dc} label="Generación DC" lx={275} ly={90} />
 
-      {/* DC flows */}
-      <Flow d="M 190 69 C 230 69, 230 105, 270 105" color={C.dc} label="DC" lx={230} ly={80} />
-      <Flow d="M 190 169 C 230 169, 230 150, 270 150" color={C.dc} label="DC" lx={230} ly={185} />
-
-      {/* Tablero */}
-      <Box x={540} y={80} w={200} h={96} title="Tablero del hogar" sub={['Termomagnética 25 A', 'Diferencial tipo A 30 mA', 'Descargadores tipo 1+2']} />
-      <Flow d="M 460 128 L 540 128" color={C.ac} label="AC 230 V · 50 Hz" lx={500} ly={70} />
-
-      {/* Cargas */}
-      <Box x={540} y={220} w={200} h={64} title="Cargas del hogar" sub={['Autoconsumo directo (~50% de G)']} />
-      <Flow d="M 640 176 L 640 220" color={C.ac} label="autoconsumo" lx={690} ly={202} />
+      {/* Casa */}
+      <Icon x={640} y={100} kind="house" color={C.ac} />
+      <Label x={640} y={150} title="Tablero y cargas del hogar" sub={['Termomagnética 25 A · diferencial 30 mA', 'Autoconsumo directo ~50% de G']} />
+      <Flow d="M 410 100 L 605 100" color={C.ac} label="AC 230 V · 50 Hz · autoconsumo" lx={507} ly={90} />
 
       {/* Medidor */}
-      <Box x={270} y={220} w={190} h={64} title="Medidor bidireccional" sub={['Registra consumo de red e inyección']} accent={C.grid} />
-      <Flow d="M 540 150 C 500 150, 500 250, 460 250" color={C.grid} label="excedente ↔ red" lx={505} ly={205} />
+      <Icon x={640} y={270} kind="meter" color={C.grid} />
+      <Label x={640} y={320} title="Medidor bidireccional" sub={['Registra consumo de red e inyección']} />
+      <Flow d="M 640 176 L 640 240" color={C.grid} label="excedente / red" lx={700} ly={212} />
 
       {/* Red */}
-      <Box x={20} y={220} w={170} h={78} title="Red Edenor / Edesur" sub={['Balance neto, Ley 27.424', 'Crédito por inyección a precio MEM']} accent={C.grid} />
-      <Flow d="M 270 252 L 190 252" color={C.grid} />
-      <Flow d="M 190 268 L 270 268" color={C.grid} />
+      <Icon x={380} y={270} kind="tower" color={C.grid} />
+      <Label x={380} y={320} title="Red Edenor / Edesur" sub={['Balance neto, Ley 27.424', 'Crédito por inyección a precio MEM']} />
+      <Flow d="M 610 270 L 415 270" color={C.grid} both label="inyección / suministro" lx={512} ly={260} />
 
       {/* Monitoreo */}
-      <Box x={270} y={318} w={190} h={64} title="Monitoreo remoto" sub={['Wi-Fi integrado · DEYE Cloud / FusionSolar']} accent={C.data} />
-      <Flow d="M 365 176 L 365 318" color={C.data} dashed label="datos" lx={385} ly={300} />
+      <Icon x={130} y={272} kind="cloud" color={C.data} />
+      <Label x={130} y={320} title="Monitoreo remoto" sub={['Wi-Fi · DEYE Cloud / FusionSolar', 'Producción, alertas, firmware OTA']} />
+      <Flow d="M 350 126 C 250 170, 200 200, 158 258" color={C.data} dashed label="datos" lx={240} ly={200} />
 
-      {/* Legend */}
-      <g fontSize={10.5} fill={C.muted}>
-        <rect x={545} y={330} width={14} height={4} fill={C.dc} />
-        <text x={565} y={334}>Corriente continua (DC)</text>
-        <rect x={545} y={348} width={14} height={4} fill={C.ac} />
-        <text x={565} y={352}>Corriente alterna (AC)</text>
-        <rect x={545} y={366} width={14} height={4} fill={C.grid} />
-        <text x={565} y={370}>Intercambio con la red</text>
-        <rect x={545} y={384} width={14} height={4} fill={C.data} />
-        <text x={565} y={388}>Datos de monitoreo</text>
+      {/* Leyenda */}
+      <g fontSize={11} fill={C.muted}>
+        <rect x={40} y={385} width={14} height={4} fill={C.dc} />
+        <text x={60} y={389}>Corriente continua (generación)</text>
+        <rect x={240} y={385} width={14} height={4} fill={C.ac} />
+        <text x={260} y={389}>Corriente alterna (autoconsumo)</text>
+        <rect x={450} y={385} width={14} height={4} fill={C.grid} />
+        <text x={470} y={389}>Intercambio con la red</text>
+        <rect x={620} y={385} width={14} height={4} fill={C.data} />
+        <text x={640} y={389}>Datos</text>
       </g>
     </svg>
+  )
+}
+
+/* Three configurations, described per SolarPower brochure. */
+export function ConfigCard({ title, badge, badgeTone, flows, note }: { title: string; badge: string; badgeTone: 'accent' | 'primary' | 'muted'; flows: string[]; note: string }) {
+  const tone = { accent: 'border-accent/50 bg-accent/10 text-accent', primary: 'border-primary/50 bg-primary/10 text-primary', muted: 'border-border bg-card/60 text-muted-foreground' }[badgeTone]
+  return (
+    <div className={cn('flex flex-col rounded-lg border p-4', badgeTone === 'accent' ? 'border-accent/40 bg-accent/5' : 'border-border bg-card/50')}>
+      <div className="flex items-center justify-between gap-2">
+        <div className="font-serif text-base font-semibold">{title}</div>
+        <span className={cn('rounded border px-2 py-0.5 text-[11px] font-semibold', tone)}>{badge}</span>
+      </div>
+      <ul className="mt-3 flex flex-col gap-1.5 text-[13px] leading-snug text-muted-foreground">
+        {flows.map((f) => (
+          <li key={f} className="flex gap-1.5">
+            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-current" />
+            {f}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs leading-snug text-foreground/80">{note}</p>
+    </div>
   )
 }
 
@@ -179,9 +264,11 @@ export function OnGridDiagram() {
 export function Stepper({
   steps,
   className,
+  startAt = 1,
 }: {
-  steps: { title: string; detail?: string; owner: string; time: string; ownerTone?: 'primary' | 'muted' }[]
+  steps: { title: string; detail?: string; owner: string; time: string; ownerTone?: 'primary' | 'muted' | 'accent' }[]
   className?: string
+  startAt?: number
 }) {
   return (
     <ol className={cn('relative flex flex-col', className)}>
@@ -191,10 +278,10 @@ export function Stepper({
           <span
             className={cn(
               'z-10 flex h-8 w-8 items-center justify-center rounded-full font-serif text-sm font-bold',
-              s.ownerTone === 'muted' ? 'bg-secondary text-foreground' : 'bg-primary text-primary-foreground',
+              s.ownerTone === 'muted' ? 'bg-secondary text-foreground' : s.ownerTone === 'accent' ? 'bg-accent text-background' : 'bg-primary text-primary-foreground',
             )}
           >
-            {i + 1}
+            {i + startAt}
           </span>
           <div className="min-w-0">
             <div className="text-sm font-semibold leading-tight">{s.title}</div>
@@ -219,7 +306,7 @@ export function Stars({ n, na }: { n?: number; na?: boolean }) {
 }
 
 export type { Force }
-export type StepperStep = { title: string; detail?: string; owner: string; time: string; ownerTone?: 'primary' | 'muted' }
+export type StepperStep = { title: string; detail?: string; owner: string; time: string; ownerTone?: 'primary' | 'muted' | 'accent' }
 export function Note({ children }: { children: ReactNode }) {
   return <p className="text-xs leading-snug text-muted-foreground">{children}</p>
 }

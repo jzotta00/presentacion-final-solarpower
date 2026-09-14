@@ -1,7 +1,7 @@
 import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Steps, Pendiente } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
-import { OnGridDiagram, Stepper } from './diagrams'
+import { OnGridDiagram, Stepper, ConfigCard } from './diagrams'
 
 const B = '4 · Técnico'
 
@@ -138,6 +138,64 @@ export const tecnico: SlideDef[] = [
               ]}
             />
           </div>
+        </div>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'On-grid, off-grid o híbrido',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 3.2.1 (decisión); descripción de configuraciones según material de SolarPower" source="SolarPower, folleto Sistemas Solares On Grid, Off Grid e Híbridos (material propio de la empresa); Informe TPP 3.2.1 y 4.8 (riesgo M3).">
+        <Title>Tres configuraciones posibles; el arrendamiento se evalúa solo con on-grid</Title>
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          <ConfigCard
+            title="On-grid"
+            badge="Elegida para el modelo"
+            badgeTone="accent"
+            flows={[
+              'Los paneles generan de día; el inversor convierte a corriente alterna.',
+              'El hogar autoconsume; si falta, toma de la red.',
+              'El excedente se inyecta a la red y genera crédito (balance neto).',
+              'De noche se consume de la red, en parte compensado por el crédito.',
+            ]}
+            note="Sin baterías. El objetivo del diseño es maximizar el ahorro por autoconsumo y reducir la factura eléctrica."
+          />
+          <ConfigCard
+            title="Híbrido"
+            badge="No incluido"
+            badgeTone="primary"
+            flows={[
+              'Conectado a la red, pero puede funcionar sin ella.',
+              'De día carga una batería de litio además de autoconsumir e inyectar.',
+              'De noche descarga la batería hasta un porcentaje definido y luego toma de la red.',
+              'Ante un corte, se desconecta de la red y alimenta la casa desde la batería.',
+            ]}
+            note="Inversor híbrido y batería de litio. Resuelve cortes de luz."
+          />
+          <ConfigCard
+            title="Off-grid"
+            badge="No incluido"
+            badgeTone="muted"
+            flows={[
+              'Opera sin conexión a la red; la batería es la única reserva nocturna.',
+              'Solo puede tomar energía de la red para cargar la batería o cubrir picos; no puede venderla.',
+            ]}
+            note="Pensado para independencia total y zonas sin conexión."
+          />
+        </div>
+        <div className="mt-4 grid gap-4 md:grid-cols-[3fr_2fr]">
+          <Body>
+            El informe evalúa exclusivamente la configuración on-grid (sección 3.2.1: todos los sistemas SolarPower del modelo son on-grid
+            con medición de consumo, producción y autoconsumo) y menciona el almacenamiento con baterías solo como diversificación futura
+            frente al riesgo de congelamiento tarifario (riesgo M3).
+          </Body>
+          <Pendiente title="Pendiente: fundamentar la elección de on-grid" owner="equipo">
+            El informe no explica por qué se descartaron híbrido y off-grid para el arrendamiento. Escribir los motivos reales (por ejemplo
+            costo de la batería sobre el CAPEX y la cuota, vida útil de la batería frente al plazo del contrato, marco de balance neto) y
+            agregarlos a la sección 3.2.1 del informe y a esta slide. No incluyo motivos que no estén escritos por ustedes.
+          </Pendiente>
         </div>
       </Slide>
     ),
@@ -338,11 +396,13 @@ export const tecnico: SlideDef[] = [
     nav: 'Habilitación ante la distribuidora',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.4.4, Tabla 3.10 (Figura 3.7 recreada)" source="Procedimiento Edenor/Edesur (2025), Decreto 986/2018, ENRE 314/2018, Res. SE 235/2024 y 287/2025; experiencia operativa 2025 a 2026.">
-        <Title>Habilitación: ocho pasos, 45 a 70 días hábiles</Title>
+      <Slide block={B} chapter="Informe 3.4.4, Tabla 3.10 (Figura 3.7 recreada) + instructivo TAD de SolarPower" source="Procedimiento Edenor/Edesur (2025), Decreto 986/2018, ENRE 314/2018, Res. SE 235/2024 y 287/2025; SolarPower, instructivo Trámites a Distancia; experiencia operativa 2025 a 2026.">
+        <Title>Habilitación: apoderamiento y ocho pasos, 45 a 70 días hábiles</Title>
         <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
           <Stepper
+            startAt={0}
             steps={[
+              { title: 'Apoderamiento en TAD (Trámites a Distancia)', detail: 'El cliente autoriza al matriculado de SolarPower solo para el trámite "Usuario-Generador · Generación Distribuida", con clave fiscal nivel 2', owner: 'Cliente, guiado por SolarPower', time: 'Minutos', ownerTone: 'accent' },
               { title: 'Formulario 1A: solicitud de conexión', owner: 'SolarPower / cliente', time: '10 días háb.' },
               { title: 'Formulario 1B: proyecto técnico', detail: 'Unifilar firmado, especificaciones, certificados', owner: 'Ingeniero habilitado SolarPower', time: '5 a 10 días háb.' },
               { title: 'Inspección técnica presencial', owner: 'Inspector de la distribuidora', time: '15 días háb.', ownerTone: 'muted' },
@@ -350,7 +410,7 @@ export const tecnico: SlideDef[] = [
               { title: 'Formulario 2B: solicitud de medidor bidireccional', owner: 'SolarPower / cliente', time: 'Inmediato' },
               { title: 'Instalación del medidor bidireccional', owner: 'Cuadrilla de la distribuidora', time: '10 días háb.', ownerTone: 'muted' },
               { title: 'Activación de tarifa UGD en facturación', owner: 'Sistema de la distribuidora', time: '5 días háb.', ownerTone: 'muted' },
-              { title: 'Registro en el RUGER', owner: 'SolarPower', time: '15 días háb.' },
+              { title: 'Registro en el RUGER', owner: 'SolarPower (apoderado)', time: '15 días háb.' },
             ]}
           />
           <div className="flex flex-col gap-3">
@@ -359,13 +419,16 @@ export const tecnico: SlideDef[] = [
               las distribuidoras. Entre instalación y medidor, el inversor opera en modo zero-export y el cliente ya autoconsume de día.
             </Body>
             <Body>
-              La Res. SE 287/2025 prohíbe cargos por interconexión y fija plazos bajo apercibimiento de multa. Círculo naranja: paso a cargo
-              de SolarPower; gris: a cargo de la distribuidora.
+              La Res. SE 287/2025 prohíbe cargos por interconexión y fija plazos bajo apercibimiento de multa. Verde: paso del cliente;
+              naranja: a cargo de SolarPower; gris: a cargo de la distribuidora.
             </Body>
-            <Pendiente title="Pendiente: apoderamiento en TAD" owner="Ricky">
-              El instructivo de SolarPower "Trámites a Distancia" muestra un paso previo real: el cliente apodera al matriculado de
-              SolarPower en TAD (clave fiscal nivel 2, trámite "Usuario-Generador · Generación Distribuida") para que gestione el medidor
-              bidireccional. No está en el informe. Decidir si se agrega como paso 0 en el informe y en esta slide.
+            <Body>
+              El paso 0 es el que permite que SolarPower gestione todo el trámite en nombre del cliente sin que este tenga que intervenir
+              de nuevo. El instructivo paso a paso está en el anexo (A12b).
+            </Body>
+            <Pendiente title="Nota para el equipo">
+              El paso 0 proviene del instructivo "Trámites a Distancia" de SolarPower y no figura en el informe (sección 3.4.4 y Tabla
+              3.10). Agregarlo al informe para que coincidan.
             </Pendiente>
           </div>
         </div>

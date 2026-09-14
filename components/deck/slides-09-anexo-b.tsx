@@ -506,6 +506,8 @@ export const anexoB: SlideDef[] = [
                 'Figura 2.1 del informe: la leyenda dice "2018 a 2024" pero el gráfico cubre mayo 2023 a abril 2024. Corregir la leyenda.',
                 'Figura 3.7 del informe: dice "45 a 90 días calendario"; el texto dice 45 a 70 días hábiles. Alinear.',
                 'Ricky menciona "varios datos que están mal" en los esquemas: pedirle la lista concreta para corregir informe y deck a la vez.',
+                'Agregar al informe (3.4.4 y Tabla 3.10) el paso 0 de apoderamiento en TAD, tal como ya figura en el deck.',
+                'Escribir en el informe (3.2.1) los motivos por los que se eligió on-grid frente a híbrido y off-grid; el deck tiene la slide con el espacio marcado.',
               ]}
             />
           </div>
