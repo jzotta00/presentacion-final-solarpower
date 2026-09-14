@@ -54,7 +54,7 @@ export const solucion: SlideDef[] = [
               dense
               className="mt-3"
               items={[
-                'Paga un inicial de USD 600 (aprox. 10% del sistema) que cubre la mano de obra',
+                'Paga un inicial de USD 600 que cubre la mano de obra',
                 'Paga una cuota mensual fija en UVA por 5 años, con renovación automática',
                 'Sigue conectado a la red: paga menos en la factura, no cero',
                 'Ahorra desde el primer mes, sin deuda ni inversión',
@@ -83,7 +83,7 @@ export const solucion: SlideDef[] = [
             compact
             headers={['Criterio', 'Compra directa', 'Crédito bancario', 'PPA', 'Arrendamiento (SolarPower)']}
             rows={[
-              ['Inversión inicial', 'USD 3.000 a 4.000', 'Diferida (cuotas)', 'Ninguna', <Ok key="1">USD 600 (10%)</Ok>],
+              ['Inversión inicial', 'USD 3.000 a 4.000', 'Diferida (cuotas)', 'Ninguna', <Ok key="1">USD 600</Ok>],
               ['Propiedad del sistema', 'Cliente', 'Cliente', 'Proveedor', 'SolarPower'],
               ['Riesgo financiero del cliente', <Bad key="2">Alto</Bad>, <Bad key="3">Medio-alto (deuda)</Bad>, 'Bajo', <Ok key="4">Bajo</Ok>],
               ['Mantenimiento', 'Cliente', 'Cliente', 'Proveedor', <Ok key="5">SolarPower</Ok>],
@@ -113,7 +113,7 @@ export const solucion: SlideDef[] = [
         <Title>Propuesta de valor: un servicio, no un producto</Title>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {[
-            [Wallet, 'Accesibilidad financiera', 'Pago inicial de USD 600 en lugar de USD 3.000 a 4.000. Sin deuda bancaria ni garantía hipotecaria.'],
+            [Wallet, 'Accesibilidad financiera', 'Pago inicial de USD 600 en lugar de USD 3.000 a 4.000 de compra directa. Sin deuda bancaria ni garantía hipotecaria.'],
             [Gauge, 'Competitividad tarifaria', 'Cuota en UVA calibrada para que cuota más factura residual sea estrictamente menor a la factura previa.'],
             [ShieldCheck, 'Servicio integral', 'Mantenimiento preventivo y correctivo, monitoreo remoto, seguro del equipo y gestión del trámite ante la distribuidora.'],
           ].map(([Icon, t, d]) => {

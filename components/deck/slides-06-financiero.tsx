@@ -496,7 +496,7 @@ export const financiero: SlideDef[] = [
     block: B,
     node: (
       <Slide block={B} chapter="Informe 4.6.3, Tabla 4.18" source="Elaboración propia. Horizonte 15 años. Los escenarios combinan EMBI+, escala de instalaciones y CAPEX por sistema.">
-        <Title>Escenarios: el pesimista queda en equilibrio, el optimista supera USD 6 M</Title>
+        <Title>Escenarios: el pesimista queda prácticamente en equilibrio, el optimista supera USD 6 M</Title>
         <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
           <Table
             align="left"
@@ -525,8 +525,9 @@ export const financiero: SlideDef[] = [
               ]}
             />
             <Body>
-              En el pesimista (EMBI 700 bps, CAPEX de distribución, menor escala), TIR 15,2% frente a TREMA 15,4%: el proyecto no
-              destruye valor. La viabilidad no depende del escenario optimista.
+              En el pesimista (EMBI 700 bps, CAPEX de distribución, menor escala), TIR 15,2% frente a TREMA 15,4%: prácticamente en
+              equilibrio, con una destrucción de valor marginal (VAN de USD -30.368 sobre USD 6,75 M invertidos). La viabilidad no
+              depende del escenario optimista.
             </Body>
             <Pendiente title="Nota para el equipo: VAN base en Tabla 4.18">
               La Tabla 4.18 del informe (y la Tabla 5 del resumen) muestran VAN base de USD 2.720.580. El valor correcto, consistente con

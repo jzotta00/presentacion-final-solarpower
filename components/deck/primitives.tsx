@@ -122,12 +122,12 @@ export function Pendiente({
   return (
     <div
       className={cn(
-        'flex flex-col justify-center rounded-lg border-2 border-dashed border-primary/60 bg-primary/10 p-4 text-sm',
+        'flex flex-col justify-center rounded-lg border-2 border-dashed border-primary bg-primary/20 p-4 text-sm shadow-[0_0_0_3px_oklch(0.79_0.155_72_/_0.15)]',
         className,
       )}
     >
-      <div className="flex flex-wrap items-center gap-2 font-serif text-xs font-bold text-primary">
-        <span className="inline-block h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+      <div className="flex flex-wrap items-center gap-2 font-serif text-xs font-bold uppercase tracking-wide text-primary">
+        <span className="inline-block h-2.5 w-2.5 rounded-full bg-primary" aria-hidden="true" />
         {title}
         {owner && <span className="font-sans font-normal text-muted-foreground">(responsable: {owner})</span>}
       </div>

@@ -120,7 +120,7 @@ export const tecnico: SlideDef[] = [
               ['Potencia AC nominal', '5.000 W', '5.000 W'],
               ['Potencia DC máxima de entrada', '6.500 W', '7.500 W'],
               ['Rango MPPT por canal', '90 a 520 V', '90 a 560 V'],
-              ['MPPT / strings por MPPT', '2 / 1', '2 / 2'],
+              ['MPPT / strings máx. por MPPT (datasheet)', '2 / 1', '2 / 2'],
               ['Eficiencia pico', '97,6%', '98,4%'],
               ['Protección', 'IP65', 'IP65'],
               ['Garantía', '10 años (ext. 15)', '10 años (ext. 15)'],
@@ -135,6 +135,7 @@ export const tecnico: SlideDef[] = [
                 <>Doble MPPT: divide los 9 módulos en dos strings (5 + 4), de modo que una sombra en uno no afecta al otro; mitiga el "efecto árbol de Navidad" del entorno urbano.</>,
                 <>Un solo equipo montado en pared a nivel accesible: instalación más simple, diagnóstico remoto por canal y reemplazo rápido (RMA en 3 a 7 días hábiles).</>,
                 <>DEYE como inversor principal por presencia local y precio; Huawei como alternativa premium.</>,
+                <>La fila de strings por MPPT es la capacidad máxima de cada equipo según datasheet; el sistema estándar usa un string por MPPT (5 + 4 módulos) en ambos casos.</>,
               ]}
             />
           </div>
@@ -333,7 +334,6 @@ export const tecnico: SlideDef[] = [
               ['Con degradación año 1 / 10 / 20', '8.206 / 7.866 / 7.493 kWh', 'LID 1% + 0,45%/año'],
               ['Consumo típico hogar N1 AMBA', '4.440 kWh/año (370 kWh/mes)', 'INDEC EPH 2022 + Edenor'],
               ['Cobertura solar año 1', '185%', 'Genera más de lo que consume'],
-              ['Autoconsumo / inyección / red residual', '~2.700 / ~4.000 / ~1.700 kWh/año', 'Factor de autoconsumo ~50%'],
             ]}
           />
           <div className="flex flex-col gap-3">

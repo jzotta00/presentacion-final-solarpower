@@ -81,7 +81,7 @@ export const mercado: SlideDef[] = [
         <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
           <Funnel
             steps={[
-              { label: 'Casas ocupadas en el país (Censo 2022)', value: 12044162, display: '12,04 M', note: 'Excluye departamentos, ranchos y casillas' },
+              { label: 'Casas consideradas en el embudo (Censo 2022)', value: 11900361, display: '11,90 M', note: 'Total país de casas: 12,04 M (informe 2.3.2). Excluye departamentos, ranchos y casillas' },
               { label: 'Filtro 1: materiales de techo y piso', value: 7104316, display: '7,10 M', note: 'Retiene 59,7% (proxy estructural y socioeconómico)', tone: 'primary' },
               { label: 'Filtro 2: superficie, orientación y sombra', value: 3552157, display: '3,55 M', note: 'Retiene 50% (IRENA, CNEA, INTI; Mapa de Techos CABA)', tone: 'primary' },
               { label: 'SP1: CABA + 24 partidos del GBA', value: 954152, display: '954.152', note: 'Mercado primario, años 1 a 5', tone: 'accent' },
@@ -234,7 +234,7 @@ export const mercado: SlideDef[] = [
         <Title>FODA de SolarPower Energy</Title>
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           {[
-            ['Fortalezas', 'border-accent/40 bg-accent/10', ['Baja barrera de entrada: 10% inicial', 'Tecnología DEYE/Huawei confiable con monitoreo remoto', 'Primer entrante en arrendamiento solar residencial en Argentina', 'Equipo con conocimiento técnico y financiero combinado', 'Contrato en UVA: protección real de los ingresos', 'Piloto operativo de más de 20 instalaciones exitosas']],
+            ['Fortalezas', 'border-accent/40 bg-accent/10', ['Baja barrera de entrada: USD 600 de inicial', 'Tecnología DEYE/Huawei confiable con monitoreo remoto', 'Primer entrante en arrendamiento solar residencial en Argentina', 'Equipo con conocimiento técnico y financiero combinado', 'Contrato en UVA: protección real de los ingresos', 'Piloto operativo de más de 20 instalaciones exitosas']],
             ['Oportunidades', 'border-primary/40 bg-primary/10', ['Normalización tarifaria: aumento de facturas eléctricas', 'Mercado técnico de más de 3,5 M de viviendas aptas', 'Caída sostenida del precio de equipos', 'Reactivación del crédito UVA en 2024 (más de 11.000 hipotecas)', 'Creciente conciencia ambiental en segmentos medios y altos', 'Brecha enorme vs. mercados maduros (< 0,01% penetración)']],
             ['Debilidades', 'border-destructive/40 bg-destructive/10', ['Alta intensidad de capital para escalar la cartera', 'Dependencia de financiamiento de largo plazo', 'Red de instaladores certificados limitada al inicio', 'Marca desconocida', 'Modelo contractual complejo de explicar al cliente masivo', 'Sin historial crediticio ni track record propio']],
             ['Amenazas', 'border-border bg-card/60', ['Inestabilidad macro y riesgo de congelamiento tarifario', 'Dificultad de acceso a dólares para importar equipos', 'Entrada de competidores con mayor escala o respaldo', 'Reversión regulatoria de la normalización', 'Deterioro de la relación UVA / tarifa eléctrica', 'Resistencia del consumidor al arrendamiento de largo plazo']],
@@ -281,7 +281,7 @@ export const mercado: SlideDef[] = [
           <Bullets
             dense
             items={[
-              <><Hi>Cuota con baja barrera de entrada</Hi> (FCE principal): 10% inicial vs. USD 3.000 a 4.000 de compra directa.</>,
+              <><Hi>Cuota con baja barrera de entrada</Hi> (FCE principal): USD 600 de inicial vs. USD 3.000 a 4.000 de compra directa.</>,
               <><Hi>Mantenimiento incluido y garantía de producción</Hi>: producción mínima anual garantizada, con compensación en cuota si no se alcanza.</>,
               <><Hi>Monitoreo en tiempo real</Hi>: producción, consumo, ahorro acumulado y CO₂ evitado visibles para el cliente.</>,
               <><Hi>Indexación UVA</Hi>: protege el ingreso real de la empresa y mantiene el diferencial de ahorro del cliente.</>,

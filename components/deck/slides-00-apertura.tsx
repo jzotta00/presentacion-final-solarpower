@@ -1,5 +1,5 @@
 import { Sun } from 'lucide-react'
-import { Slide, Title, Lead, Bullets, Stat, Body } from './primitives'
+import { Slide, Title, Lead, Bullets, Stat, Body, Table } from './primitives'
 import type { SlideDef } from './types'
 import { Hi } from './types'
 
@@ -136,6 +136,46 @@ export const apertura: SlideDef[] = [
           monetarios se expresan en USD constantes de 2026 a un tipo de cambio de referencia de 1.485 ARS/USD (30/06/2026) y UVA de
           2.007 ARS (30/06/2026), salvo indicación explícita.
         </Body>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'Cómo leer las cifras clave',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 1.3, 4.1.2, 4.5.5" source="Informe TPP: criterio de viabilidad (1.3), umbral comercial (2.4.7 y 2.7.6), caso base (Tabla 4.2), inversión y llamadas de capital (Tablas 4.1 y 4.15).">
+        <Title>Cómo leer las cifras que se repiten en la presentación</Title>
+        <Lead>Cinco números aparecen muchas veces y podrían parecer contradictorios. No lo son: miden cosas distintas.</Lead>
+        <div className="mt-5 grid gap-6 md:grid-cols-2">
+          <div>
+            <div className="mb-2 text-sm font-semibold">Ahorro neto del cliente</div>
+            <Table
+              align="left"
+              headers={['Cifra', 'Qué es', 'Dónde se usa']}
+              rows={[
+                ['≥\u00a020%', 'Piso: criterio mínimo de viabilidad fijado en los objetivos del trabajo', 'Objetivo, conclusiones'],
+                ['≥\u00a030%', 'Meta comercial: umbral con el que se calibra la cuota de cada cohorte', 'Precio, benchmark Sunrun'],
+                ['42%', 'Resultado del caso base: hogar N1, 400 kWh/mes, cohorte Año 1', 'Ecuación de ahorro, cierre'],
+              ]}
+            />
+          </div>
+          <div>
+            <div className="mb-2 text-sm font-semibold">Inversión</div>
+            <Table
+              align="left"
+              headers={['Cifra', 'Qué es', 'Dónde se usa']}
+              rows={[
+                ['USD\u00a08.000.000', 'CAPEX bruto acumulado: 4.000 sistemas × USD 2.000 netos, en 5 años', 'Objetivo, CAPEX, fases'],
+                ['USD\u00a04.189.442', 'Capital neto que aportan los inversores: desde el Año 2 la propia cartera financia parte del CAPEX', 'Flujo de caja, inversor, cierre'],
+              ]}
+            />
+            <Body className="mt-3">
+              La diferencia entre ambas cifras (USD 3,8 M) es CAPEX pagado con el EBITDA de los contratos ya firmados. El pago inicial de
+              USD 600 por sistema es fijo y se cuenta neto dentro de los USD 2.000 de CAPEX por sistema.
+            </Body>
+          </div>
+        </div>
       </Slide>
     ),
   },

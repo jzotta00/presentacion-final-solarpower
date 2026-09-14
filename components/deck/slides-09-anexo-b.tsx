@@ -508,6 +508,10 @@ export const anexoB: SlideDef[] = [
                 'Ricky menciona "varios datos que están mal" en los esquemas: pedirle la lista concreta para corregir informe y deck a la vez.',
                 'Agregar al informe (3.4.4 y Tabla 3.10) el paso 0 de apoderamiento en TAD, tal como ya figura en el deck.',
                 'Escribir en el informe (3.2.1) los motivos por los que se eligió on-grid frente a híbrido y off-grid; el deck tiene la slide con el espacio marcado.',
+                'FODA, FCE y 2.4.6 del informe dicen que el inicial de USD 600 es "aprox. 10% del sistema"; con USD 3.000 llave en mano es 20%. Corregir el porcentaje o la base. El deck ya dice solo "USD 600".',
+                'Casas del Censo: 2.3.2 dice 12.044.162 pero la Tabla 2.5 (base real del embudo, 59,7% = 7.104.316) suma 11.900.361. Explicar la diferencia de 143.801 casas (¿Tierra del Fuego y otras exclusiones?).',
+                'Tabla 3.6 del informe: autoconsumo ~2.700 + inyección ~4.000 = 6.700 kWh, pero la producción es 8.289 kWh. La inyección debería ser ~5.500. Recalcular la fila. El deck la retiró.',
+                'Tabla 4.18 y sección 4.6.3: el texto dice que el escenario pesimista "no destruye valor" pero su VAN es negativo (-30.368). Reformular como "prácticamente en equilibrio".',
               ]}
             />
           </div>
