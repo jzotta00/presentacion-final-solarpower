@@ -78,12 +78,12 @@ export function PorterDiagram({ forces }: { forces: { top: Force; left: Force; c
    ===================================================================== */
 
 const C = {
-  dc: 'oklch(0.79 0.155 72)',
-  ac: 'oklch(0.74 0.15 162)',
-  grid: 'oklch(0.7 0.02 255)',
-  data: 'oklch(0.7 0.12 240)',
-  ink: 'oklch(0.95 0.01 255)',
-  muted: 'oklch(0.72 0.02 255)',
+  dc: 'oklch(0.64 0.17 55)',
+  ac: 'oklch(0.52 0.13 162)',
+  grid: 'oklch(0.45 0.02 255)',
+  data: 'oklch(0.48 0.14 240)',
+  ink: 'oklch(0.22 0.025 255)',
+  muted: 'oklch(0.42 0.025 255)',
 }
 
 function Icon({ x, y, kind, color }: { x: number; y: number; kind: 'sun' | 'panel' | 'inverter' | 'house' | 'meter' | 'tower' | 'cloud'; color: string }) {
