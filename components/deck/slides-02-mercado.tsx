@@ -236,7 +236,7 @@ export const mercado: SlideDef[] = [
           {[
             ['Fortalezas', 'border-accent/40 bg-accent/10', ['Baja barrera de entrada: USD 600 de inicial', 'Tecnología DEYE/Huawei confiable con monitoreo remoto', 'Primer entrante en arrendamiento solar residencial en Argentina', 'Equipo con conocimiento técnico y financiero combinado', 'Contrato en UVA: protección real de los ingresos', 'Piloto operativo de más de 20 instalaciones exitosas']],
             ['Oportunidades', 'border-primary/40 bg-primary/10', ['Normalización tarifaria: aumento de facturas eléctricas', 'Mercado técnico de más de 3,5 M de viviendas aptas', 'Caída sostenida del precio de equipos', 'Reactivación del crédito UVA en 2024 (más de 11.000 hipotecas)', 'Creciente conciencia ambiental en segmentos medios y altos', 'Brecha enorme vs. mercados maduros (< 0,01% penetración)']],
-            ['Debilidades', 'border-destructive/40 bg-destructive/10', ['Alta intensidad de capital para escalar la cartera', 'Dependencia de financiamiento de largo plazo', 'Red de instaladores certificados limitada al inicio', 'Marca desconocida', 'Modelo contractual complejo de explicar al cliente masivo', 'Sin historial crediticio ni track record propio']],
+            ['Debilidades', 'border-destructive/40 bg-destructive/10', ['Alta intensidad de capital para escalar la cartera', 'Dependencia de financiamiento de largo plazo', 'Red de instaladores certificados limitada al inicio', 'Marca todavía poco conocida fuera del piloto', 'Modelo contractual complejo de explicar al cliente masivo', 'Historial crediticio y track record acotados al piloto operativo']],
             ['Amenazas', 'border-border bg-card/60', ['Inestabilidad macro y riesgo de congelamiento tarifario', 'Dificultad de acceso a dólares para importar equipos', 'Entrada de competidores con mayor escala o respaldo', 'Reversión regulatoria de la normalización', 'Deterioro de la relación UVA / tarifa eléctrica', 'Resistencia del consumidor al arrendamiento de largo plazo']],
           ].map(([t, cls, items]) => (
             <div key={t as string} className={`rounded-lg border p-4 ${cls as string}`}>
@@ -268,11 +268,11 @@ export const mercado: SlideDef[] = [
             compact
             headers={['Factor crítico de éxito', 'SolarPower (proyectado)', 'Instaladores convencionales', 'Compra directa']}
             rows={[
-              ['Modelo de cuota sin inversión inicial', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" n={1} />],
+              ['Modelo de cuota con pago inicial reducido', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" n={1} />],
               ['Servicio de mantenimiento incluido', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
               ['Monitoreo y garantía de producción', <Stars key="a" n={3} />, <Stars key="b" n={2} />, <Stars key="c" na />],
               ['Indexación anti-inflación (UVA)', <Stars key="a" n={3} />, <Stars key="b" na />, <Stars key="c" na />],
-              ['Accesibilidad (cero CAPEX)', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
+              ['Accesibilidad (pago inicial bajo)', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
               ['Reputación y confianza de marca', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
               ['Velocidad de instalación', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
               ['Flexibilidad del producto', <Stars key="a" n={2} />, <Stars key="b" n={3} />, <Stars key="c" n={2} />],

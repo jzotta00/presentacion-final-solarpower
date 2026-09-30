@@ -1,4 +1,4 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Steps, Pendiente } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Steps, Pendiente, Bars } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
 import { OnGridDiagram, Stepper, ConfigCard } from './diagrams'
@@ -186,18 +186,24 @@ export const tecnico: SlideDef[] = [
             note="Pensado para independencia total y zonas sin conexión."
           />
         </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-[3fr_2fr]">
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           <Body>
             El informe evalúa exclusivamente la configuración on-grid (sección 3.2.1: todos los sistemas SolarPower del modelo son on-grid
             con medición de consumo, producción y autoconsumo) y menciona el almacenamiento con baterías solo como diversificación futura
             frente al riesgo de congelamiento tarifario (riesgo M3).
           </Body>
-          <Pendiente title="Pendiente: fundamentar la elección de on-grid" owner="equipo">
-            El informe no explica por qué se descartaron híbrido y off-grid para el arrendamiento. Escribir los motivos reales (por ejemplo
-            costo de la batería sobre el CAPEX y la cuota, vida útil de la batería frente al plazo del contrato, marco de balance neto) y
-            agregarlos a la sección 3.2.1 del informe y a esta slide. No incluyo motivos que no estén escritos por ustedes.
-          </Pendiente>
+          <Body>
+            La elección prioriza el pago inicial bajo y el ahorro mensual del cliente sobre la independencia total de la red. Agregar una
+            batería de litio encarece el equipo (costo adicional del inversor híbrido y de la batería), lo que eleva el CAPEX por sistema
+            y, en consecuencia, la cuota mensual o el pago inicial necesarios para sostener el margen del modelo a la escala de 4.000
+            sistemas. El informe no incluye una comparación cuantificada entre configuraciones; esta es la razón cualitativa de la
+            decisión, sin afirmar una superioridad económica medida.
+          </Body>
         </div>
+        <Pendiente className="mt-3" title="Nota para el equipo">
+          Si quieren sostener esto con números, habría que cuantificar el costo adicional de batería + inversor híbrido por sistema y su
+          efecto en CAPEX, cuota y VAN, y agregarlo a la sección 3.2.1 del informe. Hoy la razón que acompaña esta slide es cualitativa.
+        </Pendiente>
       </Slide>
     ),
   },
@@ -277,39 +283,69 @@ export const tecnico: SlideDef[] = [
   },
 
   {
-    nav: 'Estacionalidad y perfil horario',
+    nav: 'Estacionalidad de la generación',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.2" source="Informe TPP, sección 3.2.2, con datos PVGIS y Edenor (2024) y perfiles de consumo residencial (CNT 2022).">
-        <Title>Generación vs. consumo: variación estacional y horaria</Title>
-        <div className="mt-4 grid gap-4 md:grid-cols-4">
-          <Stat tone="primary" value="~648 kWh/mes" label="generación máxima del sistema estándar en diciembre y enero" />
-          <Stat tone="destructive" value="240 a 264 kWh/mes" label="generación mínima en junio y julio: una variación de casi 2,7 veces" />
-          <Stat value="40 a 55%" label="factor de simultaneidad (autoconsumo directo) en verano" />
-          <Stat value="55 a 70%" label="factor de simultaneidad en invierno, con menor generación y consumo diurno alto" />
-        </div>
-        <div className="mt-5 grid gap-6 md:grid-cols-2">
-          <Bullets
-            dense
-            items={[
-              'El consumo del hogar es alto en verano (aire acondicionado) y en invierno (calefón y calefacción eléctrica), con valles en otoño y primavera.',
-              'La generación sigue la irradiación: 1,5 kWh/m²/día en invierno frente a 6,3 en verano en el AMBA.',
-              'El crédito de balance neto se acumula sobre todo en primavera y en días de verano con bajo uso de aire acondicionado, y se consume en invierno.',
+      <Slide block={B} chapter="Informe 3.2.2 y Tabla 3.6" source="Curva estacional: Anexo II del contrato real de arrendamiento (piloto SolarPower), reescalada proporcionalmente para sumar los 8.289 kWh/año del sistema estándar de 5,22 kWp (Tabla 3.6).">
+        <Title>Generación mensual del sistema estándar, reescalada a partir de un caso real</Title>
+        <div className="mt-3 grid gap-5 md:grid-cols-[3fr_2fr]">
+          <Bars
+            height={300}
+            unit="kWh/mes (suman 8.288 kWh/año)"
+            valueFormat={(v) => v.toLocaleString('es-AR')}
+            data={[
+              { label: 'Ene', value: 1045, tone: 'primary' },
+              { label: 'Feb', value: 840, tone: 'primary' },
+              { label: 'Mar', value: 753, tone: 'primary' },
+              { label: 'Abr', value: 546, tone: 'muted' },
+              { label: 'May', value: 402, tone: 'muted' },
+              { label: 'Jun', value: 313, tone: 'destructive' },
+              { label: 'Jul', value: 360, tone: 'destructive' },
+              { label: 'Ago', value: 486, tone: 'muted' },
+              { label: 'Sep', value: 662, tone: 'muted' },
+              { label: 'Oct', value: 850, tone: 'primary' },
+              { label: 'Nov', value: 986, tone: 'primary' },
+              { label: 'Dic', value: 1045, tone: 'primary' },
             ]}
           />
-          <Bullets
-            dense
-            items={[
-              'Perfil horario: la generación se concentra entre las 9 y las 17 h con pico al mediodía solar; el consumo residencial tiene picos a la mañana temprano y entre las 19 y las 23 h.',
-              'Lo que se genera y no se consume en el momento se inyecta a precio MEM; lo que se consume de noche se paga a tarifa minorista. Por eso la energía vale más autoconsumida que inyectada.',
-              'Los créditos no utilizados se acumulan sin vencimiento durante el contrato.',
-            ]}
-          />
+          <div className="flex flex-col gap-3">
+            <Stat tone="primary" value="1.045 kWh/mes" label="generación máxima del sistema estándar, en diciembre y enero" />
+            <Stat tone="destructive" value="313 kWh/mes" label="generación mínima, en junio: una variación de 3,3 veces sobre el máximo" />
+            <Stat value="40 a 70%" label="factor de simultaneidad (autoconsumo directo): 40 a 55% en verano, 55 a 70% en invierno" />
+          </div>
         </div>
-        <Pendiente className="mt-4" title="Nota para el equipo: Figuras 3.5 y 3.6 del informe">
-          Las figuras originales son ilegibles al proyectar y la 3.5 dice "4,8 kWp" en el título. No dispongo de los 12 valores mensuales
-          ni de las curvas horarias para reconstruirlas sin inventar. Si Ricky exporta los valores desde PVGIS (o desde el monitoreo de un
-          sistema del piloto), se reconstruyen con el mismo formato que el resto del deck. Las figuras originales quedan en el anexo.
+        <Bullets
+          className="mt-4"
+          dense
+          items={[
+            'El consumo del hogar es alto en verano (aire acondicionado) y en invierno (calefón y calefacción eléctrica), con valles en otoño y primavera.',
+          ]}
+        />
+        <Pendiente className="mt-3" title="Nota de método">
+          Las Figuras 3.5 y 3.6 originales son ilegibles al proyectar y corresponden a un sistema de 4,8 kWp. Esta curva toma la forma
+          estacional real de un contrato del piloto (mayor potencia) y la reescala para sumar el total anual adoptado en la Tabla 3.6.
+        </Pendiente>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'Perfil horario y balance neto',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 3.2.2" source="Informe TPP, sección 3.2.2, con datos Edenor (2024) y perfiles de consumo residencial (CNT 2022).">
+        <Title>Perfil horario: por qué la energía autoconsumida vale más que la inyectada</Title>
+        <Bullets
+          className="mt-4"
+          items={[
+            'La generación se concentra entre las 9 y las 17 h, con pico al mediodía solar; el consumo residencial tiene picos a la mañana temprano y entre las 19 y las 23 h.',
+            'Lo que se genera y no se consume en el momento se inyecta a precio MEM (mercado mayorista); lo que se consume de noche se paga a tarifa minorista, más alta. Por eso la energía vale más autoconsumida que inyectada.',
+            'Los créditos de balance neto no utilizados se acumulan sin vencimiento durante el contrato: lo que se inyecta de más en verano compensa el mayor consumo de red en invierno.',
+          ]}
+        />
+        <Pendiente className="mt-4" title="Nota de método">
+          El perfil horario (mañana/tarde) todavía no tiene una curva propia del sistema de 5,22 kWp; esta descripción es cualitativa,
+          según el texto del informe. Si Ricky exporta el perfil horario real de un sistema del piloto, se agrega como gráfico.
         </Pendiente>
       </Slide>
     ),
@@ -333,7 +369,7 @@ export const tecnico: SlideDef[] = [
               ['Producción anual estimada', '5,22 × 1.985 × 0,80 = 8.289 kWh', 'Año 0'],
               ['Con degradación año 1 / 10 / 20', '8.206 / 7.866 / 7.493 kWh', 'LID 1% + 0,45%/año'],
               ['Consumo típico hogar N1 AMBA', '4.440 kWh/año (370 kWh/mes)', 'INDEC EPH 2022 + Edenor'],
-              ['Cobertura solar año 1', '185%', 'Genera más de lo que consume'],
+              ['Cobertura solar año 1 (kWh generados / kWh consumidos)', '185%', 'No implica ahorro del 185% en la factura'],
             ]}
           />
           <div className="flex flex-col gap-3">
@@ -341,6 +377,12 @@ export const tecnico: SlideDef[] = [
               Ejemplo del informe (La Matanza, losa plana, 430 kWh/mes): potencia mínima para cubrir el 100% del consumo = 5.160 /
               (1.940 × 0,80) = 3,32 kWp. El estándar de 5,22 kWp produce 8.101 kWh/año, una cobertura de 157%. El sobredimensionamiento
               asegura cobertura total incluso al final del contrato, con degradación, y genera crédito de balance neto.
+            </Body>
+            <Body>
+              Esta cobertura es energética, no económica: que el sistema genere más kWh al año de los que el hogar consume no significa
+              que la factura desaparezca. Solo se ahorra al 100% la energía que se autoconsume en el momento en que se genera; el
+              excedente se inyecta a precio MEM (menor que la tarifa minorista) y el consumo nocturno se sigue pagando a tarifa plena,
+              descontando el crédito acumulado. El ahorro económico real es el 42% que muestra la Ecuación de ahorro, no el 185%.
             </Body>
             <Pendiente title="Nota para el equipo: unificar cifra de generación en el informe">
               El informe muestra valores distintos para la generación anual del mismo sistema: 8.289 kWh (Tabla 3.6), 8.101 kWh

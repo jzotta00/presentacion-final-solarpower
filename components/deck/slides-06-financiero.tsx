@@ -56,6 +56,44 @@ export const financiero: SlideDef[] = [
             ]}
           />
         </div>
+        <Pendiente title="Supuesto metodológico: USD constantes y paridad de poder adquisitivo" owner="para revisar con Hernán">
+          Todo el capítulo 4 está en USD constantes: flujos y TREMA son magnitudes reales, sin un componente adicional de inflación en
+          dólares. Esto asume que el tipo de cambio real ARS/USD se mantiene estable en el horizonte de evaluación (paridad de poder
+          adquisitivo). Bajo ese supuesto, una cuota fija en UVA equivale a una cuota fija en USD reales, que es como se presenta en todo
+          el modelo. Si en cambio se quisiera modelar una depreciación real del peso, habría que definir esa tasa y recalcular el
+          capítulo 4 completo.
+        </Pendiente>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'Origen de los supuestos financieros',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 4.1 a 4.3" source="Elaboración propia. Columna 'Origen' pendiente de completar por el equipo.">
+        <Title>De dónde sale cada supuesto del modelo</Title>
+        <Lead>Antes de la defensa conviene poder responder, para cada número, si viene de una cotización real, de la experiencia del
+        piloto, o de una estimación propia.</Lead>
+        <div className="mt-4">
+          <Table
+            align="left"
+            compact
+            headers={['Supuesto', 'Valor usado', 'Origen (a completar por el equipo)']}
+            rows={[
+              ['CAPEX llave en mano', 'USD 3.000/sistema', 'Cotización de importación 2026 o estimación'],
+              ['OPEX directo (mantenimiento + seguro + correctivo)', 'USD 80/año, +3% anual', <Bad key="2">Sin origen confirmado: revisar</Bad>],
+              ['Seguro contra granizo', 'Incluido en OPEX', 'Verificar contra póliza real, si existe'],
+              ['CAC objetivo', '≤ USD 250/contrato', 'Benchmark Sunrun o estimación propia'],
+              ['Costos corporativos (Años 1 a 5)', 'USD 100k a 350k/año', 'Presupuesto propio o estimación'],
+              ['Morosidad esperada', '< 3%/mes', 'Benchmark Sunrun (1,8% default); sin dato propio todavía'],
+            ]}
+          />
+        </div>
+        <Pendiente className="mt-4" title="Pendiente: completar la columna de origen" owner="equipo">
+          El objetivo es que el tribunal vea que cada supuesto tiene una fuente identificable. El OPEX de USD 80 quedó marcado en la
+          revisión interna como sin origen claro: sostenerlo con una cotización o una estimación explícita antes de la defensa.
+        </Pendiente>
       </Slide>
     ),
   },
@@ -125,6 +163,11 @@ export const financiero: SlideDef[] = [
               esencialmente completada (Años 4 y 5). A partir del Año 6 no se instalan sistemas nuevos en el escenario base, por lo que
               los ingresos quedan constantes en USD.
             </Body>
+            <Pendiente title="Aclaración: por qué la cuota en USD no lleva inflación en dólares">
+              La cuota está fijada en UVA, que sigue el IPC argentino, y se reporta en USD constantes bajo el supuesto de paridad de
+              poder adquisitivo (nota en Supuestos del modelo). Por eso el equivalente en USD de una cuota ya firmada se mantiene estable
+              en términos reales durante todo el contrato, sin necesidad de indexarla por una inflación en dólares aparte.
+            </Pendiente>
           </div>
         </div>
       </Slide>
@@ -496,7 +539,7 @@ export const financiero: SlideDef[] = [
     block: B,
     node: (
       <Slide block={B} chapter="Informe 4.6.3, Tabla 4.18" source="Elaboración propia. Horizonte 15 años. Los escenarios combinan EMBI+, escala de instalaciones y CAPEX por sistema.">
-        <Title>Escenarios: el pesimista queda prácticamente en equilibrio, el optimista supera USD 6 M</Title>
+        <Title>Escenarios: el pesimista es levemente negativo, el optimista supera USD 6 M</Title>
         <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
           <Table
             align="left"
@@ -525,9 +568,9 @@ export const financiero: SlideDef[] = [
               ]}
             />
             <Body>
-              En el pesimista (EMBI 700 bps, CAPEX de distribución, menor escala), TIR 15,2% frente a TREMA 15,4%: prácticamente en
-              equilibrio, con una destrucción de valor marginal (VAN de USD -30.368 sobre USD 6,75 M invertidos). La viabilidad no
-              depende del escenario optimista.
+              En el pesimista (EMBI 700 bps, CAPEX de distribución, menor escala), TIR 15,2% frente a TREMA 15,4%: el proyecto destruye
+              valor de forma leve (VAN de USD -30.368 sobre USD 6,75 M invertidos, apenas 0,45% de la inversión). La conclusión de
+              viabilidad del trabajo se apoya en el escenario base, no en el optimista.
             </Body>
             <Pendiente title="Nota para el equipo: VAN base en Tabla 4.18">
               La Tabla 4.18 del informe (y la Tabla 5 del resumen) muestran VAN base de USD 2.720.580. El valor correcto, consistente con
@@ -597,36 +640,109 @@ export const financiero: SlideDef[] = [
   },
 
   {
-    nav: 'KPIs y tablero de control',
+    nav: 'KPIs comerciales',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.7, Tablas 4.19 a 4.22" source="Elaboración propia con base en Sunrun (2024) y Damodaran (2024).">
-        <Title>Indicadores clave de desempeño y tablero de control</Title>
-        <div className="mt-4 grid gap-3 md:grid-cols-4">
-          {[
-            ['Comerciales', [['CAC', '≤ USD 250'], ['Conversión', '≥ 8%'], ['Pipeline', '≥ 3× meta mensual'], ['Referidos', '≥ 25% (Año 3+)'], ['Renovación', '≥ 90% (Año 6+)']]],
-            ['Financieros', [['LTV', '≥ USD 3.000'], ['LTV / CAC', '≥ 3,0×'], ['Morosidad 30 días', '< 3%'], ['Margen EBITDA', '≥ 79% (Año 8+)'], ['FCF acumulado', 'positivo Año 7']]],
-            ['Técnicos', [['Tasa de fallas', '< 2%'], ['Producción real / estimada', '≥ 95%'], ['Performance Ratio', '≥ 0,78'], ['Tiempo de resolución', '< 72 h'], ['Disponibilidad', '≥ 99%']]],
-            ['Satisfacción', [['NPS', '≥ 50'], ['CSAT', '≥ 4,2 / 5'], ['Renovación a 5 años', '≥ 90%'], ['Rescisión anticipada', '< 1%']]],
-          ].map(([t, kpis]) => (
-            <div key={t as string} className="rounded-lg border border-border bg-card/60 p-4">
-              <div className="font-serif font-semibold">{t as string}</div>
-              <ul className="mt-2 flex flex-col gap-1 text-xs">
-                {(kpis as string[][]).map(([k, v]) => (
-                  <li key={k} className="flex justify-between gap-2">
-                    <span className="text-muted-foreground">{k}</span>
-                    <span className="font-semibold tabular-nums">{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      <Slide block={B} chapter="Informe 4.7, Tabla 4.19" source="Elaboración propia con base en Sunrun (2024).">
+        <Title>Indicadores comerciales: qué miden y qué deciden</Title>
+        <Lead>Miden si el motor de adquisición de clientes funciona a un costo sostenible.</Lead>
+        <div className="mt-4">
+          <Table
+            align="left"
+            compact
+            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
+            rows={[
+              ['CAC (costo de adquisición)', 'Gasto de marketing y ventas ÷ contratos firmados en el período', '≤ USD 250', 'Si sube, hay que ajustar campañas o reforzar referidos antes de escalar'],
+              ['Tasa de conversión', 'Contratos firmados ÷ leads calificados', '≥ 8%', 'Mide la calidad del discurso comercial y la calificación previa del lead'],
+              ['Tasa de referidos', 'Contratos originados por referido ÷ total de contratos', '≥ 25% desde el Año 3', 'El CAC de un referido es ~60% menor: más referidos, mejor margen'],
+              ['Pipeline', 'Leads calificados en curso ÷ meta mensual de instalaciones', '≥ 3×', 'Anticipa si va a faltar o sobrar demanda para la capacidad de instalación del mes'],
+            ]}
+          />
+        </div>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'KPIs de retención y cobranza',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 4.7, Tablas 4.19 y 4.20" source="Elaboración propia con base en Sunrun (2024).">
+        <Title>Indicadores de retención y cobranza: la salud de la cartera</Title>
+        <Lead>El negocio es una cartera de contratos de largo plazo: estos indicadores dicen si esa cartera se sostiene.</Lead>
+        <div className="mt-4">
+          <Table
+            align="left"
+            compact
+            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
+            rows={[
+              ['LTV (valor de vida del cliente)', 'Suma de (cuota − OPEX) de todo el contrato, descontada a la TREMA', '≥ USD 3.000', 'Define el techo de lo que conviene gastar en CAC (LTV / CAC ≥ 3×)'],
+              ['Morosidad a 30 días', 'Cuotas impagas hace más de 30 días ÷ cuotas emitidas', '< 3%', 'Cada punto de morosidad de más resta ~USD 32.000/año de ingresos con la flota plena'],
+              ['Continuidad contractual', 'Contratos que NO ejercen la cláusula de salida al llegar al año 5 ÷ contratos que llegan al año 5', '≥ 90% desde el Año 6', 'El contrato se renueva automáticamente; este indicador mide qué porción de clientes decide no rescindir, no una firma nueva'],
+              ['Rescisión anticipada', 'Contratos rescindidos antes de tiempo ÷ contratos activos', '< 1% anual', 'Valida que la cláusula de salida (pago de la desinstalación) desincentive la baja'],
+            ]}
+          />
+        </div>
+        <Body className="mt-3">
+          El contrato no se vuelve a firmar cada 5 años: se renueva solo, salvo que el cliente avise con 90 días de anticipación o ejerza
+          la compra o la salida. "Continuidad contractual" y "rescisión anticipada" miden ese comportamiento, no una renovación activa.
+        </Body>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'KPIs técnicos',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 4.7, Tabla 4.21" source="Elaboración propia.">
+        <Title>Indicadores técnicos: la flota funciona como se prometió</Title>
+        <Lead>Sostienen la garantía de producción del contrato y anticipan el OPEX correctivo.</Lead>
+        <div className="mt-4">
+          <Table
+            align="left"
+            compact
+            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
+            rows={[
+              ['Producción real vs. estimada', 'Energía generada ÷ energía estimada por PVGIS para ese sistema y mes', '≥ 95%', 'Por debajo del 80% (umbral contractual) activa la garantía de producción y un crédito al cliente'],
+              ['Performance Ratio (PR)', 'Energía real ÷ (potencia pico × irradiación incidente)', '≥ 0,78', 'Mide pérdidas por temperatura, suciedad y cableado; detecta degradación anormal'],
+              ['Tasa de fallas técnicas', 'Sistemas con falla en el período ÷ sistemas activos', '< 2%', 'Dimensiona el stock de repuestos y el equipo de mantenimiento correctivo'],
+              ['Tiempo medio de resolución', 'Tiempo entre la alerta y la resolución, promediado', '< 72 horas', 'Minimiza la energía no generada por una falla no resuelta'],
+              ['Disponibilidad', 'Horas con el sistema operativo ÷ horas de sol del período', '≥ 99%', 'Cada punto de disponibilidad perdido equivale a ~1% de ingresos'],
+            ]}
+          />
+        </div>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'KPIs de satisfacción',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Informe 4.7, Tabla 4.22" source="Elaboración propia con base en Sunrun (2024).">
+        <Title>Indicadores de satisfacción: por qué el cliente se queda</Title>
+        <Lead>Complementan a los financieros: un cliente satisfecho refiere y no rescinde.</Lead>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <Table
+            align="left"
+            compact
+            headers={['Indicador', 'Qué mide', 'Meta']}
+            rows={[
+              ['NPS (Net Promoter Score)', 'Encuesta 0 a 10: % promotores menos % detractores', '≥ 50'],
+              ['CSAT', 'Encuesta de satisfacción post-instalación, escala 1 a 5', '≥ 4,2 / 5'],
+            ]}
+          />
+          <Body>
+            Ambos se relacionan directamente con la tasa de referidos (KPI comercial) y con la continuidad contractual (KPI de
+            retención): en el benchmark de Sunrun, la satisfacción con el servicio de monitoreo y mantenimiento es el principal
+            predictor de que un cliente refiera a otro.
+          </Body>
         </div>
         <Body className="mt-4">
-          Tablero en tres niveles: ejecutivo (flota activa, ingreso mensual recurrente, morosidad, NPS en semáforo), operativo
-          (KPIs técnicos y comerciales semanales y mensuales con alertas de desvío) y analítico (por cohorte, zona y perfil de cliente).
-          Implementación sobre Looker Studio o Metabase, alimentado por CRM, API de monitoreo y módulo de facturación UVA. Cada punto de
-          morosidad reduce ingresos en ~USD 32.000/año con la flota plena; cada USD 50 menos de CAC mejora el VAN ~1,5%.
+          Tablero en tres niveles: ejecutivo (flota activa, ingreso mensual recurrente, morosidad, NPS en semáforo), operativo (KPIs
+          técnicos y comerciales semanales y mensuales con alertas de desvío) y analítico (por cohorte, zona y perfil de cliente).
+          Implementación sobre Looker Studio o Metabase, alimentado por CRM, API de monitoreo y módulo de facturación UVA.
         </Body>
       </Slide>
     ),
@@ -645,10 +761,15 @@ export const financiero: SlideDef[] = [
               <>La economía unitaria arroja TIR de 16,1% a 5 años (ya sobre la TREMA) y 29,5% a 15 años: cada sistema crea valor desde el primer contrato.</>,
               <>Ingresos de USD 69.600 (Año 1) a un plateau de USD 3.256.900 (Años 6 a 15). EBITDA Año 10: USD 2.559.373 (79%); Año 15: USD 2.442.871 (75%).</>,
               <>VAN <Hi>USD +2.684.787</Hi>, TIR <Hi>26,4%</Hi>, payback <Hi>6,9 años</Hi>, drawdown máximo USD 4.189.442, MOIC <Hi>4,31×</Hi>.</>,
-              <>Sensibilidad: VAN positivo para toda TREMA entre 8% y 20% y para todo CAPEX entre USD 1.500 y 3.000. El optimista llega a VAN USD 6,1 M y TIR 40%.</>,
+              <>Sensibilidad: VAN positivo para casi toda la TREMA entre 8% y 20% y para todo CAPEX entre USD 1.500 y 3.000. En el extremo pesimista (TREMA 15,4%, CAPEX de distribución, menor escala), el VAN es levemente negativo (USD -30.368).</>,
               <>Un único riesgo crítico (F2, financiamiento de largo plazo), mitigable con diversificación de fuentes y la flota como colateral.</>,
             ]}
           />
+          <Body className="mt-4">
+            Estas conclusiones están condicionadas a los supuestos del modelo: USD constantes con paridad de poder adquisitivo estable,
+            CAPEX de USD 2.000 netos por importación directa, y ausencia de deuda. Cambios materiales en esos supuestos (por ejemplo una
+            devaluación real sostenida, o CAPEX por encima de USD 3.000) requieren volver a correr el modelo.
+          </Body>
         </div>
       </Slide>
     ),

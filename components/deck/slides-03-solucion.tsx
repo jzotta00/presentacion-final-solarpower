@@ -436,38 +436,70 @@ export const solucion: SlideDef[] = [
   },
 
   {
-    nav: 'El contrato',
+    nav: 'El contrato (1 de 2)',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.1.5, 2.4.6, 3.5.1 y 4.8.3" source="Informe TPP: secciones 2.1.5 (marco legal), 2.4.6, Tabla 3.12 (etapa 10) y Tabla 4.25 (riesgo O5, cláusula de salida).">
-        <Title>El contrato de arrendamiento: cláusulas principales según el informe</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
+      <Slide block={B} chapter="Contrato real de arrendamiento (piloto SolarPower, anonimizado)" source="Oferta y Contrato de Alquiler de Sistemas Fotovoltaicos, SolarPower Energy S.A.S., 2026 (cláusulas Primera a Séptima). Datos del cliente omitidos por privacidad.">
+        <Title>El contrato: cómo se perfecciona, partes y condiciones económicas</Title>
+        <div className="mt-3">
           <Table
             align="left"
             compact
             headers={['Cláusula', 'Contenido']}
             rows={[
-              ['Encuadre legal', 'Locación de cosas, Código Civil y Comercial arts. 1187 a 1226. No es operación financiera ni venta de energía. Aplica Ley 24.240 (art. 10: descripción, precio, plazo, pago, rescisión).'],
-              ['Objeto', 'Sistema fotovoltaico de 5,22 kWp instalado en el domicilio. La propiedad permanece en SolarPower.'],
-              ['Plazo', '5 años con renovación automática.'],
-              ['Cuota', 'Fija en UVA (42,94 UVA/mes en la cohorte base), actualizada por CER/IPC. Débito automático CBU/CVU.'],
-              ['Pago inicial', 'USD 600, cubre mano de obra de instalación y gestión.'],
-              ['Mantenimiento, monitoreo y seguro', 'A cargo de SolarPower durante toda la vigencia. Garantía de producción mínima anual con compensación en cuota.'],
-              ['Rescisión anticipada', 'El cliente debe reintegrar el downpayment original (USD 600); junto con el ahorro neto de USD 42/mes, elimina el incentivo económico a cancelar.'],
-              ['Fin de contrato', 'Opciones: compra a valor residual, renovación o remoción. Cláusula de estado mínimo del sistema.'],
-              ['Riesgo inflacionario', 'Explicitado al cliente; cláusula de sustitución de índice si cambia la normativa UVA. Cláusula de revisión ante cambios regulatorios.'],
+              ['Cómo se perfecciona', 'No hay firma digital: SolarPower envía una carta de oferta (vigencia 15 días hábiles) y el cliente la acepta transfiriendo el pago inicial a la cuenta de la empresa.'],
+              ['Partes', 'SolarPower Energy S.A.S. (sociedad por acciones simplificada ya constituida) como propietaria, y el cliente como arrendatario.'],
+              ['Objeto', 'Sistema fotovoltaico instalado en el domicilio del cliente. La propiedad permanece en SolarPower.'],
+              ['Plazo', '5 años, renovación automática por períodos de 5 años. Cualquiera de las partes puede no renovar avisando con 90 días de anticipación.'],
+              ['Cuota', 'Fija en UVA (IVA incluido), actualizada por el valor BCRA. Pagadera a 30 días corridos de la factura.'],
+              ['Pago inicial', 'Monto en pesos por instalación, logística y gestión del plan (equivalente a USD 600 en la cohorte base del modelo).'],
+              ['Opción de compra', 'En cualquier momento del contrato, al día con los pagos. Precio decreciente mes a mes (Anexo II), descontando lo ya amortizado en cuotas.'],
+              ['Mantenimiento y reparaciones', 'A cargo de SolarPower, sin costo salvo uso indebido o daño de terceros. Si no se resuelve en 30 días hábiles, el cliente tiene derecho a una reducción proporcional de la cuota.'],
+              ['Seguro', 'Cobertura específica contra destrucción o rotura de paneles por granizo. Mientras el sistema está fuera de servicio por reemplazo, se suspende el cobro de la cuota.'],
+              ['Garantía de producción', 'Si la producción real se desvía más de 20% de la esperada en el año, SolarPower acredita la diferencia al cliente.'],
+            ]}
+          />
+          <Body className="mt-3">
+            Esta tabla ya no es una descripción genérica basada en el informe: son las cláusulas reales de un contrato vigente del
+            piloto, con los datos del cliente omitidos por privacidad. Reemplaza lo que antes era un supuesto sobre "cómo debería ser"
+            el contrato. Sigue en la siguiente slide (mora, transferencia, mejoras, reportes, jurisdicción).
+          </Body>
+        </div>
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'El contrato (2 de 2)',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Contrato real de arrendamiento (piloto SolarPower, anonimizado)" source="Oferta y Contrato de Alquiler de Sistemas Fotovoltaicos, SolarPower Energy S.A.S., 2026 (cláusulas Octava a Decimocuarta y Anexo II). Datos del cliente omitidos por privacidad.">
+        <Title>El contrato: salida, mora, transferencia y seguimiento</Title>
+        <div className="mt-3 grid gap-6 md:grid-cols-[3fr_2fr]">
+          <Table
+            align="left"
+            compact
+            headers={['Cláusula', 'Contenido']}
+            rows={[
+              ['Rescisión anticipada (cláusula de salida)', 'El cliente paga el costo de desinstalación del sistema (mano de obra), no el reintegro del pago inicial.'],
+              ['Mora', 'Intereses punitorios a la tasa activa del Banco Nación a 30 días, devengados diariamente sobre la deuda actualizada por UVA.'],
+              ['Transferencia del inmueble', 'El contrato se transfiere automáticamente al nuevo propietario, o el cliente ejerce la opción de compra antes de vender. Ante fallecimiento, pasa a los herederos.'],
+              ['Mejoras futuras', 'SolarPower puede reemplazar el sistema por uno de mejor tecnología o agregar paneles/baterías sin costo adicional, avisando con 30 días de anticipación.'],
+              ['Reportes mensuales', 'Energía producida, ahorro económico, reducción de CO₂ (equivalente en árboles) y rendimiento de los paneles.'],
+              ['Jurisdicción', 'Tribunales ordinarios de la Ciudad Autónoma de Buenos Aires, ley argentina.'],
             ]}
           />
           <div className="flex flex-col gap-3">
             <Body>
-              El informe indica que el contrato tipo fue diseñado junto a abogados especialistas del sector y que es sólido, comprensible
-              para el usuario y alineado con las mejores prácticas.
+              La cláusula de transferencia ante venta del inmueble o fallecimiento, que el informe (5.4) marcaba como trabajo futuro
+              pendiente, ya está resuelta en este contrato real: no hace falta un nuevo trámite, el contrato sigue con el nuevo
+              propietario o los herederos.
             </Body>
-            <Pendiente title="Pendiente: contrato definitivo" owner="Ricky">
-              Verificar las cláusulas de esta tabla contra el contrato tipo definitivo y, si el tribunal lo pide, tenerlo disponible en
-              el anexo. El informe (5.4) marca como trabajo futuro las cláusulas de transferencia del contrato ante venta del inmueble o
-              cambio de inquilino.
-            </Pendiente>
+            <Body>
+              La cláusula de salida (pagar la desinstalación en vez de devolver el pago inicial) es más favorable para el cliente que
+              reintegrar el downpayment, y consistente con el bajo nivel de rescisión anticipada que asume el modelo financiero (riesgo
+              O5, índice bajo).
+            </Body>
           </div>
         </div>
       </Slide>

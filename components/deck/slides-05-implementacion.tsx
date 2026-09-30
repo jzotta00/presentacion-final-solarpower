@@ -38,7 +38,7 @@ export const implementacion: SlideDef[] = [
             <Timeline
               totalMonths={120}
               phases={[
-                { name: 'Fase 0 · Preparación', from: 1, to: 6, tone: 'muted', detail: 'Constitución, contrato tipo UVA, acuerdos con proveedores, certificación de 6 técnicos, CRM y facturación UVA, seguros.' },
+                { name: 'Fase 0 · Preparación', from: 1, to: 6, tone: 'muted', detail: 'Constitución de la unidad de negocio de arrendamiento dentro de SolarPower Energy S.A.S. (ya constituida), contrato tipo UVA, acuerdos con proveedores, certificación de 6 técnicos, CRM y facturación UVA, seguros.' },
                 { name: 'Fase 1 · Piloto', from: 7, to: 18, tone: 'primary', detail: '200 sistemas en el AMBA con 3 a 4 equipos. Valida plazos, ahorro percibido, morosidad y monitoreo remoto.' },
                 { name: 'Fase 2 · Crecimiento AMBA', from: 19, to: 60, tone: 'accent', detail: 'Escala a 4.000 sistemas acumulados, 8 a 20 equipos, financiamiento de mediano plazo, negociación con distribuidoras de Córdoba y Santa Fe.' },
                 { name: 'Fase 3 · Expansión nacional', from: 61, to: 120, tone: 'default', detail: 'Operación de la flota (ingreso estable mayor a USD 3 M/año), equipo de O&M dedicado; expansión a SP2 y SP3 con distribuidoras adheridas e instaladores locales.' },
@@ -61,7 +61,7 @@ export const implementacion: SlideDef[] = [
             align="left"
             headers={['Fase', 'Período', 'Hito principal', 'Recursos clave', 'Cuello de botella']}
             rows={[
-              ['Fase 0', 'M1 a M6', 'Empresa constituida; primer lote de equipos; técnicos certificados', 'Capital semilla USD 120 k', 'Habilitación legal y comercial'],
+              ['Fase 0', 'M1 a M6', 'Unidad de negocio de arrendamiento operativa (empresa ya constituida); primer lote de equipos; técnicos certificados', 'Capital semilla USD 120 k', 'Habilitación legal y comercial'],
               ['Fase 1', 'M7 a M18', '200 sistemas instalados; modelo operativo validado', '3 a 4 equipos de instalación', 'Capacidad de inspección de las distribuidoras'],
               ['Fase 2', 'M19 a M60', '4.000 sistemas acumulados; break-even de FCF', '8 a 20 equipos; línea de crédito', 'Acceso a capital de largo plazo'],
               ['Fase 3', 'M61 a M120', '4.000 sistemas en operación; ingreso estable mayor a USD 3 M/año', 'Equipo de O&M dedicado', 'Escala del equipo de soporte'],

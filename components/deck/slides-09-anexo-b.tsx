@@ -414,26 +414,25 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A30 · Firma digital',
+    nav: 'A30 · Carta de oferta y aceptación',
     block: B,
     node: (
-      <Slide block={B} chapter="Complementario, no está en el informe">
-        <Title>A30. Firma digital del contrato</Title>
+      <Slide block={B} chapter="Contrato real de arrendamiento (piloto SolarPower)" source="Oferta de Alquiler de Sistemas Fotovoltaicos, SolarPower Energy S.A.S., 2026.">
+        <Title>A30. Cómo se perfecciona el contrato: no hay firma digital</Title>
         <Body className="mt-3">
-          El informe describe el contrato de arrendamiento (2.1.5) y la etapa de propuesta comercial (Tabla 3.12) pero no menciona firma
-          digital. Si el equipo decide incorporarla al proceso, esta slide la documenta como complemento.
+          El mecanismo real no es una firma (digital ni manuscrita): SolarPower envía una carta de oferta con una vigencia de 15 días
+          hábiles desde su recepción. La oferta se considera aceptada cuando el cliente transfiere el monto del pago inicial a la cuenta
+          bancaria de SolarPower indicada en la oferta. A partir de ese depósito, los derechos y obligaciones del Anexo I (el contrato)
+          quedan operativos y exigibles entre las partes.
         </Body>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Pendiente title="Pendiente: decidir si se incluye" owner="Ricky / equipo">
-            Definir si la firma digital forma parte del proceso comercial. Si sí: qué herramienta, si es firma digital con certificado
-            (Ley 25.506) o firma electrónica, cómo se integra con el débito automático CBU/CVU y cuánto acorta el ciclo de la etapa 3.
-            Si no: eliminar esta slide.
-          </Pendiente>
-          <Pendiente title="Pendiente: validez legal" owner="Ricky">
-            Confirmar con el asesor legal el encuadre bajo Ley 24.240 (art. 10: el contrato debe contener descripción, precio, plazo,
-            modalidad de pago y condiciones de rescisión) y cómo se garantiza la información precontractual en un flujo digital.
-          </Pendiente>
-        </div>
+        <Bullets
+          className="mt-4"
+          items={[
+            'No se requiere firma electrónica ni certificado digital (Ley 25.506): la aceptación es por conducta, mediante transferencia bancaria a una cuenta identificada con CBU, alias y CUIT de SolarPower.',
+            'Encuadre bajo Ley 24.240: la oferta y su Anexo I ya contienen descripción del objeto, precio, plazo y condiciones de rescisión (art. 10).',
+            'Es más simple de gestionar a distancia que una firma digital: no depende de que el cliente tenga certificado propio.',
+          ]}
+        />
       </Slide>
     ),
   },
@@ -442,80 +441,111 @@ export const anexoB: SlideDef[] = [
     nav: 'A31 · Caso real del piloto',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 1.1 (piloto); datos complementarios">
-        <Title>A31. Caso real: un cliente del piloto en operación</Title>
+      <Slide block={B} chapter="Contrato real de arrendamiento, piloto SolarPower (anonimizado)" source="Oferta y Contrato de Alquiler de Sistemas Fotovoltaicos, Anexo II, SolarPower Energy S.A.S., 2026. Datos del cliente omitidos por privacidad.">
+        <Title>A31. Caso real de un contrato vigente del piloto</Title>
         <div className="mt-3 grid gap-6 md:grid-cols-2">
-          <Pendiente title="Pendiente: gráficos del cliente real" owner="Ricky">
-            Exportar de DEYE Cloud o FusionSolar: producción mensual del último año, comparación producción real vs. estimada, y si
-            existe, la factura antes y después. Pegar como imagen acá.
-          </Pendiente>
           <Table
             align="left"
             compact
             headers={['Concepto', 'Valor']}
             rows={[
-              ['Configuración instalada (módulos, inversor)', <Pendiente key="1" title="">Completar</Pendiente>],
-              ['Costo llave en mano', <Pendiente key="2" title="">Completar</Pendiente>],
-              ['Pago inicial', <Pendiente key="3" title="">Completar</Pendiente>],
-              ['Cuota mensual (UVA y ARS)', <Pendiente key="4" title="">Completar</Pendiente>],
-              ['Valor de la opción de compra', <Pendiente key="5" title="">Completar</Pendiente>],
-              ['Diferencia vs. compra directa', <Pendiente key="6" title="">Completar</Pendiente>],
-              ['Producción real vs. estimada', <Pendiente key="7" title="">Completar</Pendiente>],
+              ['Cuota mensual', '66,01 UVA (IVA incluido), ajustada por el valor BCRA'],
+              ['Pago inicial (instalación, logística y gestión)', '$ 1.793.761 ARS'],
+              ['Costo de desinstalación (cláusula de salida)', '$ 1.793.761 ARS = 905 UVA'],
+              ['Producción estimada, Año 1 (Anexo II del contrato)', '≈ 13.315 kWh/año'],
+              ['Opción de compra, mes 1 del Año 1', '6.021,86 UVA'],
+              ['Opción de compra, mes 12 del Año 5', '5.621,75 UVA'],
+              ['Plazo', '5 años, renovación automática'],
+              ['Configuración instalada (módulos, inversor)', <Pendiente key="1" title="">No figura en el contrato; pedir ficha técnica a Ricky</Pendiente>],
+              ['Producción real vs. estimada (monitoreo)', <Pendiente key="2" title="">Exportar de DEYE Cloud o FusionSolar</Pendiente>],
             ]}
           />
+          <div className="flex flex-col gap-3">
+            <Body>
+              Este es un sistema real de mayor potencia que el estándar de 5,22 kWp usado para la evaluación financiera: su producción
+              estimada (≈13.315 kWh/año) casi duplica los 8.289 kWh/año del sistema estándar, así que estas cifras no se deben promediar
+              ni comparar directamente con las del capítulo 4. Sirve como evidencia de que el modelo de arrendamiento, la opción de compra
+              decreciente y la cláusula de salida ya operan en la práctica, no como el caso base del análisis financiero.
+            </Body>
+            <Pendiente title="Pendiente: gráficos de monitoreo real" owner="Ricky">
+              Exportar de DEYE Cloud o FusionSolar la producción mensual real del último año y compararla contra la tabla estimada del
+              Anexo II del contrato. Si existe, agregar la factura eléctrica antes y después.
+            </Pendiente>
+          </div>
         </div>
-        <Body className="mt-2">Cuidado con el nombre del cliente: presentar de forma anonimizada (barrio y tipo de vivienda) salvo autorización expresa.</Body>
+        <Body className="mt-2">Nombre y DNI del cliente omitidos por privacidad; el contrato completo está disponible si el tribunal lo solicita.</Body>
       </Slide>
     ),
   },
 
   {
-    nav: 'A32 · Lista de pendientes',
+    nav: 'A32 · Material pendiente',
     block: B,
     node: (
       <Slide block={B} chapter="Control interno del equipo">
-        <Title>A32. Pendientes antes de la defensa</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <div>
-            <div className="mb-2 text-sm font-semibold">Datos y material que falta pegar en la presentación</div>
-            <Bullets
-              dense
-              items={[
-                'Caso real del piloto: datos y gráficos (slides Piloto operativo y A31). Responsable: Ricky.',
-                'Contrato definitivo: verificar cláusulas (slide El contrato). Responsable: Ricky.',
-                'Bot de WhatsApp: descripción y capturas reales (A28). Responsable: equipo.',
-                'Casos de uso 1 y 3: calcular con el modelo (A29). Responsable: equipo.',
-                'Firma digital: decidir si se incluye y validar encuadre legal (A30). Responsable: Ricky / equipo.',
-              ]}
-            />
-          </div>
-          <div>
-            <div className="mb-2 text-sm font-semibold">Correcciones al informe que el tribunal puede detectar</div>
-            <Bullets
-              dense
-              items={[
-                'Unificar la generación anual del sistema: 8.289 (Tabla 3.6), 8.101 (3.4.2), 5.500 a 6.500 (2.3.1), 5.000 a 8.300 (2.2.7), 4.612 (Figura 3.5).',
-                'VAN base en Tabla 4.18 y en Tabla 5 del resumen: 2.720.580 debe ser 2.684.787.',
-                'Secciones 3.6.3 y 3.6.4: "948" y "2.448" sistemas deben ser consistentes con los 4.000 de la Tabla 3.16 y del capítulo 4.',
-                'Cuota como % de factura: capítulos 1 y 2 dicen 30 a 35% con ahorro 30 a 40%; capítulo 4 dice 58% del ahorro bruto con ahorro 42%. Alinear.',
-                'Downpayment: USD 300 a 600 (cap. 1 y 2) vs. USD 600 (cap. 4). UVA: $1.850,06 (30/03) vs. $2.007 (30/06). Indicar cuál se usa.',
-                'Equipos de instalación por año: informe 3.4.7 (3 a 4 en Año 1, más de 20 en Año 5) vs. resumen Tabla 1 (2 y 13).',
-                'Resumen ejecutivo: la versión revisada tiene datos que contradicen el informe (Brasil, Chile y México; menos de 5.000 sistemas y menos de 0,5%; degradación 0,4%; GHI 4,5 con PR 78%). Usar la versión corregida.',
-                'Figura 3.4 del informe: la imagen dice "4,8 kWp, 8 × 600 Wp, microinversores Enphase IQ8H"; el texto dice 9 × 580 Wp con inversor de string DEYE/Huawei. Reemplazar la imagen.',
-                'Figura 3.5 del informe: el título dice "4,8 kWp". Regenerar con el sistema de 5,22 kWp.',
-                'Figura 2.1 del informe: la leyenda dice "2018 a 2024" pero el gráfico cubre mayo 2023 a abril 2024. Corregir la leyenda.',
-                'Figura 3.7 del informe: dice "45 a 90 días calendario"; el texto dice 45 a 70 días hábiles. Alinear.',
-                'Ricky menciona "varios datos que están mal" en los esquemas: pedirle la lista concreta para corregir informe y deck a la vez.',
-                'Agregar al informe (3.4.4 y Tabla 3.10) el paso 0 de apoderamiento en TAD, tal como ya figura en el deck.',
-                'Escribir en el informe (3.2.1) los motivos por los que se eligió on-grid frente a híbrido y off-grid; el deck tiene la slide con el espacio marcado.',
-                'FODA, FCE y 2.4.6 del informe dicen que el inicial de USD 600 es "aprox. 10% del sistema"; con USD 3.000 llave en mano es 20%. Corregir el porcentaje o la base. El deck ya dice solo "USD 600".',
-                'Casas del Censo: 2.3.2 dice 12.044.162 pero la Tabla 2.5 (base real del embudo, 59,7% = 7.104.316) suma 11.900.361. Explicar la diferencia de 143.801 casas (¿Tierra del Fuego y otras exclusiones?).',
-                'Tabla 3.6 del informe: autoconsumo ~2.700 + inyección ~4.000 = 6.700 kWh, pero la producción es 8.289 kWh. La inyección debería ser ~5.500. Recalcular la fila. El deck la retiró.',
-                'Tabla 4.18 y sección 4.6.3: el texto dice que el escenario pesimista "no destruye valor" pero su VAN es negativo (-30.368). Reformular como "prácticamente en equilibrio".',
-              ]}
-            />
-          </div>
-        </div>
+        <Title>A32. Material que falta completar en la presentación</Title>
+        <Bullets
+          className="mt-4"
+          items={[
+            'Producción real monitoreada del caso del piloto: gráficos de DEYE Cloud o FusionSolar (slides Piloto operativo y A31). Responsable: Ricky.',
+            'Ficha técnica (módulos, inversor) del sistema del caso real del piloto (A31). Responsable: Ricky.',
+            'Bot de WhatsApp: descripción real y capturas (A28). Responsable: equipo.',
+            'Casos de uso 1 y 3: calcular con el modelo financiero (A29). Responsable: equipo.',
+            'Columna "Origen" de los supuestos financieros: completar con cotización, experiencia o estimación (slide Origen de los supuestos).',
+          ]}
+        />
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'A32b · Correcciones numéricas del informe',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Control interno del equipo">
+        <Title>A32b. Correcciones numéricas que el tribunal puede detectar</Title>
+        <Bullets
+          dense
+          className="mt-4"
+          items={[
+            'Unificar la generación anual del sistema: 8.289 (Tabla 3.6), 8.101 (3.4.2), 5.500 a 6.500 (2.3.1), 5.000 a 8.300 (2.2.7), 4.612 (Figura 3.5).',
+            'VAN base en Tabla 4.18 y en Tabla 5 del resumen: 2.720.580 debe ser 2.684.787.',
+            'Secciones 3.6.3 y 3.6.4: "948" y "2.448" sistemas deben ser consistentes con los 4.000 de la Tabla 3.16 y del capítulo 4.',
+            'Cuota como % de factura: capítulos 1 y 2 dicen 30 a 35% con ahorro 30 a 40%; capítulo 4 dice 58% del ahorro bruto con ahorro 42%. Alinear.',
+            'Downpayment: USD 300 a 600 (cap. 1 y 2) vs. USD 600 (cap. 4). UVA: $1.850,06 (30/03) vs. $2.007 (30/06). Indicar cuál se usa.',
+            'Equipos de instalación por año: informe 3.4.7 (3 a 4 en Año 1, más de 20 en Año 5) vs. resumen Tabla 1 (2 y 13).',
+            'FODA, FCE y 2.4.6 dicen que el inicial de USD 600 es "aprox. 10% del sistema"; con USD 3.000 llave en mano es 20%. Corregir el porcentaje o la base. El deck ya dice solo "USD 600".',
+            'Casas del Censo: 2.3.2 dice 12.044.162 pero la Tabla 2.5 (base real del embudo, 59,7% = 7.104.316) suma 11.900.361. Explicar la diferencia de 143.801 casas.',
+            'Tabla 3.6: autoconsumo ~2.700 + inyección ~4.000 = 6.700 kWh, pero la producción es 8.289 kWh. La inyección debería ser ~5.500. El deck retiró esa fila.',
+            'Tabla 4.18 / 4.6.3: el texto dice que el pesimista "no destruye valor" pero su VAN es negativo (-30.368). El deck ahora dice "levemente negativo".',
+          ]}
+        />
+      </Slide>
+    ),
+  },
+
+  {
+    nav: 'A32c · Correcciones de contenido del informe',
+    block: B,
+    node: (
+      <Slide block={B} chapter="Control interno del equipo">
+        <Title>A32c. Correcciones de figuras y contenido</Title>
+        <Bullets
+          dense
+          className="mt-4"
+          items={[
+            'Figura 3.4: dice "4,8 kWp, 8 × 600 Wp, microinversores Enphase IQ8H"; el texto describe 9 × 580 Wp con inversor de string. Reemplazar la imagen.',
+            'Figura 3.5: el título dice "4,8 kWp". Regenerar con el sistema de 5,22 kWp.',
+            'Figura 2.1: la leyenda dice "2018 a 2024" pero el gráfico cubre mayo 2023 a abril 2024.',
+            'Figura 3.7: dice "45 a 90 días calendario"; el texto dice 45 a 70 días hábiles.',
+            'Resumen ejecutivo: la versión revisada tiene datos que contradicen el informe (Brasil/Chile/México, menos de 5.000 sistemas, degradación 0,4%, GHI 4,5 con PR 78%). Usar la versión corregida.',
+            'Agregar a 3.4.4 y Tabla 3.10 el paso 0 de apoderamiento en TAD, ya presente en el deck.',
+            'Escribir en 3.2.1 los motivos de elegir on-grid frente a híbrido y off-grid (el deck ya trae la razón cualitativa; falta cuantificarla si quieren).',
+            'Sección 2.1.5 / 3.5.1: reemplazar la descripción genérica del contrato por las cláusulas reales (carta de oferta, cláusula de salida = desinstalación, seguro contra granizo, garantía 20%, transferencia automática, mejoras, reportes mensuales), ya usadas en el deck.',
+            'Sección 1.1 / Fase 0: aclarar que SolarPower Energy S.A.S. ya está constituida (CUIT 30-71891376-0); la Fase 0 es poner en marcha la unidad de arrendamiento, no fundar la empresa.',
+            'Si preguntan por qué la cuota no sube por inflación en dólares: el capítulo 4 está en USD constantes bajo paridad de poder adquisitivo estable (nota agregada en el deck).',
+          ]}
+        />
       </Slide>
     ),
   },
