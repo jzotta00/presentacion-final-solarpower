@@ -1,4 +1,4 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars, HBars, Donut, ArgentinaMap, Pendiente, BarsPlusLine } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars, HBars, Donut, ArgentinaMap, BarsPlusLine } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
 
@@ -371,4 +371,3 @@ export const contexto: SlideDef[] = [
 void Bullets
 void Ok
 void Hi
-void Pendiente

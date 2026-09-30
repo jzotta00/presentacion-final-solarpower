@@ -200,10 +200,6 @@ export const tecnico: SlideDef[] = [
             decisión, sin afirmar una superioridad económica medida.
           </Body>
         </div>
-        <Pendiente className="mt-3" title="Nota para el equipo">
-          Si quieren sostener esto con números, habría que cuantificar el costo adicional de batería + inversor híbrido por sistema y su
-          efecto en CAPEX, cuota y VAN, y agregarlo a la sección 3.2.1 del informe. Hoy la razón que acompaña esta slide es cualitativa.
-        </Pendiente>
       </Slide>
     ),
   },
@@ -227,11 +223,6 @@ export const tecnico: SlideDef[] = [
               Si la generación supera el consumo instantáneo, el excedente sale a la red y el medidor bidireccional lo registra como
               inyección. De noche la red cubre el consumo. No hay gestión activa de cargas: ambas fuentes se suman en el tablero.
             </Body>
-            <Pendiente title="Nota para el equipo: Figura 3.4 del informe">
-              La imagen original de la Figura 3.4 dice "Plan SolarPower 4,8 kWp, 8 × 600 Wp, microinversores Enphase IQ8H", que es la
-              configuración anterior. El texto del informe describe 9 × 580 Wp con inversor de string DEYE/Huawei. Reemplazar la
-              figura en el informe por este diagrama o uno equivalente.
-            </Pendiente>
           </div>
         </div>
       </Slide>
@@ -384,11 +375,6 @@ export const tecnico: SlideDef[] = [
               excedente se inyecta a precio MEM (menor que la tarifa minorista) y el consumo nocturno se sigue pagando a tarifa plena,
               descontando el crédito acumulado. El ahorro económico real es el 42% que muestra la Ecuación de ahorro, no el 185%.
             </Body>
-            <Pendiente title="Nota para el equipo: unificar cifra de generación en el informe">
-              El informe muestra valores distintos para la generación anual del mismo sistema: 8.289 kWh (Tabla 3.6), 8.101 kWh
-              (ejemplo 3.4.2), 5.500 a 6.500 kWh (2.3.1), 5.000 a 8.300 kWh (2.2.7) y 4.612 kWh (Figura 3.5). Conviene elegir una
-              cifra base y explicar el rango antes de la defensa. Esta slide usa la Tabla 3.6.
-            </Pendiente>
           </div>
         </div>
       </Slide>
@@ -468,10 +454,6 @@ export const tecnico: SlideDef[] = [
               El paso 0 es el que permite que SolarPower gestione todo el trámite en nombre del cliente sin que este tenga que intervenir
               de nuevo. El instructivo paso a paso está en el anexo (A12b).
             </Body>
-            <Pendiente title="Nota para el equipo">
-              El paso 0 proviene del instructivo "Trámites a Distancia" de SolarPower y no figura en el informe (sección 3.4.4 y Tabla
-              3.10). Agregarlo al informe para que coincidan.
-            </Pendiente>
           </div>
         </div>
       </Slide>

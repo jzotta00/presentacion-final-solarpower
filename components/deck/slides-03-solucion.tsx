@@ -1,5 +1,5 @@
 import { Home, Sun, Wallet, ShieldCheck, Cloud, Gauge, Megaphone, MapPin, Package, Tag } from 'lucide-react'
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars, Pendiente } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Bars } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
 
@@ -425,11 +425,10 @@ export const solucion: SlideDef[] = [
               <>Constituye la base empírica de la garantía de producción y del plan de mantenimiento.</>,
             ]}
           />
-          <Pendiente title="Pendiente: datos del caso real" owner="Ricky">
-            Pegar acá los datos de un cliente real del piloto: costo llave en mano, cuota inicial, valor de la opción de compra,
-            diferencia contra compra directa, valor de cada componente, y los gráficos de generación real vs. estimada de la plataforma
-            de monitoreo (DEYE Cloud o FusionSolar). Sin estos datos, esta slide se presenta solo con el texto de la izquierda.
-          </Pendiente>
+          <Body>
+            El caso real de un contrato vigente del piloto (cuota, pago inicial, opción de compra y producción estimada) está en el
+            Anexo, slide A29.
+          </Body>
         </div>
       </Slide>
     ),

@@ -1,4 +1,4 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table, Timeline, ArgentinaMap, Pendiente, Bars } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table, Timeline, ArgentinaMap, Bars } from './primitives'
 import type { SlideDef } from './types'
 import { Hi } from './types'
 
@@ -68,17 +68,11 @@ export const implementacion: SlideDef[] = [
             ]}
           />
         </div>
-        <div className="mt-5 grid gap-6 md:grid-cols-2">
-          <Body>
-            El principal cuello de botella a lo largo de las cuatro fases es el acceso a capital de largo plazo para financiar el CAPEX
-            creciente del portafolio (USD 8 M en 5 años). La Fase 3 contempla financiamiento internacional: bonos verdes y líneas de
-            organismos multilaterales (BID, CAF).
-          </Body>
-          <Pendiente title="Nota para el equipo: cifras de fases en el informe">
-            Las secciones 3.6.3 y 3.6.4 del informe mencionan "948 sistemas acumulados" y "2.448 al Año 10", mientras que la Tabla 3.16
-            y todo el capítulo 4 usan 4.000. Esta presentación usa 4.000. Corregir esos dos párrafos del informe antes de la defensa.
-          </Pendiente>
-        </div>
+        <Body className="mt-4">
+          El principal cuello de botella a lo largo de las cuatro fases es el acceso a capital de largo plazo para financiar el CAPEX
+          creciente del portafolio (USD 8 M en 5 años). La Fase 3 contempla financiamiento internacional: bonos verdes y líneas de
+          organismos multilaterales (BID, CAF).
+        </Body>
       </Slide>
     ),
   },
@@ -172,10 +166,6 @@ export const implementacion: SlideDef[] = [
                 ['Operación madura · Años 6 a 15', '0', 'O&M', '17'],
               ]}
             />
-            <Pendiente title="Nota para el equipo: unificar equipos por año">
-              El informe (3.4.7) habla de 3 a 4 equipos en el Año 1 y más de 20 en el Año 5; el resumen ejecutivo (Tabla 1) de 2 y 13.
-              Elegir una versión y alinear ambos documentos.
-            </Pendiente>
           </div>
         </div>
       </Slide>

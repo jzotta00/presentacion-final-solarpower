@@ -218,7 +218,7 @@ export const anexoB: SlideDef[] = [
               ['O2', 'Insuficiencia de técnicos certificados', '3', '3', '9', 'Formación continua; alianzas con escuelas técnicas e INTI'],
               ['O3', 'Daño a la propiedad del cliente', '2', '3', '6', 'Seguro RC obligatorio; protocolo estandarizado'],
               ['O4', 'Pérdida de conectividad del monitoreo', '3', '2', '6', 'Wi-Fi integrado + datalogger local con 7 días de almacenamiento'],
-              ['O5', 'Rescisión anticipada (churn)', '1', '4', '4', 'Reintegro del downpayment de USD 600; ahorro neto de USD 42/mes'],
+              ['O5', 'Rescisión anticipada (churn)', '1', '4', '4', 'Cláusula de salida (pago del costo de desinstalación); ahorro neto de USD 42/mes'],
               ['F1', 'Morosidad superior al 5%', '2', '4', '8', 'Débito automático; gestión temprana; penalización contractual'],
               ['F2', <Bad key="f2">Imposibilidad de acceder a financiamiento de largo plazo</Bad>, '3', '5', <Bad key="f2i">15</Bad>, 'Bancos locales, fondos verdes, multilaterales; flota como colateral'],
               ['F3', 'Deterioro del spread UVA / tarifa', '2', '3', '6', 'Monitoreo trimestral; cláusula de revisión; diversificación de producto'],
@@ -329,18 +329,16 @@ export const anexoB: SlideDef[] = [
       <Slide block={B} chapter="Sugerido por el tutor" source="Contenido no incluido en el informe; se agrega como complemento para la defensa.">
         <Title>A27. Material complementario: qué es y por qué está separado</Title>
         <Body className="mt-3">
-          El tutor sugirió sumar al anexo elementos que enriquecen la defensa pero que no forman parte del informe escrito: casos de uso,
-          herramientas comerciales desarrolladas por el equipo y evidencia del piloto. Se presentan separados y etiquetados como
-          complementarios para que el tribunal no los busque en el informe.
+          El tutor sugirió sumar al anexo elementos que enriquecen la defensa pero que no forman parte del informe escrito: el
+          mecanismo real del contrato y evidencia del piloto. Se presentan separados y etiquetados como complementarios para que el
+          tribunal no los busque en el informe.
         </Body>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {[
-            ['A28', 'Herramienta comercial: bot de WhatsApp', 'Cómo funciona la captura de datos de la factura y la simulación de ahorro.'],
-            ['A29', 'Casos de uso', 'Ejemplos concretos de hogares tipo con distintos consumos y sus resultados.'],
-            ['A30', 'Firma digital del contrato', 'Si se incorpora al proceso comercial: herramienta, validez legal y flujo.'],
-            ['A31', 'Caso real del piloto', 'Datos y gráficos de un cliente real en operación.'],
-            ['A32', 'Lista consolidada de pendientes', 'Checklist de todo lo que falta completar antes de la defensa.'],
-            ['PDF', 'Folletos de SolarPower', 'Ricky tiene dos piezas propias listas para mostrar si el tribunal pregunta: "Sistemas solares On Grid, Off Grid e Híbridos" (esquemas de funcionamiento) y el instructivo "Trámites a Distancia" (apoderamiento en TAD para el medidor bidireccional).'],
+            ['A28', 'Carta de oferta y aceptación', 'Cómo se perfecciona el contrato en la práctica: no hay firma digital.'],
+            ['A29', 'Caso real del piloto', 'Datos de un contrato vigente, anonimizado.'],
+            ['A30 a A32', 'Checklist interno', 'Material pendiente y correcciones al informe antes de la defensa.'],
+            ['PDF', 'Folletos de SolarPower', 'Ricky tiene dos piezas propias para mostrar si el tribunal pregunta: "Sistemas solares On Grid, Off Grid e Híbridos" y el instructivo "Trámites a Distancia" (apoderamiento en TAD).'],
           ].map(([id, t, d]) => (
             <div key={id} className="flex gap-3 rounded-lg border border-border bg-card/50 p-3">
               <span className="font-serif font-bold text-primary">{id}</span>
@@ -356,69 +354,11 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A28 · Bot de WhatsApp',
-    block: B,
-    node: (
-      <Slide block={B} chapter="Complementario, no está en el informe">
-        <Title>A28. Herramienta comercial: bot de WhatsApp para calificación y cotización</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Pendiente title="Pendiente: descripción del bot" owner="equipo">
-            Completar con lo que efectivamente existe: qué canal usa (WhatsApp Business API u otro), qué datos pide (foto o PDF de la
-            factura, dirección, tipo de techo), qué devuelve (consumo estimado, sistema recomendado, cuota en UVA, ahorro estimado), en
-            cuánto tiempo, y qué pasa después (derivación a un asesor, agenda de visita técnica). Si usa un modelo de IA para leer la
-            factura, indicar cuál y qué precisión tiene. No inventar capacidades que no estén probadas.
-          </Pendiente>
-          <Pendiente title="Pendiente: capturas de pantalla reales" owner="equipo">
-            Pegar dos capturas: una de la captura de datos de la factura y otra de la simulación de ahorro. Reemplazan este recuadro.
-            Si el bot está operativo, agregar un código QR para que el tribunal lo pruebe en vivo; si no lo está, no incluir el QR.
-          </Pendiente>
-        </div>
-        <Body className="mt-4">
-          Relación con el informe: el modelo end-to-end (Tabla 3.12) describe las etapas 2 y 3 (calificación del lead y propuesta comercial)
-          a cargo de un asesor comercial en 1 a 3 días. El bot es una herramienta que automatiza parte de esas etapas; conviene presentarlo
-          así, como una mejora operativa sobre el proceso del informe.
-        </Body>
-      </Slide>
-    ),
-  },
-
-  {
-    nav: 'A29 · Casos de uso',
-    block: B,
-    node: (
-      <Slide block={B} chapter="Complementario, no está en el informe">
-        <Title>A29. Casos de uso: hogares tipo y resultados</Title>
-        <Body className="mt-3">
-          El informe trabaja con un único hogar tipo (N1, 400 kWh/mes, USD 100 de factura, cuota USD 58, ahorro USD 42). Para la defensa se
-          pueden mostrar variantes construidas con la misma metodología (E = P × GII × PR y la ecuación de ahorro).
-        </Body>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {[
-            ['Caso 1: consumo bajo del rango', 'Hogar sin subsidio con ~350 kWh/mes (R2/R3).'],
-            ['Caso 2: hogar tipo del informe', 'Hogar N1 con 400 kWh/mes: factura USD 100, cuota USD 58, ahorro USD 42 (42%).'],
-            ['Caso 3: consumo alto', 'Hogar con 700 a 800 kWh/mes (R6), donde el ahorro absoluto es mayor.'],
-          ].map(([t, d]) => (
-            <div key={t} className="rounded-lg border border-border bg-card/60 p-4">
-              <div className="font-serif text-sm font-semibold">{t}</div>
-              <p className="mt-1 text-xs text-muted-foreground">{d}</p>
-            </div>
-          ))}
-        </div>
-        <Pendiente className="mt-4" title="Pendiente: números de los casos 1 y 3" owner="equipo">
-          Calcular con el modelo financiero (misma tarifa ENRE 05/2026, mismo TC y UVA) la factura previa, la cuota y el ahorro para los
-          casos 1 y 3, y verificar que el ahorro neto supere el 20% mínimo del criterio de viabilidad. Solo el caso 2 tiene respaldo en el
-          informe (Tabla 4.2); los otros dos deben etiquetarse como cálculos complementarios.
-        </Pendiente>
-      </Slide>
-    ),
-  },
-
-  {
-    nav: 'A30 · Carta de oferta y aceptación',
+    nav: 'A28 · Carta de oferta y aceptación',
     block: B,
     node: (
       <Slide block={B} chapter="Contrato real de arrendamiento (piloto SolarPower)" source="Oferta de Alquiler de Sistemas Fotovoltaicos, SolarPower Energy S.A.S., 2026.">
-        <Title>A30. Cómo se perfecciona el contrato: no hay firma digital</Title>
+        <Title>A28. Cómo se perfecciona el contrato: no hay firma digital</Title>
         <Body className="mt-3">
           El mecanismo real no es una firma (digital ni manuscrita): SolarPower envía una carta de oferta con una vigencia de 15 días
           hábiles desde su recepción. La oferta se considera aceptada cuando el cliente transfiere el monto del pago inicial a la cuenta
@@ -438,11 +378,11 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A31 · Caso real del piloto',
+    nav: 'A29 · Caso real del piloto',
     block: B,
     node: (
       <Slide block={B} chapter="Contrato real de arrendamiento, piloto SolarPower (anonimizado)" source="Oferta y Contrato de Alquiler de Sistemas Fotovoltaicos, Anexo II, SolarPower Energy S.A.S., 2026. Datos del cliente omitidos por privacidad.">
-        <Title>A31. Caso real de un contrato vigente del piloto</Title>
+        <Title>A29. Caso real de un contrato vigente del piloto</Title>
         <div className="mt-3 grid gap-6 md:grid-cols-2">
           <Table
             align="left"
@@ -456,8 +396,6 @@ export const anexoB: SlideDef[] = [
               ['Opción de compra, mes 1 del Año 1', '6.021,86 UVA'],
               ['Opción de compra, mes 12 del Año 5', '5.621,75 UVA'],
               ['Plazo', '5 años, renovación automática'],
-              ['Configuración instalada (módulos, inversor)', <Pendiente key="1" title="">No figura en el contrato; pedir ficha técnica a Ricky</Pendiente>],
-              ['Producción real vs. estimada (monitoreo)', <Pendiente key="2" title="">Exportar de DEYE Cloud o FusionSolar</Pendiente>],
             ]}
           />
           <div className="flex flex-col gap-3">
@@ -467,9 +405,9 @@ export const anexoB: SlideDef[] = [
               ni comparar directamente con las del capítulo 4. Sirve como evidencia de que el modelo de arrendamiento, la opción de compra
               decreciente y la cláusula de salida ya operan en la práctica, no como el caso base del análisis financiero.
             </Body>
-            <Pendiente title="Pendiente: gráficos de monitoreo real" owner="Ricky">
-              Exportar de DEYE Cloud o FusionSolar la producción mensual real del último año y compararla contra la tabla estimada del
-              Anexo II del contrato. Si existe, agregar la factura eléctrica antes y después.
+            <Pendiente title="Pendiente" owner="Ricky">
+              Falta la ficha técnica del sistema (módulos, inversor) y el monitoreo real (DEYE Cloud o FusionSolar) para comparar
+              producción real vs. estimada.
             </Pendiente>
           </div>
         </div>
@@ -479,19 +417,15 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A32 · Material pendiente',
+    nav: 'A30 · Material pendiente',
     block: B,
     node: (
       <Slide block={B} chapter="Control interno del equipo">
-        <Title>A32. Material que falta completar en la presentación</Title>
+        <Title>A30. Material que falta completar en la presentación</Title>
         <Bullets
           className="mt-4"
           items={[
-            'Producción real monitoreada del caso del piloto: gráficos de DEYE Cloud o FusionSolar (slides Piloto operativo y A31). Responsable: Ricky.',
-            'Ficha técnica (módulos, inversor) del sistema del caso real del piloto (A31). Responsable: Ricky.',
-            'Bot de WhatsApp: descripción real y capturas (A28). Responsable: equipo.',
-            'Casos de uso 1 y 3: calcular con el modelo financiero (A29). Responsable: equipo.',
-            'Columna "Origen" de los supuestos financieros: completar con cotización, experiencia o estimación (slide Origen de los supuestos).',
+            'Ficha técnica y monitoreo real (DEYE Cloud o FusionSolar) del caso del piloto en A29. Responsable: Ricky.',
           ]}
         />
       </Slide>
@@ -499,11 +433,11 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A32b · Correcciones numéricas del informe',
+    nav: 'A31 · Correcciones numéricas del informe',
     block: B,
     node: (
       <Slide block={B} chapter="Control interno del equipo">
-        <Title>A32b. Correcciones numéricas que el tribunal puede detectar</Title>
+        <Title>A31. Correcciones numéricas que el tribunal puede detectar</Title>
         <Bullets
           dense
           className="mt-4"
@@ -525,11 +459,11 @@ export const anexoB: SlideDef[] = [
   },
 
   {
-    nav: 'A32c · Correcciones de contenido del informe',
+    nav: 'A32 · Correcciones de contenido del informe',
     block: B,
     node: (
       <Slide block={B} chapter="Control interno del equipo">
-        <Title>A32c. Correcciones de figuras y contenido</Title>
+        <Title>A32. Correcciones de figuras y contenido</Title>
         <Bullets
           dense
           className="mt-4"

@@ -1,4 +1,4 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table, Bars, Lines, BarsPlusLine, HBars, RiskGrid, Pendiente } from './primitives'
+import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table, Bars, Lines, BarsPlusLine, HBars, RiskGrid } from './primitives'
 import type { SlideDef } from './types'
 import { Hi, Bad, Ok } from './types'
 
@@ -49,51 +49,19 @@ export const financiero: SlideDef[] = [
               ['OPEX directo por sistema', 'USD 80/año, +3% anual', 'Inflación de mano de obra local'],
               ['Plazo del contrato', '5 años + renovación automática', 'Horizonte de análisis 15 años = tres ciclos'],
               ['Amortización contable', '5 años lineal (USD 400/sistema/año)', 'Coincide con el plazo contractual; genera escudo fiscal en la fase de inversión'],
-              ['Tasa de churn', '0%', 'Cláusula de salida (reintegro de USD 600) y ahorro neto de USD 42/mes desincentivan la rescisión'],
+              ['Tasa de churn', '0%', 'Cláusula de salida (pago del costo de desinstalación) y ahorro neto de USD 42/mes desincentivan la rescisión'],
               ['Impuesto a las ganancias', '35%', 'Con traslado de quebrantos hasta absorción total'],
               ['EMBI+ Argentina', '450 bps', 'Valor al 05/07/2026: 412 bps, redondeado conservadoramente. Mínimo desde agosto de 2019 (2.400 bps en dic-2023)'],
               ['TREMA', '13% anual en USD', 'CAPM: rf 4,50% + β 0,71 × ERP 5,50% + 4,50% riesgo país'],
             ]}
           />
         </div>
-        <Pendiente title="Supuesto metodológico: USD constantes y paridad de poder adquisitivo" owner="para revisar con Hernán">
+        <Body className="mt-4">
           Todo el capítulo 4 está en USD constantes: flujos y TREMA son magnitudes reales, sin un componente adicional de inflación en
           dólares. Esto asume que el tipo de cambio real ARS/USD se mantiene estable en el horizonte de evaluación (paridad de poder
           adquisitivo). Bajo ese supuesto, una cuota fija en UVA equivale a una cuota fija en USD reales, que es como se presenta en todo
-          el modelo. Si en cambio se quisiera modelar una depreciación real del peso, habría que definir esa tasa y recalcular el
-          capítulo 4 completo.
-        </Pendiente>
-      </Slide>
-    ),
-  },
-
-  {
-    nav: 'Origen de los supuestos financieros',
-    block: B,
-    node: (
-      <Slide block={B} chapter="Informe 4.1 a 4.3" source="Elaboración propia. Columna 'Origen' pendiente de completar por el equipo.">
-        <Title>De dónde sale cada supuesto del modelo</Title>
-        <Lead>Antes de la defensa conviene poder responder, para cada número, si viene de una cotización real, de la experiencia del
-        piloto, o de una estimación propia.</Lead>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Supuesto', 'Valor usado', 'Origen (a completar por el equipo)']}
-            rows={[
-              ['CAPEX llave en mano', 'USD 3.000/sistema', 'Cotización de importación 2026 o estimación'],
-              ['OPEX directo (mantenimiento + seguro + correctivo)', 'USD 80/año, +3% anual', <Bad key="2">Sin origen confirmado: revisar</Bad>],
-              ['Seguro contra granizo', 'Incluido en OPEX', 'Verificar contra póliza real, si existe'],
-              ['CAC objetivo', '≤ USD 250/contrato', 'Benchmark Sunrun o estimación propia'],
-              ['Costos corporativos (Años 1 a 5)', 'USD 100k a 350k/año', 'Presupuesto propio o estimación'],
-              ['Morosidad esperada', '< 3%/mes', 'Benchmark Sunrun (1,8% default); sin dato propio todavía'],
-            ]}
-          />
-        </div>
-        <Pendiente className="mt-4" title="Pendiente: completar la columna de origen" owner="equipo">
-          El objetivo es que el tribunal vea que cada supuesto tiene una fuente identificable. El OPEX de USD 80 quedó marcado en la
-          revisión interna como sin origen claro: sostenerlo con una cotización o una estimación explícita antes de la defensa.
-        </Pendiente>
+          el modelo.
+        </Body>
       </Slide>
     ),
   },
@@ -163,11 +131,11 @@ export const financiero: SlideDef[] = [
               esencialmente completada (Años 4 y 5). A partir del Año 6 no se instalan sistemas nuevos en el escenario base, por lo que
               los ingresos quedan constantes en USD.
             </Body>
-            <Pendiente title="Aclaración: por qué la cuota en USD no lleva inflación en dólares">
+            <Body>
               La cuota está fijada en UVA, que sigue el IPC argentino, y se reporta en USD constantes bajo el supuesto de paridad de
               poder adquisitivo (nota en Supuestos del modelo). Por eso el equivalente en USD de una cuota ya firmada se mantiene estable
               en términos reales durante todo el contrato, sin necesidad de indexarla por una inflación en dólares aparte.
-            </Pendiente>
+            </Body>
           </div>
         </div>
       </Slide>
@@ -572,10 +540,6 @@ export const financiero: SlideDef[] = [
               valor de forma leve (VAN de USD -30.368 sobre USD 6,75 M invertidos, apenas 0,45% de la inversión). La conclusión de
               viabilidad del trabajo se apoya en el escenario base, no en el optimista.
             </Body>
-            <Pendiente title="Nota para el equipo: VAN base en Tabla 4.18">
-              La Tabla 4.18 del informe (y la Tabla 5 del resumen) muestran VAN base de USD 2.720.580. El valor correcto, consistente con
-              las Tablas 4.13 y 4.14 y con las conclusiones, es USD 2.684.787. Corregir antes de la defensa.
-            </Pendiente>
           </div>
         </div>
       </Slide>
@@ -630,7 +594,7 @@ export const financiero: SlideDef[] = [
               items={[
                 <><Bad>F2 (índice 15)</Bad>: el CAPEX de USD 8 M excede la capacidad de autofinanciamiento de una empresa nueva. Mitigación: bancos locales, fondos verdes, multilaterales, flota como colateral.</>,
                 <><Hi>M3 (índice 10)</Hi>, congelamiento tarifario: cláusula de revisión de cuota y diversificación hacia almacenamiento con baterías.</>,
-                <>O5, rescisión anticipada, baja a índice 4 por la cláusula de reintegro del downpayment y el ahorro neto de USD 42/mes.</>,
+                <>O5, rescisión anticipada, baja a índice 4 por la cláusula de salida (pago del costo de desinstalación) y el ahorro neto de USD 42/mes.</>,
               ]}
             />
           </div>
