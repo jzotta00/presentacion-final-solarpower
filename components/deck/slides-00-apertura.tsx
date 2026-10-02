@@ -38,7 +38,7 @@ export const apertura: SlideDef[] = [
             <span>Sarti, Ricardo (102433)</span>
             <span>Zotta, Jerónimo (103865)</span>
           </div>
-          <div className="mt-1 text-sm text-muted-foreground">Tutor: Hernán · Buenos Aires, 2026</div>
+          <div className="mt-1 text-sm text-muted-foreground">Tutor: Hernán Terzolo · Buenos Aires, 2026</div>
         </div>
       </div>
     ),
