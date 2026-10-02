@@ -1,20 +1,24 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Funnel, ArgentinaMap, HBars } from './primitives'
+import { Landmark, TrendingUp, Users, Cpu, Leaf, Scale, Swords, Target, ShieldCheck, Sun } from 'lucide-react'
+import { ArgentinaMap } from './primitives'
 import type { SlideDef } from './types'
-import { Hi, Bad, Ok } from './types'
-import { PorterDiagram, Stars } from './diagrams'
+import { Frame, H, Hl, Kicker, Big, Stat, Chip, Panel, IconCard, BlockDivider, FunnelBars, PorterLite, Dots, COLOR } from './impact'
 
 const B = '2 · Mercado'
+
+const SP1 = 'oklch(0.55 0.13 162)'
+const SP2 = 'oklch(0.66 0.17 55)'
+const SP3 = 'oklch(0.55 0.05 255)'
 
 export const mercado: SlideDef[] = [
   {
     nav: 'Bloque 2',
     block: B,
     node: (
-      <Divider
+      <BlockDivider
         number="2"
         title="Estudio de mercado"
-        subtitle="Entorno, recurso solar, dimensionamiento del mercado técnicamente viable y análisis estratégico."
-        items={['PESTELCO', 'Recurso solar', 'Embudo del Censo 2022', 'Segmentación SP1 · SP2 · SP3', 'Porter, FODA, FCE', 'Benchmark Sunrun']}
+        hook="Cuántas casas pueden tener solar, quién compite y por qué ahora."
+        topics={['PESTELCO', 'Recurso solar', 'Embudo del Censo', 'SP1 · SP2 · SP3', 'Porter y FODA', 'Caso Sunrun']}
       />
     ),
   },
@@ -23,25 +27,38 @@ export const mercado: SlideDef[] = [
     nav: 'PESTELCO',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.1.6, Tabla 2.14" source="Elaboración propia con base en ENRE (05/2026), INDEC (Censo 2022, IPC feb-2026), BCRA (UVA 30/03/2026), Secretaría de Energía, NDC Argentina 2021, INTI/CADER (2024).">
-        <Title>Análisis PESTELCO: entorno favorable en las siete dimensiones</Title>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Dimensión', 'Factores clave', 'Impacto']}
-            rows={[
-              ['Política', 'Ley 27.424, DNU 70/2023, Res. SE 235/2024, compromiso COP26 (reducir 30% emisiones al 2030), normalización tarifaria', <Ok key="p">Favorable</Ok>],
-              ['Económica', 'Inflación 211% (2023), 118% (2024), 33,1% i.a. (feb-2026). Cargo variable $144 a $185/kWh sin impuestos. Paneles -98,7% FOB desde 2017. UVA $1.850,06 (30/03/2026)', <Ok key="e">Muy favorable</Ok>],
-              ['Social', '68,9% de hogares propietarios (Censo 2022); 92,46% urbanización; ~70% de usuarios sin subsidio; penetración digital > 85% en AMBA', <Ok key="s">Favorable</Ok>],
-              ['Tecnológica', 'TOPCon +580 Wp (eficiencia 20 a 25%); inversores de string DEYE y Huawei con monitoreo integrado; medidores en cada sistema', <Ok key="t">Favorable</Ok>],
-              ['Ecológica', 'Factor de emisión SADI 0,307 kgCO₂e/kWh; Ley 27.520 de cambio climático; meta -30% GEI al 2030', <Ok key="ec">Favorable</Ok>],
-              ['Legal', 'Ley 24.240 (Defensa del Consumidor); reglamentos ENRE de conexión; contrato UVA con respaldo BCRA; UIF Res. 76/2019', <span key="l" className="font-semibold">Neutro a favorable</span>],
-              ['Competitiva', 'Ninguna empresa ofrece arrendamiento solar con cuota UVA; más de 50 instaladoras de venta directa en AMBA; primer censo fotovoltaico INTI/CADER (jun-2024)', <Ok key="c">Muy favorable</Ok>],
-            ]}
-          />
+      <Frame block={B} source="ENRE 05/2026, INDEC (Censo 2022), BCRA, Secretaría de Energía, NDC Argentina 2021, INTI/CADER">
+        <H size="lg" className="max-w-[1050px]">
+          El entorno acompaña en <Hl g>las siete dimensiones</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-4 grid-rows-2 gap-4 pb-5">
+          {[
+            [Landmark, 'Política', 'Ley 27.424 y normalización tarifaria', 'Favorable', 'green'],
+            [TrendingUp, 'Económica', 'Tarifas al alza y paneles 98,7% más baratos desde 2017', 'Muy favorable', 'green'],
+            [Users, 'Social', '68,9% de los hogares son propietarios', 'Favorable', 'green'],
+            [Cpu, 'Tecnológica', 'Módulos de 580 Wp y monitoreo remoto', 'Favorable', 'green'],
+            [Leaf, 'Ecológica', 'Meta nacional de bajar 30% las emisiones al 2030', 'Favorable', 'green'],
+            [Scale, 'Legal', 'Defensa del Consumidor y reglas del ENRE', 'Neutro a favorable', 'sun'],
+            [Swords, 'Competitiva', 'Nadie ofrece arrendamiento con cuota en UVA', 'Muy favorable', 'green'],
+          ].map(([I, t, d, v, tone]) => {
+            const Ic = I as typeof Landmark
+            return (
+              <div key={t as string} className="flex flex-col rounded-2xl border border-black/10 bg-white/70 p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <Ic className="h-8 w-8 text-ink/60" strokeWidth={1.8} />
+                  <Chip tone={tone as 'green' | 'sun'} className="!px-3 !py-1 !text-[15px]">{v as string}</Chip>
+                </div>
+                <div className="mt-3 font-serif text-[25px] font-bold leading-tight">{t as string}</div>
+                <div className="mt-1.5 text-[17px] leading-snug opacity-75">{d as string}</div>
+              </div>
+            )
+          })}
+          <div className="flex flex-col justify-center rounded-2xl bg-ink p-5 text-white">
+            <div className="font-serif text-[64px] font-extrabold leading-none text-[oklch(0.8_0.16_78)]">0</div>
+            <div className="mt-2 text-[19px] leading-snug text-white/80">dimensiones en contra</div>
+          </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -49,26 +66,18 @@ export const mercado: SlideDef[] = [
     nav: 'Recurso solar',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.2.7 y 3.2.4" source="Global Solar Atlas (Solargis / World Bank); PVGIS (Comisión Europea), Buenos Aires, inclinación 34°, orientación norte.">
-        <Title>Recurso solar: moderado en el AMBA, suficiente para el modelo</Title>
-        <div className="mt-6 grid gap-4 md:grid-cols-4">
-          <Stat tone="primary" value="1.600 a 1.700" label="kWh/m²/año de irradiación horizontal global (GHI) en Buenos Aires y AMBA" />
-          <Stat value="1.700 a 2.700" label="kWh/m²/año de GHI en el país: desde la región pampeana hasta la Puna jujeña, una de las zonas de mayor recurso del mundo" />
-          <Stat tone="primary" value="1.985" label="kWh/m²/año de irradiación sobre plano inclinado (GII) en Buenos Aires a 34° norte, según PVGIS" />
-          <Stat value="1,5 a 6,3" label="kWh/m²/día: variación estacional en el AMBA entre invierno y verano" />
+      <Frame block={B} source="Global Solar Atlas (Solargis, Banco Mundial); PVGIS (Comisión Europea), Buenos Aires, 34° norte">
+        <H size="lg" className="max-w-[1050px]">
+          Sol suficiente para el negocio, y <Hl>donde está la gente</Hl>
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1.2fr_1fr] items-center gap-10 pb-6">
+          <Big value="1.985" unit="kWh/m²/año" size={190} tone="sun" caption="de irradiación sobre plano inclinado en Buenos Aires" />
+          <div className="flex flex-col gap-8">
+            <Stat value="37%" size={72} tone="green" label="de la población del país vive en el AMBA" />
+            <Stat value="1.600 a 1.700" size={52} tone="ink" label="kWh/m²/año de irradiación horizontal en el AMBA" />
+          </div>
         </div>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Body>
-            La irradiación del AMBA es inferior a la del NOA y Cuyo, donde se concentra la fotovoltaica de gran escala. Pero el
-            mercado residencial se decide por otra variable: la densidad de hogares con alto consumo, alta tarifa y capacidad de pago.
-            El AMBA concentra el 37% de la población nacional.
-          </Body>
-          <Body>
-            Con este recurso, el sistema estándar de 5,22 kWp genera más que el consumo anual de un hogar N1 típico (ver Estudio
-            técnico), lo que asegura la cobertura incluso con la degradación de los módulos a lo largo del contrato.
-          </Body>
-        </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -76,34 +85,23 @@ export const mercado: SlideDef[] = [
     nav: 'Embudo del Censo 2022',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.3.2 y 2.3.3, Tabla 2.5" source="INDEC, Censo Nacional de Población, Hogares y Viviendas 2022 (resultados definitivos, 2023); IRENA, CNEA, INTI; Mapa del Potencial Solar de CABA (GCBA). Elaboración propia.">
-        <Title>Del universo censal al mercado técnicamente viable</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Funnel
+      <Frame block={B} source="INDEC, Censo 2022; IRENA, CNEA, INTI; Mapa del Potencial Solar de CABA. Elaboración propia">
+        <H size="lg" className="max-w-[1100px]">
+          De casi 12 millones de casas a <Hl g>4.000 clientes</Hl>
+        </H>
+        <div className="mt-6 flex flex-1 items-start justify-center pb-4">
+          <FunnelBars
+            w={1000}
             steps={[
-              { label: 'Casas consideradas en el embudo (Censo 2022)', value: 11900361, display: '11,90 M', note: 'Total país de casas: 12,04 M (informe 2.3.2). Excluye departamentos, ranchos y casillas' },
-              { label: 'Filtro 1: materiales de techo y piso', value: 7104316, display: '7,10 M', note: 'Retiene 59,7% (proxy estructural y socioeconómico)', tone: 'primary' },
-              { label: 'Filtro 2: superficie, orientación y sombra', value: 3552157, display: '3,55 M', note: 'Retiene 50% (IRENA, CNEA, INTI; Mapa de Techos CABA)', tone: 'primary' },
-              { label: 'SP1: CABA + 24 partidos del GBA', value: 954152, display: '954.152', note: 'Mercado primario, años 1 a 5', tone: 'accent' },
-              { label: 'Alcance evaluado en este trabajo', value: 4000, display: '4.000', note: '0,42% de SP1 en 5 años', tone: 'default' },
+              { display: '11,9 M', label: 'casas (Censo 2022)', value: 11900361, tone: 'ink' },
+              { display: '7,1 M', label: 'techo y piso aptos · retiene 59,7%', value: 7104316, tone: 'ink' },
+              { display: '3,55 M', label: 'superficie, orientación y sombra · 50%', value: 3552157, tone: 'sun' },
+              { display: '954.152', label: 'en CABA y 24 partidos (SP1)', value: 954152, tone: 'sun' },
+              { display: '4.000', label: 'meta a 5 años · 0,42% de SP1', value: 4000, tone: 'green' },
             ]}
           />
-          <div className="flex flex-col gap-3">
-            <Body>
-              <Hi>Filtro 1</Hi>: techo de baldosa, membrana, teja, losa o chapa con cielorraso, y piso de cerámica, madera, cemento
-              alisado o similar. Es más exigente que la clasificación tarifaria (70% sin subsidio), por lo que subsume la dimensión
-              socioeconómica y evita doble conteo.
-            </Body>
-            <Body>
-              <Hi>Filtro 2</Hi>: pendiente menor a 45°, orientación norte (noreste y noroeste rinden 80 a 90% del óptimo) y ausencia de
-              sombreado por linderos, tanques y antenas. Se adoptó el valor conservador de 50%.
-            </Body>
-            <Body>
-              Se excluye Tierra del Fuego por baja irradiación y no se cuentan viviendas de verano ni locales comerciales.
-            </Body>
-          </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -111,38 +109,43 @@ export const mercado: SlideDef[] = [
     nav: 'Segmentación SP1 · SP2 · SP3',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.3.5 a 2.3.8, Tabla 2.10" source="Elaboración propia en base a INDEC, Censo 2022 (viviendas aptas tras filtros 1 y 2).">
-        <Title>Tres niveles de expansión geográfica</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[2fr_3fr]">
-          <div className="h-full min-h-0">
+      <Frame block={B} source="INDEC, Censo 2022 (viviendas aptas tras filtros 1 y 2). Elaboración propia">
+        <H size="lg" className="max-w-[1050px]">
+          Entramos por el <Hl g>AMBA</Hl> y después expandimos
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1fr_1.1fr] items-center gap-8 pb-5">
+          <div className="flex h-[420px] items-center justify-center">
             <ArgentinaMap
+              height={420}
+              labels={false}
               groups={[
-                { name: 'SP1 · Mercado primario', postals: ['Ciudad de Buenos Aires'], fill: 'oklch(0.74 0.15 162)', marker: true, label: 'CABA + AMBA · 954.152 viviendas aptas · Años 1 a 5' },
-                { name: 'SP2 · Mercado secundario', postals: ['Buenos Aires', 'CB', 'SF'], fill: 'oklch(0.79 0.155 72)', label: 'Prov. Buenos Aires, Córdoba, Santa Fe · 1.169.475 · Años 4 a 8' },
-                { name: 'SP3 · Expansión nacional', postals: ['MZ', 'SJ', 'SA', 'JY', 'TM', 'ER', 'SL', 'LR', 'CT', 'SE', 'CC', 'FM', 'MN', 'CN', 'LP', 'NQ', 'RN', 'CH', 'SC'], fill: 'oklch(0.5 0.06 255)', label: 'Resto del país · 1.428.531 · Años 7 a 10+' },
+                { name: 'SP1', postals: ['Ciudad de Buenos Aires'], fill: SP1, marker: true },
+                { name: 'SP2', postals: ['Buenos Aires', 'CB', 'SF'], fill: SP2 },
+                { name: 'SP3', postals: ['MZ', 'SJ', 'SA', 'JY', 'TM', 'ER', 'SL', 'LR', 'CT', 'SE', 'CC', 'FM', 'MN', 'CN', 'LP', 'NQ', 'RN', 'CH', 'SC'], fill: SP3 },
               ]}
             />
           </div>
-          <div className="flex flex-col gap-4">
-            <Table
-              headers={['Segmento', 'Viviendas aptas', 'Fase']}
-              rows={[
-                ['SP1 · CABA + AMBA', '954.152', 'Años 1 a 5'],
-                ['SP2 · Prov. Bs. As. + Córdoba + Santa Fe', '1.169.475', 'Años 4 a 8'],
-                ['SP3 · Resto del país', '1.428.531', 'Años 7 a 10+'],
-                ['Total país', '3.552.157', ''],
-              ]}
-              highlightLast
-            />
-            <Body>
-              El AMBA (incluido en la Provincia de Buenos Aires en el mapa) se eligió como entrada por cinco razones: densidad y
-              poder adquisitivo, presencia de Edenor y Edesur adheridas a la Ley 27.424, infraestructura eléctrica robusta, mayor
-              conciencia ambiental en N1/N3 y disponibilidad de instaladores certificados. Córdoba, con 815 usuarios-generadores y 157
-              distribuidoras adheridas, es el primer paso natural de SP2.
-            </Body>
+          <div className="flex flex-col gap-5">
+            {[
+              ['SP1', 'CABA y AMBA', '954.152', 'Años 1 a 5', SP1],
+              ['SP2', 'Buenos Aires, Córdoba y Santa Fe', '1.169.475', 'Años 4 a 8', SP2],
+              ['SP3', 'Resto del país', '1.428.531', 'Años 7 a 10+', SP3],
+            ].map(([k, n, v, y, c]) => (
+              <div key={k} className="flex items-center gap-5 rounded-2xl border border-black/10 bg-white/70 px-6 py-4 shadow-sm">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl font-serif text-[22px] font-extrabold text-white" style={{ background: c }}>
+                  {k}
+                </span>
+                <div className="flex-1">
+                  <div className="font-serif text-[38px] font-extrabold leading-none tabular-nums">{v}</div>
+                  <div className="mt-1 text-[18px] opacity-70">{n}</div>
+                </div>
+                <div className="text-[18px] font-semibold opacity-65">{y}</div>
+              </div>
+            ))}
+            <div className="text-[17px] opacity-65">Viviendas técnicamente aptas por segmento. Total país: 3.552.157.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -150,33 +153,41 @@ export const mercado: SlideDef[] = [
     nav: 'Consumo y categoría objetivo',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.3.1 y 2.3.4, Tabla 2.6" source="Ministerio de Energía (estudios de eficiencia); ENRE, cuadros tarifarios Edenor/Edesur 05/2026; Decreto 332/2022 (segmentación tarifaria).">
-        <Title>El cliente objetivo: hogar sin subsidio, consumo de 350 a 800 kWh/mes</Title>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <Table
-            align="left"
-            headers={['Categoría', 'Descripción', '% usuarios', 'Cargo variable 05/2026']}
-            rows={[
-              ['Sin subsidio (ex-N1 y ex-N3)', 'Tarifa plena', '~70%', '$144 a $185/kWh sin impuestos (R1 a R6)'],
-              ['Con subsidio (N2)', 'Subsidio parcial en reducción', '~30%', '$70 a $86/kWh consumo base; tarifa plena sobre el excedente'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Stat tone="primary" value="200 a 500 kWh/mes" label="consumo promedio del hogar residencial AMBA según tamaño, época y equipamiento" />
-            <Stat tone="accent" value="350 a 800 kWh/mes" label="rango objetivo de SolarPower (4.200 a 9.600 kWh/año), donde el ahorro absoluto es mayor" />
+      <Frame block={B} source="Ministerio de Energía; ENRE 05/2026; Decreto 332/2022 (segmentación tarifaria)">
+        <H size="lg" className="max-w-[1100px]">
+          Nuestro cliente: hogar <Hl>sin subsidio</Hl> que consume 350 a 800 kWh por mes
+        </H>
+        <div className="mt-8 grid flex-1 grid-cols-[1.5fr_1fr] items-center gap-10 pb-6">
+          <div className="flex flex-col gap-8">
+            {[
+              ['Hogar promedio del AMBA', 200, 500, COLOR.mute],
+              ['Objetivo de SolarPower', 350, 800, COLOR.sun],
+            ].map(([l, a, b, c]) => (
+              <div key={l as string}>
+                <div className="mb-2 text-[21px] font-semibold">{l as string}</div>
+                <div className="relative h-14 rounded-xl bg-black/[0.06]">
+                  <div
+                    className="absolute inset-y-0 flex items-center justify-center rounded-xl font-serif text-[24px] font-extrabold text-white"
+                    style={{ left: `${((a as number) / 900) * 100}%`, width: `${(((b as number) - (a as number)) / 900) * 100}%`, background: c as string }}
+                  >
+                    {a as number} a {b as number}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="flex justify-between text-[16px] opacity-55">
+              <span>0</span>
+              <span>300</span>
+              <span>600</span>
+              <span>900 kWh/mes</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Big value="~70%" size={110} tone="sun" caption="de los usuarios paga tarifa plena. Es nuestro primer segmento" />
+            <Chip tone="green">A medida que se normalice, el N2 es el segundo mercado</Chip>
           </div>
         </div>
-        <div className="mt-6">
-          <Bullets
-            dense
-            items={[
-              <>Prioridad inicial: <Hi>segmento sin subsidio</Hi>, porque paga tarifa plena (maximiza el ahorro percibido), tiene mayor capacidad de pago y es más receptivo al argumento ambiental.</>,
-              <>A medida que la normalización avance sobre el N2, ese segmento se convierte en el segundo mercado prioritario.</>,
-              <>El consumo base subsidiado es 300 kWh/mes en verano e invierno y 150 kWh/mes en meses templados: el excedente ya se paga a tarifa plena.</>,
-            ]}
-          />
-        </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -184,45 +195,20 @@ export const mercado: SlideDef[] = [
     nav: 'Cinco fuerzas de Porter',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.6.1 (Figura 2.14 recreada)" source="Elaboración propia (Porter, 2008). Contenido según sección 2.6.1 del informe.">
-        <Title>Cinco fuerzas de Porter: un nicho sin rivalidad directa</Title>
-        <div className="mt-3 min-h-0 flex-1">
-          <PorterDiagram
-            forces={{
-              top: {
-                title: 'Amenaza de nuevos entrantes',
-                level: 'Media',
-                tone: 'primary',
-                items: ['Barreras: capital intensivo, contratos de largo plazo, red de instaladores, plataforma de monitoreo', 'No insuperables en 3 a 5 años para un actor con capital'],
-              },
-              left: {
-                title: 'Poder de proveedores',
-                level: 'Medio',
-                tone: 'primary',
-                items: ['Múltiples importadores: LONGi, JA Solar, Trina, Canadian; DEYE, Huawei, Growatt', 'Estrategia: 2 a 3 proveedores por componente'],
-              },
-              center: {
-                title: 'Rivalidad entre competidores',
-                level: 'Baja',
-                tone: 'accent',
-                items: ['Ninguna empresa ofrece arrendamiento estructurado con cuota UVA, mantenimiento y monitoreo', 'Los actuales son instaladores de venta directa'],
-              },
-              right: {
-                title: 'Poder de clientes',
-                level: 'Bajo a medio',
-                tone: 'accent',
-                items: ['Hogares individuales, oferta nueva, contrato estándar', 'Crece con la madurez del mercado'],
-              },
-              bottom: {
-                title: 'Amenaza de sustitutos',
-                level: 'Media a alta',
-                tone: 'destructive',
-                items: ['Compra directa con crédito accesible', 'Eficiencia energética del hogar', 'Seguir pagando la tarifa y esperar'],
-              },
-            }}
+      <Frame block={B} source="Elaboración propia (Porter, 2008)">
+        <H size="md" className="max-w-[1050px]">
+          Cinco fuerzas de Porter: un nicho <Hl g>sin rival directo</Hl>
+        </H>
+        <div className="mt-4 min-h-0 flex-1 pb-4">
+          <PorterLite
+            top={{ title: 'Nuevos entrantes', level: 'Media', tone: 'sun', line: 'Exige capital, contratos largos y red de instaladores' }}
+            left={{ title: 'Proveedores', level: 'Medio', tone: 'sun', line: 'Varios importadores: 2 a 3 por componente' }}
+            center={{ title: 'Rivalidad entre competidores', level: 'Baja', tone: 'green', line: 'Nadie ofrece arrendamiento con cuota en UVA' }}
+            right={{ title: 'Clientes', level: 'Bajo a medio', tone: 'green', line: 'Hogares individuales y contrato estándar' }}
+            bottom={{ title: 'Sustitutos', level: 'Media a alta', tone: 'red', line: 'Compra con crédito, eficiencia o seguir esperando' }}
           />
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -230,29 +216,29 @@ export const mercado: SlideDef[] = [
     nav: 'FODA',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.6.2, Tabla 2.11" source="Elaboración propia.">
-        <Title>FODA de SolarPower Energy</Title>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <Frame block={B} source="Elaboración propia">
+        <H size="md">FODA de SolarPower Energy</H>
+        <div className="mt-5 grid flex-1 grid-cols-2 grid-rows-2 gap-4 pb-5">
           {[
-            ['Fortalezas', 'border-accent/40 bg-accent/10', ['Baja barrera de entrada: USD 600 de inicial', 'Tecnología DEYE/Huawei confiable con monitoreo remoto', 'Primer entrante en arrendamiento solar residencial en Argentina', 'Equipo con conocimiento técnico y financiero combinado', 'Contrato en UVA: protección real de los ingresos', 'Piloto operativo de más de 20 instalaciones exitosas']],
-            ['Oportunidades', 'border-primary/40 bg-primary/10', ['Normalización tarifaria: aumento de facturas eléctricas', 'Mercado técnico de más de 3,5 M de viviendas aptas', 'Caída sostenida del precio de equipos', 'Reactivación del crédito UVA en 2024 (más de 11.000 hipotecas)', 'Creciente conciencia ambiental en segmentos medios y altos', 'Brecha enorme vs. mercados maduros (< 0,01% penetración)']],
-            ['Debilidades', 'border-destructive/40 bg-destructive/10', ['Alta intensidad de capital para escalar la cartera', 'Dependencia de financiamiento de largo plazo', 'Red de instaladores certificados limitada al inicio', 'Marca todavía poco conocida fuera del piloto', 'Modelo contractual complejo de explicar al cliente masivo', 'Historial crediticio y track record acotados al piloto operativo']],
-            ['Amenazas', 'border-border bg-card/60', ['Inestabilidad macro y riesgo de congelamiento tarifario', 'Dificultad de acceso a dólares para importar equipos', 'Entrada de competidores con mayor escala o respaldo', 'Reversión regulatoria de la normalización', 'Deterioro de la relación UVA / tarifa eléctrica', 'Resistencia del consumidor al arrendamiento de largo plazo']],
-          ].map(([t, cls, items]) => (
-            <div key={t as string} className={`rounded-lg border p-4 ${cls as string}`}>
-              <div className="font-serif font-semibold">{t as string}</div>
-              <ul className="mt-2 grid gap-1 text-xs leading-snug text-muted-foreground md:grid-cols-2 md:text-[13px]">
+            ['Fortalezas', 'green', ['USD 600 de entrada', 'Primer entrante del segmento', 'Piloto con más de 20 instalaciones']],
+            ['Oportunidades', 'sun', ['Normalización tarifaria', '3,5 M de viviendas aptas', 'Equipos cada vez más baratos']],
+            ['Debilidades', 'red', ['Mucho capital para escalar', 'Pocos instaladores certificados', 'Marca todavía chica']],
+            ['Amenazas', 'ink', ['Inestabilidad macroeconómica', 'Acceso a dólares para importar', 'Competidores con más escala']],
+          ].map(([t, tone, items]) => (
+            <div key={t as string} className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-black/10 bg-white/70 px-7 py-4 shadow-sm">
+              <div className="absolute inset-y-0 left-0 w-2.5" style={{ background: COLOR[tone as 'green'] }} />
+              <div className="font-serif text-[28px] font-extrabold leading-none" style={{ color: COLOR[tone as 'green'] }}>
+                {t as string}
+              </div>
+              <ul className="mt-3 flex flex-col gap-1.5 text-[22px] leading-snug">
                 {(items as string[]).map((i) => (
-                  <li key={i} className="flex gap-1.5">
-                    <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-current" />
-                    {i}
-                  </li>
+                  <li key={i}>{i}</li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -260,36 +246,37 @@ export const mercado: SlideDef[] = [
     nav: 'Factores críticos de éxito',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.6.3 (Figura 2.19 recreada)" source="Elaboración propia; benchmark Sunrun (Form 10-K 2023); piloto SolarPower. Escala: ★★★ alto, ★★ medio, ★ bajo, ☆ no aplica.">
-        <Title>Factores críticos de éxito frente a la competencia</Title>
-        <div className="mt-3 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Table
-            align="left"
-            compact
-            headers={['Factor crítico de éxito', 'SolarPower (proyectado)', 'Instaladores convencionales', 'Compra directa']}
-            rows={[
-              ['Modelo de cuota con pago inicial reducido', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" n={1} />],
-              ['Servicio de mantenimiento incluido', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
-              ['Monitoreo y garantía de producción', <Stars key="a" n={3} />, <Stars key="b" n={2} />, <Stars key="c" na />],
-              ['Indexación anti-inflación (UVA)', <Stars key="a" n={3} />, <Stars key="b" na />, <Stars key="c" na />],
-              ['Accesibilidad (pago inicial bajo)', <Stars key="a" n={3} />, <Stars key="b" n={1} />, <Stars key="c" na />],
-              ['Reputación y confianza de marca', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
-              ['Velocidad de instalación', <Stars key="a" n={2} />, <Stars key="b" n={2} />, <Stars key="c" n={3} />],
-              ['Flexibilidad del producto', <Stars key="a" n={2} />, <Stars key="b" n={3} />, <Stars key="c" n={2} />],
-            ]}
-          />
-          <Bullets
-            dense
-            items={[
-              <><Hi>Cuota con baja barrera de entrada</Hi> (FCE principal): USD 600 de inicial vs. USD 3.000 a 4.000 de compra directa.</>,
-              <><Hi>Mantenimiento incluido y garantía de producción</Hi>: producción mínima anual garantizada, con compensación en cuota si no se alcanza.</>,
-              <><Hi>Monitoreo en tiempo real</Hi>: producción, consumo, ahorro acumulado y CO₂ evitado visibles para el cliente.</>,
-              <><Hi>Indexación UVA</Hi>: protege el ingreso real de la empresa y mantiene el diferencial de ahorro del cliente.</>,
-              <><Hi>Reputación y confianza de marca</Hi>: desventaja inicial; se construye con referidos (cada referido reduce el CAC 40 a 60%), certificaciones ISO 9001 e IRAM.</>,
-            ]}
-          />
+      <Frame block={B} source="Elaboración propia; Sunrun (10-K 2023); piloto SolarPower">
+        <H size="md" className="max-w-[1100px]">
+          Ganamos donde al cliente <Hl>más le duele</Hl>
+        </H>
+        <div className="mt-5 flex-1 pb-4">
+          <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr] items-center gap-x-4 px-2 pb-3 text-[17px] font-bold uppercase tracking-wider opacity-60">
+            <div />
+            <div className="text-primary opacity-100">SolarPower</div>
+            <div>Instaladores</div>
+            <div>Compra directa</div>
+          </div>
+          {[
+            ['Pago inicial bajo', [3, 1, 1]],
+            ['Mantenimiento incluido', [3, 1, 0]],
+            ['Monitoreo y garantía de producción', [3, 2, 0]],
+            ['Cuota indexada (UVA)', [3, 0, 0]],
+            ['Reputación de marca', [2, 2, 3]],
+            ['Velocidad de instalación', [2, 2, 3]],
+          ].map(([l, v], i) => (
+            <div key={l as string} className={`grid grid-cols-[1.5fr_1fr_1fr_1fr] items-center gap-x-4 rounded-xl px-2 py-3 ${i % 2 === 0 ? 'bg-black/[0.04]' : ''}`}>
+              <div className="text-[22px] font-semibold">{l as string}</div>
+              {(v as number[]).map((n, k) => (
+                <div key={k}>
+                  <Dots n={n} na={n === 0} tone={k === 0 ? 'sun' : 'mute'} />
+                </div>
+              ))}
+            </div>
+          ))}
+          <div className="mt-3 px-2 text-[16px] opacity-60">Tres puntos es el nivel más alto. Dos filas donde somos iguales o más débiles, a propósito.</div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -297,33 +284,19 @@ export const mercado: SlideDef[] = [
     nav: 'Benchmark: Sunrun',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.4.7, Tabla 2.8" source="Sunrun Inc., Annual Report 2023 (Form 10-K, SEC); Sunrun Q4 2024 Earnings Release (GEA 2024). Elaboración propia.">
-        <Title>El modelo está validado a escala: Sunrun Inc. (NASDAQ: RUN)</Title>
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Stat tone="primary" value="933.275" label="clientes activos a diciembre de 2023" />
-          <Stat tone="primary" value="6,7 GW" label="capacidad fotovoltaica instalada (2023)" />
-          <Stat value="USD 2.260 M" label="ingresos totales 2023; más de USD 1.300 M recurrentes" />
-          <Stat tone="accent" value="1,8%" label="tasa de default en Solar Lease, frente a 4,2% en préstamos solares" />
+      <Frame tone="dark" block={B} source="Sunrun Inc., Form 10-K 2023 y Q4 2024 Earnings Release">
+        <Kicker>Caso de éxito · Sunrun (NASDAQ: RUN)</Kicker>
+        <H size="lg" className="mt-3 max-w-[1000px]">
+          El modelo ya <Hl>funciona a gran escala</Hl>
+        </H>
+        <div className="mt-auto grid grid-cols-[1fr_0.8fr_1.4fr_1.3fr] gap-8 pb-8">
+          <Stat value="933.275" size={46} tone="sun" label="clientes activos a diciembre de 2023" />
+          <Stat value="6,7 GW" size={46} tone="sun" label="de capacidad fotovoltaica instalada" />
+          <Stat value="USD 2.260 M" size={44} tone="white" label="de ingresos en 2023" />
+          <Stat value="1,8%" size={54} tone="green" label="de default en lease, contra 4,2% en préstamos solares" />
         </div>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            compact
-            headers={['Indicador Sunrun 2023', 'Valor', 'Lectura para SolarPower']}
-            rows={[
-              ['Plazo de contrato típico', '25 años', 'Referencia para el diseño 5 + 5 + 5'],
-              ['Cuota mensual típica', 'USD 75 a 200', 'Benchmark de pricing'],
-              ['Garantía de ahorro', '10 a 30%', 'Objetivo SolarPower: 30% mínimo'],
-              ['Gross Earning Assets (2024)', 'USD 17.800 M', 'La cartera de contratos es financiable y titulizable'],
-            ]}
-          />
-          <Body>
-            La baja morosidad se explica porque la cuota reemplaza un gasto que el hogar no puede evitar (la luz) en lugar de agregar
-            uno nuevo. Sunrun fue fundada en 2007 en San Francisco y escaló con una red de instaladores locales, comparable al modelo
-            de técnicos certificados que propone SolarPower.
-          </Body>
-        </div>
-      </Slide>
+        <div className="pb-2 text-[22px] text-white/70">La cuota reemplaza un gasto que el hogar ya tiene: la luz.</div>
+      </Frame>
     ),
   },
 
@@ -331,25 +304,24 @@ export const mercado: SlideDef[] = [
     nav: 'Conclusiones del mercado',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 2.8" source="Informe TPP, conclusiones del capítulo 2. Dato de usuarios-generadores 1S-2025: Energy-Box (jul-2025).">
-        <Title>Conclusiones del estudio de mercado</Title>
-        <div className="mt-4">
-          <Bullets
-            items={[
-              <>El marco regulatorio (Ley 27.424 + Res. SE 235/2024 + Res. SE 287/2025) garantiza el derecho a generar, inyectar y conectarse. El DNU 70/2023 encareció la compra directa y refuerza al arrendamiento.</>,
-              <>La normalización tarifaria es el driver económico central: aumentos superiores al 150% en doce meses para hogares N1 hacen perceptible el ahorro solar.</>,
-              <>Mercado de alta escala y prácticamente virgen: <Hi>2.918 usuarios-generadores</Hi> al primer semestre de 2025 sobre más de 3,5 millones de viviendas aptas. Solo SP1 suma <Hi>954.152</Hi>.</>,
-              <>PESTELCO favorable en todas las dimensiones; ausencia total de competidores en el nicho de arrendamiento.</>,
-              <>El piloto de más de 20 instalaciones valida los supuestos clave: baja barrera de entrada, cuota UVA competitiva y ahorro neto.</>,
-              <>Sunrun demuestra que el modelo es escalable y rentable; Argentina ofrece un mercado más virgen, sin competidores y con shock tarifario.</>,
-              <>Riesgos principales: acceso a capital de largo plazo, demoras de habilitación del medidor bidireccional y cambio regulatorio. Los tres son mitigables.</>,
-            ]}
-          />
+      <Frame block={B} source="Energy-Box (jul-2025) para usuarios-generadores 1S-2025">
+        <H size="lg" className="max-w-[1100px]">
+          Un mercado grande, <Hl>casi vacío</Hl> y con un motor claro
+        </H>
+        <div className="mt-8 grid grid-cols-4 gap-5">
+          <IconCard big icon={Scale} tone="green" title="Marco legal" text="Habilita generar, inyectar y conectarse" />
+          <IconCard big icon={TrendingUp} tone="sun" title="Tarifas en alza" text="Son el motor económico del ahorro" />
+          <IconCard big icon={Target} tone="green" title="954.152 viviendas" text="aptas en SP1, sin competidor directo" />
+          <IconCard big icon={ShieldCheck} tone="sun" title="Riesgos acotados" text="Capital, medidor y regulación: los tres mitigables" />
         </div>
-      </Slide>
+        <div className="mt-auto pb-4">
+          <Chip tone="ink" className="!text-[19px]">
+            <Sun className="h-5 w-5" /> 2.918 usuarios-generadores en el 1S 2025, sobre más de 3,5 M de viviendas aptas
+          </Chip>
+        </div>
+      </Frame>
     ),
   },
 ]
 
-void Lead
-void HBars
+void Panel

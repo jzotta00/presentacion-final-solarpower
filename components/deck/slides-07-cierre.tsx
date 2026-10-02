@@ -1,7 +1,7 @@
-import { Leaf } from 'lucide-react'
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table } from './primitives'
+import { Leaf, Zap, Target, Wrench, TrendingUp } from 'lucide-react'
+import { Slide, Title } from './primitives'
 import type { SlideDef } from './types'
-import { Hi } from './types'
+import { Frame, H, Hl, Kicker, Big, Stat, Chip, Panel, BlockDivider, COLOR } from './impact'
 
 const B = '7 · Cierre'
 
@@ -10,11 +10,11 @@ export const cierre: SlideDef[] = [
     nav: 'Bloque 7',
     block: B,
     node: (
-      <Divider
+      <BlockDivider
         number="7"
         title="Impacto y conclusiones"
-        subtitle="Contribución ambiental, social y sectorial; limitaciones del estudio; viabilidad integral."
-        items={['Impacto ambiental', 'Limitaciones y trabajo futuro', 'Viabilidad integral', 'Bibliografía']}
+        hook="Lo que cambia para el hogar, para el sector y para el país."
+        topics={['Impacto ambiental', 'Limitaciones', 'Viabilidad integral']}
       />
     ),
   },
@@ -23,44 +23,23 @@ export const cierre: SlideDef[] = [
     nav: 'Impacto ambiental',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 5.3 y 2.1.6.5" source="Factor de emisión de la red SADI 2023: 0,307 kgCO₂e/kWh (Secretaría de Energía / IPCC). Meta nacional: 1 GW de generación distribuida a 2030; NDC Argentina 2021 (UNFCCC).">
-        <div className="flex items-center gap-2 text-accent">
-          <Leaf className="h-5 w-5" />
-          <span className="text-sm font-semibold">Contribución al sector y al país</span>
+      <Frame tone="green" block={B} source="Factor de emisión de la red SADI 2023: 0,307 kgCO₂e/kWh (Secretaría de Energía, IPCC); NDC Argentina 2021">
+        <div className="flex items-center gap-2 text-white/85">
+          <Leaf className="h-6 w-6" />
+          <Kicker className="!text-white/85">Impacto ambiental</Kicker>
         </div>
-        <Title className="mt-2">Impacto ambiental medible</Title>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <Stat tone="accent" value="7.500 a 8.300 kWh" label="de energía limpia por sistema y año en el AMBA" />
-          <Stat tone="accent" value="2,3 a 2,5 t" label="de CO₂ equivalente evitadas por hogar y año" />
-          <Stat tone="accent" value="9.200 a 10.000 t" label="de CO₂e evitadas por año por la flota de 4.000 sistemas, que genera 30.000 a 33.000 MWh/año" />
-        </div>
-        <div className="mt-5 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            headers={['Métrica', 'Por sistema', 'Flota (4.000)']}
-            rows={[
-              ['Energía generada por año', '7.500 a 8.300 kWh', '30.000 a 33.000 MWh'],
-              ['CO₂e evitadas por año', '2,3 a 2,5 t', '9.200 a 10.000 t'],
-              ['Factor de emisión utilizado', '0,307 kgCO₂e/kWh (SADI 2023)', ''],
-              ['Referencia nacional', '', 'Meta de 1 GW de GD a 2030'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              <Hi>Social</Hi>: el ahorro neto de USD 42/mes es una transferencia permanente hacia el hogar, sin desembolso inicial
-              relevante. Reduce la barrera que excluye a los ingresos medios de la generación distribuida.
-            </Body>
-            <Body>
-              <Hi>Sectorial</Hi>: estandariza procesos de instalación y habilitación, forma técnicos certificados y, como agregador de
-              demanda de equipos importados, ayuda a formar precios de referencia locales.
-            </Body>
-            <Body>
-              El perfil ESG habilita bonos verdes y financiamiento de multilaterales (BID, CAF) en la fase de madurez, reduciendo el costo
-              de capital. La generación eléctrica representa el 23% de las emisiones de GEI del país.
-            </Body>
+        <div className="mt-2 grid flex-1 grid-cols-[1.55fr_1fr] items-center gap-8 pb-5">
+          <div>
+            <div className="whitespace-nowrap font-serif text-[92px] font-extrabold leading-[0.95] tracking-tight text-white">9.200 a 10.000</div>
+            <div className="mt-3 text-[30px] font-semibold leading-snug text-white/90">toneladas de CO₂ evitadas por año con la flota de 4.000 sistemas</div>
+          </div>
+          <div className="flex flex-col gap-7">
+            <Stat value="2,3 a 2,5 t" size={46} tone="white" label="de CO₂ evitadas por hogar y año" />
+            <Stat value="30.000 a 33.000" size={38} tone="white" label="MWh de energía limpia por año" />
+            <div className="text-[20px] leading-snug text-white/80">Además: un ahorro permanente para el hogar y acceso a bonos verdes y multilaterales (BID, CAF).</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -68,34 +47,35 @@ export const cierre: SlideDef[] = [
     nav: 'Limitaciones y trabajo futuro',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 5.4" source="Informe TPP, sección 5.4.">
-        <Title>Limitaciones del estudio y trabajo futuro</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <div>
-            <div className="mb-2 text-sm font-semibold">Limitaciones reconocidas</div>
-            <Bullets
-              items={[
-                <><Hi>Churn 0%</Hi> durante 15 años. La cláusula de salida y el ahorro neto lo defienden, pero mudanzas o cambio de inquilino pueden requerir renegociación.</>,
-                <><Hi>Sin financiamiento externo</Hi>: no se modela deuda ni estructura de capital óptima (WACC), que podría mejorar los indicadores.</>,
-                <><Hi>Foco en AMBA</Hi>: no se modela la replicabilidad en provincias de alta irradiación (Mendoza, San Juan, Córdoba).</>,
-                <><Hi>Ingresos constantes en Años 6 a 15</Hi>: supuesto conservador; no se modelan nuevas zonas, upgrades con baterías ni expansión provincial.</>,
-              ]}
-            />
-          </div>
-          <div>
-            <div className="mb-2 text-sm font-semibold">Líneas de trabajo futuro</div>
-            <Bullets
-              items={[
-                'Diseño del instrumento contractual bajo derecho argentino, con cláusulas de transferencia ante venta del inmueble o cambio de inquilino.',
-                'Análisis del modelo de expansión con instrumentos de financiamiento del CAPEX.',
-                'Investigación de mercado cuantitativa con hogares N1 del AMBA para medir demanda latente.',
-                'Piloto de mercado con los primeros 200 sistemas del Año 1 para validar empíricamente churn, satisfacción y costo de adquisición.',
-                'Modelar el churn con distribución de probabilidad y cuantificar su impacto sobre el VAN.',
-              ]}
-            />
-          </div>
+      <Frame block={B} source="Informe TPP, sección 5.4">
+        <H size="lg" className="max-w-[1150px]">
+          Lo que el estudio <Hl>no cubre</Hl> y lo que sigue
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-2 gap-6 pb-4">
+          <Panel>
+            <div className="text-[17px] font-bold uppercase tracking-wider text-destructive">Limitaciones</div>
+            <ul className="mt-4 flex flex-col gap-3.5 text-[23px] leading-snug">
+              {['Churn de 0% durante 15 años', 'No se modela deuda ni estructura óptima de capital', 'Foco en el AMBA, sin replicar en provincias', 'Ingresos constantes de los Años 6 a 15'].map((t) => (
+                <li key={t} className="flex gap-3">
+                  <span className="mt-3 h-2.5 w-2.5 shrink-0 rounded-full bg-destructive" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Panel>
+          <Panel>
+            <div className="text-[17px] font-bold uppercase tracking-wider text-accent">Trabajo futuro</div>
+            <ul className="mt-4 flex flex-col gap-3.5 text-[23px] leading-snug">
+              {['Modelar el churn como distribución de probabilidad', 'Estudiar el financiamiento del CAPEX', 'Investigación de mercado con hogares N1 del AMBA', 'Piloto de mercado con los primeros 200 sistemas'].map((t) => (
+                <li key={t} className="flex gap-3">
+                  <span className="mt-3 h-2.5 w-2.5 shrink-0 rounded-full bg-accent" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Panel>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -103,33 +83,38 @@ export const cierre: SlideDef[] = [
     nav: 'Viabilidad integral',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 5.2 y 5.5" source="Informe TPP, secciones 5.2 y 5.5.">
-        <Title>Viabilidad integral: convergen las tres dimensiones</Title>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
+      <Frame block={B} source="Informe TPP, secciones 5.2 y 5.5">
+        <H size="lg" className="max-w-[1150px]">
+          Convergen las <Hl g>tres dimensiones</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-3 gap-5 pb-4">
           {[
-            ['Mercado', ['954.152 viviendas aptas en SP1 y penetración residencial menor a 0,01%', 'Sin competidores directos en arrendamiento solar', 'Ahorro neto de 42% para el cliente, sobre el umbral de 20%', 'Tarifa post-normalización y spread contra UVA amplían el ahorro']],
-            ['Técnica', ['Sistema estándar de 5,22 kWp con TOPCon e inversor de string DEYE/Huawei, tecnología madura', 'Instalación en 1 día con 2 técnicos; habilitación en 45 a 70 días hábiles', 'Monitoreo remoto en capa gratuita; 70% del mantenimiento remoto', 'Garantías de 10 a 15 años (inversor) y 25 a 30 años (módulos)']],
-            ['Financiera', ['VAN USD +2.684.787 a TREMA 13%', 'TIR 26,4%, dentro del criterio de 15% a 30%', 'Payback 6,9 años; MOIC 4,31×', 'VAN positivo para toda TREMA de 8% a 20% y todo CAPEX de USD 1.500 a 3.000; pesimista en equilibrio']],
-          ].map(([t, items]) => (
-            <div key={t as string} className="rounded-lg border border-accent/40 bg-accent/10 p-4">
-              <div className="font-serif text-lg font-semibold text-accent">{t as string}</div>
-              <ul className="mt-2 flex flex-col gap-1.5 text-sm text-foreground/90">
-                {(items as string[]).map((i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                    {i}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            [Target, 'Mercado', 'sun', [['954.152', 'viviendas aptas en SP1'], ['< 0,01%', 'de penetración residencial'], ['42%', 'de ahorro para el cliente']]],
+            [Wrench, 'Técnica', 'green', [['5,22 kWp', 'sistema estándar maduro'], ['1 día', 'de instalación con 2 técnicos'], ['45 a 70', 'días hábiles de habilitación']]],
+            [TrendingUp, 'Financiera', 'sun', [['26,4%', 'TIR en USD'], ['+USD 2,68 M', 'de VAN a TREMA 13%'], ['6,9 años', 'de payback']]],
+          ].map(([I, t, tone, items]) => {
+            const Ic = I as typeof Target
+            return (
+              <div key={t as string} className="flex flex-col rounded-2xl border border-black/10 bg-white/70 p-6 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <Ic className="h-9 w-9" style={{ color: COLOR[tone as 'sun'] }} strokeWidth={1.8} />
+                  <div className="font-serif text-[30px] font-extrabold" style={{ color: COLOR[tone as 'sun'] }}>
+                    {t as string}
+                  </div>
+                </div>
+                <div className="mt-5 flex flex-1 flex-col justify-between">
+                  {(items as string[][]).map(([v, l]) => (
+                    <div key={l}>
+                      <div className="font-serif text-[40px] font-extrabold leading-none">{v}</div>
+                      <div className="mt-1 text-[18px] opacity-70">{l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
-        <Body className="mt-5">
-          El proyecto responde a la convergencia de tres condiciones estructurales de la Argentina de 2026: normalización tarifaria,
-          restricción de acceso al capital en el segmento residencial y caída secular del costo fotovoltaico. La viabilidad no depende del
-          escenario optimista: los indicadores son positivos con los valores vigentes de EMBI+ y tarifa a julio de 2026.
-        </Body>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -137,21 +122,24 @@ export const cierre: SlideDef[] = [
     nav: 'Cierre',
     block: B,
     node: (
-      <Slide className="items-center justify-center text-center">
-        <span className="font-serif text-sm font-semibold text-primary">SolarPower Energy</span>
-        <h2 className="mt-4 max-w-4xl text-balance font-serif text-3xl font-bold leading-tight md:text-5xl">
-          Con USD 4,19 M de capital máximo en riesgo, el proyecto construye en 5 años una cartera de 4.000 activos generadores de renta
-          indexada
-        </h2>
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Stat tone="accent" value="42%" label="ahorro neto del cliente" />
-          <Stat tone="primary" value="26,4%" label="TIR en USD" />
-          <Stat tone="primary" value="+2,68 M" label="VAN a TREMA 13% (USD)" />
-          <Stat tone="accent" value="9.200 a 10.000 t" label="CO₂e evitadas por año" />
+      <Frame tone="dark" className="items-center justify-center text-center">
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <Kicker>SolarPower Energy</Kicker>
+          <h2 className="mt-5 max-w-[1050px] text-balance font-serif text-[60px] font-extrabold leading-[1.05] tracking-tight">
+            Con <Hl>USD 4,19 M</Hl> de capital máximo en riesgo, se construye en 5 años una cartera de <Hl g>4.000 activos</Hl> que generan renta indexada
+          </h2>
+          <div className="mt-10 grid grid-cols-4 gap-8">
+            <Stat value="42%" size={56} tone="green" label="ahorro neto del cliente" />
+            <Stat value="26,4%" size={56} tone="sun" label="TIR en USD" />
+            <Stat value="+2,68 M" size={56} tone="sun" label="VAN a TREMA 13% (USD)" />
+            <Stat value="9.200 a 10.000 t" size={40} tone="green" label="de CO₂ evitadas por año" />
+          </div>
         </div>
-        <p className="mt-8 text-sm text-muted-foreground">Cardoso, Bautista · Sarti, Ricardo · Zotta, Jerónimo · FIUBA, TA019 / 92.99, 2026</p>
-        <p className="mt-1 text-sm text-muted-foreground">Gracias. Quedamos a disposición para preguntas.</p>
-      </Slide>
+        <div className="pb-2 text-center">
+          <div className="font-serif text-[30px] font-bold">Gracias</div>
+          <div className="mt-1 text-[16px] text-white/60">Cardoso, Bautista · Sarti, Ricardo · Zotta, Jerónimo · FIUBA, Trabajo Profesional de Ingeniería Industrial, 2026</div>
+        </div>
+      </Frame>
     ),
   },
 
@@ -265,4 +253,3 @@ export const cierre: SlideDef[] = [
   },
 ]
 
-void Lead

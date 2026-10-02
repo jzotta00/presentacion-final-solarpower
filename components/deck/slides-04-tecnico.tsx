@@ -1,20 +1,22 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Figura, Table, Steps, Pendiente, Bars } from './primitives'
+import { Sun, Cpu, Network, Wrench, BadgeCheck, PlugZap, BatteryCharging, Unplug, Boxes, HardHat, Ruler, ShieldCheck, Landmark } from 'lucide-react'
+import { OnGridDiagram } from './diagrams'
 import type { SlideDef } from './types'
-import { Hi, Bad, Ok } from './types'
-import { OnGridDiagram, Stepper, ConfigCard } from './diagrams'
+import { Frame, H, Hl, Kicker, Big, Stat, Chip, Panel, IconCard, BlockDivider, VBars, HBars, FlowSteps, SystemDiagram, AnexoTag, COLOR } from './impact'
 
 const B = '4 · Técnico'
+
+const ars = (v: number) => `$${v.toLocaleString('es-AR')}`
 
 export const tecnico: SlideDef[] = [
   {
     nav: 'Bloque 4',
     block: B,
     node: (
-      <Divider
+      <BlockDivider
         number="4"
         title="Estudio técnico"
-        subtitle="El sistema estándar de 5,22 kWp: tecnología, arquitectura on-grid, balance neto, dimensionamiento, habilitación y operación."
-        items={['Sistema estándar', 'Módulos TOPCon e inversor de string', 'Arquitectura on-grid y balance neto', 'Dimensionamiento con PVGIS', 'Habilitación ante Edenor/Edesur', 'Monitoreo, mantenimiento y modelo operativo']}
+        hook="Un sistema estándar, probado y repetible, de la instalación a la habilitación."
+        topics={['Sistema de 5,22 kWp', 'TOPCon e inversor', 'Balance neto', 'Materia prima', 'Habilitación', 'Operación']}
       />
     ),
   },
@@ -23,33 +25,21 @@ export const tecnico: SlideDef[] = [
     nav: 'Sistema estándar',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.1 y 3.7" source="Datasheets LONGi Hi-MO 7 (2024), DEYE SUN-5K-SG04LP3 y Huawei SUN2000-5KTL-M1 (2024). Informe TPP, Tablas 3.1 y 3.3.">
-        <Title>El activo: sistema fotovoltaico on-grid de 5,22 kWp</Title>
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Stat tone="primary" value="9 × 580 Wp" label="módulos TOPCon N-type bifaciales Tier 1 (referencia LONGi Hi-MO 7), eficiencia 21,2%" />
-          <Stat tone="primary" value="5.220 Wp" label="potencia pico DC, en dos strings (5 + 4 módulos) sobre dos canales MPPT independientes" />
-          <Stat value="5.000 W AC" label="inversor de string monofásico DEYE o Huawei, 230 V, 50 Hz, eficiencia pico 97,6% a 98,4%" />
-          <Stat value="1,044" label="ratio DC/AC: leve sobredimensionamiento habitual que maximiza captura con mínimo recorte" />
+      <Frame tone="dark" block={B} source="Fichas técnicas LONGi Hi-MO 7, DEYE SUN-5K-SG04LP3 y Huawei SUN2000-5KTL-M1 (2024)">
+        <Kicker>El activo</Kicker>
+        <H size="lg" className="mt-2">
+          Un sistema estándar de <Hl>5,22 kWp</Hl>
+        </H>
+        <div className="mt-6 flex flex-1 items-center justify-center">
+          <SystemDiagram />
         </div>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Bullets
-            dense
-            items={[
-              'Tensión de circuito abierto del string mayor: 5 × 49,32 V = 246,6 V, dentro del rango MPPT (90 a 520/560 V) y lejos de la zona de riesgo PID.',
-              'Balance de sistema: estructura de aluminio anodizado, cable solar 4 mm² con conectores MC4 IP67, seccionador DC, termomagnética 25 A, diferencial tipo A 30 mA, protección de interfaz de red y descargadores tipo 1+2.',
-              'Cumple ENRE 314/2018 (anti-isla IEEE 1547), IRAM 210013 e instalación según AEA 90364-7-712.',
-            ]}
-          />
-          <Bullets
-            dense
-            items={[
-              'Garantías: módulos 12 años de producto y 30 años lineal de rendimiento (≥ 85% al año 25); inversor 10 años, extensible a 15.',
-              'Vida útil: módulos 25 a 30 años; inversor 12 a 15 años. El modelo financiero prevé un reemplazo de inversor por sistema dentro del mantenimiento correctivo.',
-              'Monitoreo integrado por Wi-Fi hacia DEYE Cloud o Huawei FusionSolar, sin gateway adicional.',
-            ]}
-          />
+        <div className="flex flex-wrap gap-3 pb-3">
+          <Chip dark tone="sun">9 módulos TOPCon de 580 Wp</Chip>
+          <Chip dark tone="green">Módulos: 30 años de garantía lineal</Chip>
+          <Chip dark tone="sun">Inversor: 10 años, extensible a 15</Chip>
+          <Chip dark tone="green">Cumple ENRE 314/2018 y AEA 90364-7-712</Chip>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -57,29 +47,38 @@ export const tecnico: SlideDef[] = [
     nav: 'Tecnología de celdas',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.1.2 y 3.1.3, Tabla 3.2, Figura 3.1" source="Elaboración propia con datos de Fraunhofer ISE, BloombergNEF, datasheets LONGi (2024). Figura 3.1 del informe.">
-        <Title>Por qué TOPCon: mejor coeficiente de temperatura y mínima degradación inicial</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-3-1-curvas-iv.png" caption="Figura 3.1. Curvas I-V y P-V del módulo TOPCon de 580 Wp bajo STC, verano AMBA (50 °C) y día nublado (600 W/m²). FF = 0,810." />
-          <Table
-            align="left"
-            compact
-            headers={['Parámetro', 'PERC', 'TOPCon', 'HJT']}
-            rows={[
-              ['Eficiencia módulo comercial', '20 a 23%', <Ok key="1">22 a 26%</Ok>, '22 a 23%'],
-              ['Coef. temperatura Pmpp', <Bad key="2">-0,36 a -0,38 %/°C</Bad>, <Ok key="3">-0,30 a -0,31 %/°C</Ok>, '-0,24 a -0,26 %/°C'],
-              ['Degradación inicial (LID)', <Bad key="4">1,5 a 2,5%</Bad>, <Ok key="5">0,5 a 1,0%</Ok>, '< 0,5%'],
-              ['Degradación anual posterior', '0,45 a 0,55%', '0,40 a 0,50%', '0,40 a 0,50%'],
-              ['Cuota de mercado 2024', '~20%', <Ok key="6">~65%</Ok>, '~8%'],
-              ['Costo relativo', 'Referencia', '+5 a 10%', <Bad key="7">+15 a 20%</Bad>],
-            ]}
-          />
+      <Frame block={B} source="Fraunhofer ISE, BloombergNEF, fichas LONGi (2024)">
+        <H size="lg" className="max-w-[1100px]">
+          Por qué <Hl>TOPCon</Hl>: rinde mejor con calor y casi no se degrada al inicio
+        </H>
+        <div className="mt-6 flex-1 pb-3">
+          <div className="grid grid-cols-[1.3fr_1fr_1fr_1fr] items-end gap-x-3 px-1 pb-2 text-[16px] font-bold uppercase tracking-wider opacity-65">
+            <div />
+            <div>PERC</div>
+            <div className="rounded-t-lg bg-primary px-3 py-1.5 text-white opacity-100">TOPCon</div>
+            <div>HJT</div>
+          </div>
+          {[
+            ['Pérdida inicial (LID)', '1,5 a 2,5%', '0,5 a 1,0%', '< 0,5%'],
+            ['Pérdida por temperatura', '-0,36 a -0,38 %/°C', '-0,30 a -0,31 %/°C', '-0,24 a -0,26 %/°C'],
+            ['Costo relativo', 'Referencia', '+5 a 10%', '+15 a 20%'],
+            ['Cuota de mercado 2024', '~20%', '~65%', '~8%'],
+          ].map(([l, a, b, c], i) => (
+            <div key={l} className={`grid grid-cols-[1.3fr_1fr_1fr_1fr] items-center gap-x-3 px-1 ${i % 2 === 0 ? 'bg-black/[0.035]' : ''}`}>
+              <div className="py-3.5 pl-2 text-[21px] font-semibold">{l}</div>
+              <div className="text-[21px] opacity-75">{a}</div>
+              <div className="rounded-lg bg-primary/10 py-3 pl-3 text-[22px] font-extrabold text-primary">{b}</div>
+              <div className="text-[21px] opacity-75">{c}</div>
+            </div>
+          ))}
+          <Panel className="mt-5 flex items-center gap-5 !py-4">
+            <Big value="-9%" size={64} tone="red" />
+            <div className="text-[21px] leading-snug">
+              Con la célula a 55 °C, un módulo TOPCon de 580 Wp rinde 528 W. Con garantía de producción desde el año 1, la pérdida inicial menor a 1% es clave.
+            </div>
+          </Panel>
         </div>
-        <Body className="mt-3">
-          En un verano del AMBA la célula supera 55 °C: con -0,30 %/°C la potencia real cae 9% (580 Wp a 528 W), frente a -0,38 %/°C
-          del PERC. Para un contrato con garantía de producción desde el año 1, el LID menor a 1% es decisivo.
-        </Body>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -87,21 +86,21 @@ export const tecnico: SlideDef[] = [
     nav: 'Degradación a 30 años',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.1.4, Figura 3.2" source="Elaboración propia con datos de LONGi Solar, JA Solar y NREL (2024). Figura 3.2 del informe.">
-        <Title>Degradación: el activo conserva más del 90% de su potencia al año 20</Title>
-        <div className="mt-4 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Figura src="/figuras/fig-3-2-degradacion-tec.png" caption="Figura 3.2. Curvas de degradación a 30 años: PERC (2% + 0,55%/año), TOPCon estándar (1% + 0,45%/año) y TOPCon premium (0,5% + 0,40%/año, garantía del fabricante)." />
-          <div className="flex flex-col gap-3">
-            <Stat tone="accent" value="92,3%" label="retención al año 20 bajo garantía del fabricante (TOPCon premium): 4.818 Wp de 5.220 Wp" />
-            <Stat tone="primary" value="90,4%" label="retención al año 20 bajo el escenario estándar (1% + 0,45%/año): 4.719 Wp" />
-            <Body>
-              Mecanismos: LID (mínimo en n-type sin boro), LeTID, PID (mitigado por tensión DC de 200 a 250 V y puesta a tierra), y
-              degradación gradual del encapsulante, backsheet y contactos. SolarPower descuenta la degradación en la producción
-              estimada y agrega un margen conservador de 10% por variabilidad climática.
-            </Body>
+      <Frame block={B} source="LONGi Solar, JA Solar, NREL (2024). Figura 3.2 del informe">
+        <H size="lg" className="max-w-[1100px]">
+          Al año 20, el sistema conserva <Hl g>más del 90%</Hl> de su potencia
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1.45fr_1fr] items-center gap-8 pb-6">
+          <div className="rounded-2xl bg-white p-3 shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/figuras/fig-3-2-degradacion-tec.png" alt="Curvas de degradación a 30 años de PERC y TOPCon" className="h-[380px] w-full object-contain" />
+          </div>
+          <div className="flex flex-col gap-7">
+            <Stat value="92,3%" size={84} tone="green" label="al año 20 con la garantía del fabricante" />
+            <Stat value="90,4%" size={84} tone="sun" label="al año 20 en nuestro escenario estándar" />
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -109,38 +108,19 @@ export const tecnico: SlideDef[] = [
     nav: 'Inversor de string',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.1.5 y 3.1.6, Tabla 3.3" source="Fichas técnicas DEYE (2024) y Huawei (2024); certificación IEC 62109. Informe TPP, Tabla 3.3.">
-        <Title>Inversor de string con doble MPPT: la elección validada en el piloto</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Table
-            align="left"
-            compact
-            headers={['Parámetro', 'DEYE SUN-5K-SG04LP3', 'Huawei SUN2000-5KTL-M1']}
-            rows={[
-              ['Potencia AC nominal', '5.000 W', '5.000 W'],
-              ['Potencia DC máxima de entrada', '6.500 W', '7.500 W'],
-              ['Rango MPPT por canal', '90 a 520 V', '90 a 560 V'],
-              ['MPPT / strings máx. por MPPT (datasheet)', '2 / 1', '2 / 2'],
-              ['Eficiencia pico', '97,6%', '98,4%'],
-              ['Protección', 'IP65', 'IP65'],
-              ['Garantía', '10 años (ext. 15)', '10 años (ext. 15)'],
-              ['Comunicación y monitoreo', 'Wi-Fi + RS485 · DEYE Cloud', 'Wi-Fi + RS485 + Ethernet · FusionSolar'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Bullets
-              dense
-              items={[
-                <>Costo por Wp: <Hi>USD 0,08 a 0,10/W</Hi> frente a USD 0,25 a 0,35/W de microinversores (2,5 a 3 veces más).</>,
-                <>Doble MPPT: divide los 9 módulos en dos strings (5 + 4), de modo que una sombra en uno no afecta al otro; mitiga el "efecto árbol de Navidad" del entorno urbano.</>,
-                <>Un solo equipo montado en pared a nivel accesible: instalación más simple, diagnóstico remoto por canal y reemplazo rápido (RMA en 3 a 7 días hábiles).</>,
-                <>DEYE como inversor principal por presencia local y precio; Huawei como alternativa premium.</>,
-                <>La fila de strings por MPPT es la capacidad máxima de cada equipo según datasheet; el sistema estándar usa un string por MPPT (5 + 4 módulos) en ambos casos.</>,
-              ]}
-            />
+      <Frame block={B} source="Fichas técnicas DEYE y Huawei (2024); certificación IEC 62109">
+        <H size="lg" className="max-w-[1100px]">
+          Inversor de string: la mejor relación <Hl>costo-rendimiento</Hl>
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1fr_1.1fr] items-center gap-10 pb-6">
+          <Big value="2,5 a 3×" size={130} tone="green" caption="más barato por Wp que un microinversor: USD 0,08 a 0,10 contra 0,25 a 0,35 por W" />
+          <div className="flex flex-col gap-4">
+            <IconCard row icon={Network} tone="sun" title="Doble MPPT" text="Dos strings (5 + 4): una sombra en uno no afecta al otro" />
+            <IconCard row icon={Wrench} tone="green" title="Un solo equipo en pared" text="Diagnóstico remoto y reemplazo en 3 a 7 días hábiles" />
+            <IconCard row icon={BadgeCheck} tone="sun" title="DEYE principal, Huawei premium" text="Validados en el piloto" />
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -148,59 +128,41 @@ export const tecnico: SlideDef[] = [
     nav: 'On-grid, off-grid o híbrido',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.1 (decisión); descripción de configuraciones según material de SolarPower" source="SolarPower, folleto Sistemas Solares On Grid, Off Grid e Híbridos (material propio de la empresa); Informe TPP 3.2.1 y 4.8 (riesgo M3).">
-        <Title>Tres configuraciones posibles; el arrendamiento se evalúa solo con on-grid</Title>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          <ConfigCard
-            title="On-grid"
-            badge="Elegida para el modelo"
-            badgeTone="accent"
-            flows={[
-              'Los paneles generan de día; el inversor convierte a corriente alterna.',
-              'El hogar autoconsume; si falta, toma de la red.',
-              'El excedente se inyecta a la red y genera crédito (balance neto).',
-              'De noche se consume de la red, en parte compensado por el crédito.',
-            ]}
-            note="Sin baterías. El objetivo del diseño es maximizar el ahorro por autoconsumo y reducir la factura eléctrica."
-          />
-          <ConfigCard
-            title="Híbrido"
-            badge="No incluido"
-            badgeTone="primary"
-            flows={[
-              'Conectado a la red, pero puede funcionar sin ella.',
-              'De día carga una batería de litio además de autoconsumir e inyectar.',
-              'De noche descarga la batería hasta un porcentaje definido y luego toma de la red.',
-              'Ante un corte, se desconecta de la red y alimenta la casa desde la batería.',
-            ]}
-            note="Inversor híbrido y batería de litio. Resuelve cortes de luz."
-          />
-          <ConfigCard
-            title="Off-grid"
-            badge="No incluido"
-            badgeTone="muted"
-            flows={[
-              'Opera sin conexión a la red; la batería es la única reserva nocturna.',
-              'Solo puede tomar energía de la red para cargar la batería o cubrir picos; no puede venderla.',
-            ]}
-            note="Pensado para independencia total y zonas sin conexión."
-          />
+      <Frame block={B} source="Folleto de SolarPower (On Grid, Off Grid e Híbridos); riesgo M3 del informe">
+        <H size="lg" className="max-w-[1100px]">
+          Tres configuraciones posibles. Elegimos <Hl g>on-grid</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-3 gap-5 pb-4">
+          <div className="flex flex-col rounded-3xl border-[3px] border-accent bg-accent/10 p-7">
+            <div className="flex items-center justify-between">
+              <PlugZap className="h-12 w-12 text-accent" strokeWidth={1.8} />
+              <Chip tone="green">Elegida</Chip>
+            </div>
+            <div className="mt-4 font-serif text-[36px] font-extrabold">On-grid</div>
+            <div className="mt-2 text-[22px] leading-snug opacity-85">Sin baterías. El hogar autoconsume y lo que sobra va a la red.</div>
+            <div className="mt-auto pt-4 text-[20px] font-semibold text-accent">Mayor ahorro con menor entrada</div>
+          </div>
+          <div className="flex flex-col rounded-3xl border border-black/10 bg-white/70 p-7 shadow-sm">
+            <div className="flex items-center justify-between">
+              <BatteryCharging className="h-12 w-12 text-ink/50" strokeWidth={1.8} />
+              <Chip tone="mute">No incluida</Chip>
+            </div>
+            <div className="mt-4 font-serif text-[36px] font-extrabold">Híbrido</div>
+            <div className="mt-2 text-[22px] leading-snug opacity-85">Batería de litio. Resuelve los cortes de luz.</div>
+            <div className="mt-auto pt-4 text-[20px] opacity-65">Más caro: sube el CAPEX por sistema</div>
+          </div>
+          <div className="flex flex-col rounded-3xl border border-black/10 bg-white/70 p-7 shadow-sm">
+            <div className="flex items-center justify-between">
+              <Unplug className="h-12 w-12 text-ink/50" strokeWidth={1.8} />
+              <Chip tone="mute">No incluida</Chip>
+            </div>
+            <div className="mt-4 font-serif text-[36px] font-extrabold">Off-grid</div>
+            <div className="mt-2 text-[22px] leading-snug opacity-85">Sin conexión a la red. Independencia total.</div>
+            <div className="mt-auto pt-4 text-[20px] opacity-65">Pensado para zonas sin red</div>
+          </div>
         </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <Body>
-            El informe evalúa exclusivamente la configuración on-grid (sección 3.2.1: todos los sistemas SolarPower del modelo son on-grid
-            con medición de consumo, producción y autoconsumo) y menciona el almacenamiento con baterías solo como diversificación futura
-            frente al riesgo de congelamiento tarifario (riesgo M3).
-          </Body>
-          <Body>
-            La elección prioriza el pago inicial bajo y el ahorro mensual del cliente sobre la independencia total de la red. Agregar una
-            batería de litio encarece el equipo (costo adicional del inversor híbrido y de la batería), lo que eleva el CAPEX por sistema
-            y, en consecuencia, la cuota mensual o el pago inicial necesarios para sostener el margen del modelo a la escala de 4.000
-            sistemas. El informe no incluye una comparación cuantificada entre configuraciones; esta es la razón cualitativa de la
-            decisión, sin afirmar una superioridad económica medida.
-          </Body>
-        </div>
-      </Slide>
+        <div className="pb-3 text-[19px] opacity-65">La elección prioriza entrada baja y ahorro mensual. Las baterías quedan como diversificación futura.</div>
+      </Frame>
     ),
   },
 
@@ -208,24 +170,16 @@ export const tecnico: SlideDef[] = [
     nav: 'Arquitectura on-grid',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.1 (Figura 3.4 recreada con el sistema estándar de 5,22 kWp)" source="Elaboración propia según informe 3.1.6, 3.1.7 y 3.2.1: 9 módulos TOPCon de 580 Wp en dos strings (5 + 4), inversor de string DEYE o Huawei de 5 kW, protecciones AEA 90364-7-712 y ENRE 314/2018.">
-        <Title>Arquitectura del sistema on-grid</Title>
-        <div className="mt-3 grid min-h-0 flex-1 gap-5 md:grid-cols-[2fr_1fr]">
-          <div className="flex items-center">
+      <Frame block={B} source="Elaboración propia: 9 módulos de 580 Wp, inversor de 5 kW, protecciones AEA 90364-7-712 y ENRE 314/2018">
+        <H size="md" className="max-w-[1100px]">
+          Así fluye la energía: <Hl>del techo, al hogar y a la red</Hl>
+        </H>
+        <div className="mt-2 flex flex-1 items-center justify-center">
+          <div style={{ width: 930 }}>
             <OnGridDiagram />
           </div>
-          <div className="flex flex-col gap-3">
-            <Body>
-              De día los módulos generan corriente continua en dos strings independientes; el inversor la convierte en alterna de 230 V y
-              50 Hz con factor de potencia mayor a 0,99 y la entrega al tablero del hogar por un interruptor dedicado.
-            </Body>
-            <Body>
-              Si la generación supera el consumo instantáneo, el excedente sale a la red y el medidor bidireccional lo registra como
-              inyección. De noche la red cubre el consumo. No hay gestión activa de cargas: ambas fuentes se suman en el tablero.
-            </Body>
-          </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -233,43 +187,30 @@ export const tecnico: SlideDef[] = [
     nav: 'Balance neto (net metering)',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.2, Tabla 3.4" source="Elaboración propia con datos ENRE y CAMMESA (2024). Tarifa T1R y precio MEM aproximados a octubre 2024; la tarifa varía mensualmente.">
-        <Title>Cómo funciona el balance neto de la Ley 27.424</Title>
-        <Lead>
-          Factura = R × T_T1R − I × T_MEM. El consumo de red (R) se paga a tarifa minorista; la inyección (I) se acredita al precio del
-          mercado mayorista (MEM), que es menor. Por eso la energía vale más autoconsumida que inyectada.
-        </Lead>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            compact
-            headers={['Concepto', 'Ejemplo mes típico AMBA (octubre)']}
-            rows={[
-              ['Consumo total del hogar (C)', '380 kWh'],
-              ['Generación solar (G)', '430 kWh'],
-              ['Autoconsumo in situ (A ≈ 50% de G)', '~190 kWh'],
-              ['Inyección a la red (I = G − A)', '240 kWh'],
-              ['Consumo de red (R = C − A)', '190 kWh'],
-              ['Costo del consumo de red (190 × ~$106)', 'ARS 20.140'],
-              ['Crédito por inyección (240 × ~$65)', '(ARS 15.600)'],
-              ['Factura neta antes de cargos fijos', 'ARS 4.540'],
-              ['Factura sin solar (380 × ~$106)', 'ARS 40.280'],
-              ['Reducción de la factura de energía', '~88,7%'],
-            ]}
-            highlightLast
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              Los créditos no utilizados se acumulan sin vencimiento durante el contrato y compensan la mayor demanda de red en invierno.
-              En el AMBA el crédito se genera típicamente en primavera y en días de verano con bajo uso de aire acondicionado.
-            </Body>
-            <Body>
-              Factor de simultaneidad típico: 40 a 55% en verano y 55 a 70% en invierno. La Res. SE 287/2025 obliga a mostrar en la
-              factura los kWh consumidos con su tarifa y los inyectados con su precio.
-            </Body>
+      <Frame block={B} source="ENRE y CAMMESA (2024). Mes típico de octubre en el AMBA; la tarifa varía cada mes">
+        <H size="lg" className="max-w-[1100px]">
+          Lo que sobra se <Hl g>inyecta y se acredita</Hl>
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1.1fr_1fr] items-center gap-8 pb-4">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">Factura de energía de un mes típico, ARS</div>
+            <VBars
+              w={520}
+              h={330}
+              fmt={ars}
+              data={[
+                { label: 'Sin solar', value: 40280, tone: 'red' },
+                { label: 'Con solar', value: 4540, tone: 'green' },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-5">
+            <Big value="-88,7%" size={120} tone="green" caption="en la factura de energía de ese mes" />
+            <Chip tone="sun" className="!text-[19px]">Autoconsumir vale más que inyectar</Chip>
+            <Chip tone="green" className="!text-[19px]">Los créditos no vencen durante el contrato</Chip>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -277,68 +218,69 @@ export const tecnico: SlideDef[] = [
     nav: 'Estacionalidad de la generación',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.2 y Tabla 3.6" source="Curva estacional: Anexo II del contrato real de arrendamiento (piloto SolarPower), reescalada proporcionalmente para sumar los 8.289 kWh/año del sistema estándar de 5,22 kWp (Tabla 3.6).">
-        <Title>Generación mensual del sistema estándar, reescalada a partir de un caso real</Title>
-        <div className="mt-3 grid gap-5 md:grid-cols-[3fr_2fr]">
-          <Bars
-            height={300}
-            unit="kWh/mes (suman 8.288 kWh/año)"
-            valueFormat={(v) => v.toLocaleString('es-AR')}
-            data={[
-              { label: 'Ene', value: 1045, tone: 'primary' },
-              { label: 'Feb', value: 840, tone: 'primary' },
-              { label: 'Mar', value: 753, tone: 'primary' },
-              { label: 'Abr', value: 546, tone: 'muted' },
-              { label: 'May', value: 402, tone: 'muted' },
-              { label: 'Jun', value: 313, tone: 'destructive' },
-              { label: 'Jul', value: 360, tone: 'destructive' },
-              { label: 'Ago', value: 486, tone: 'muted' },
-              { label: 'Sep', value: 662, tone: 'muted' },
-              { label: 'Oct', value: 850, tone: 'primary' },
-              { label: 'Nov', value: 986, tone: 'primary' },
-              { label: 'Dic', value: 1045, tone: 'primary' },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Stat tone="primary" value="1.045 kWh/mes" label="generación máxima del sistema estándar, en diciembre y enero" />
-            <Stat tone="destructive" value="313 kWh/mes" label="generación mínima, en junio: una variación de 3,3 veces sobre el máximo" />
-            <Stat value="40 a 70%" label="factor de simultaneidad (autoconsumo directo): 40 a 55% en verano, 55 a 70% en invierno" />
+      <Frame block={B} source="Curva estacional de un contrato real del piloto, reescalada a los 8.289 kWh/año del sistema estándar">
+        <H size="lg" className="max-w-[1100px]">
+          En diciembre genera <Hl>3,3 veces</Hl> lo que genera en junio
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.7fr_1fr] items-center gap-6 pb-4">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">Generación mensual, kWh (suman 8.288 por año)</div>
+            <VBars
+              w={760}
+              h={340}
+              maxBar={44}
+              labelSize={16}
+              valueSize={16}
+              fmt={(v) => v.toLocaleString('es-AR')}
+              data={[
+                ['Ene', 1045, 'sun'], ['Feb', 840, 'sun'], ['Mar', 753, 'sun'], ['Abr', 546, 'mute'], ['May', 402, 'mute'], ['Jun', 313, 'red'],
+                ['Jul', 360, 'red'], ['Ago', 486, 'mute'], ['Sep', 662, 'mute'], ['Oct', 850, 'sun'], ['Nov', 986, 'sun'], ['Dic', 1045, 'sun'],
+              ].map(([label, value, tone]) => ({ label: label as string, value: value as number, tone: tone as 'sun' }))}
+            />
+          </div>
+          <div className="flex flex-col gap-7">
+            <Stat value="1.045 kWh" size={46} tone="sun" label="en diciembre y enero" />
+            <Stat value="313 kWh" size={46} tone="red" label="en junio" />
+            <div className="text-[18px] leading-snug opacity-65">El verano compensa al invierno con créditos de balance neto.</div>
           </div>
         </div>
-        <Bullets
-          className="mt-4"
-          dense
-          items={[
-            'El consumo del hogar es alto en verano (aire acondicionado) y en invierno (calefón y calefacción eléctrica), con valles en otoño y primavera.',
-          ]}
-        />
-        <Pendiente className="mt-3" title="Nota de método">
-          Las Figuras 3.5 y 3.6 originales son ilegibles al proyectar y corresponden a un sistema de 4,8 kWp. Esta curva toma la forma
-          estacional real de un contrato del piloto (mayor potencia) y la reescala para sumar el total anual adoptado en la Tabla 3.6.
-        </Pendiente>
-      </Slide>
+      </Frame>
     ),
   },
 
   {
-    nav: 'Perfil horario y balance neto',
+    nav: 'Materia prima y abastecimiento',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.2" source="Informe TPP, sección 3.2.2, con datos Edenor (2024) y perfiles de consumo residencial (CNT 2022).">
-        <Title>Perfil horario: por qué la energía autoconsumida vale más que la inyectada</Title>
-        <Bullets
-          className="mt-4"
-          items={[
-            'La generación se concentra entre las 9 y las 17 h, con pico al mediodía solar; el consumo residencial tiene picos a la mañana temprano y entre las 19 y las 23 h.',
-            'Lo que se genera y no se consume en el momento se inyecta a precio MEM (mercado mayorista); lo que se consume de noche se paga a tarifa minorista, más alta. Por eso la energía vale más autoconsumida que inyectada.',
-            'Los créditos de balance neto no utilizados se acumulan sin vencimiento durante el contrato: lo que se inyecta de más en verano compensa el mayor consumo de red en invierno.',
-          ]}
-        />
-        <Pendiente className="mt-4" title="Nota de método">
-          El perfil horario (mañana/tarde) todavía no tiene una curva propia del sistema de 5,22 kWp; esta descripción es cualitativa,
-          según el texto del informe. Si Ricky exporta el perfil horario real de un sistema del piloto, se agrega como gráfico.
-        </Pendiente>
-      </Slide>
+      <Frame block={B} source="Cotizaciones FOB e internación 2026; Informe TPP, secciones 2.5.7 a 2.5.10 y 4.1.1. Proveedores en el anexo (A26)">
+        <Kicker>La materia prima</Kicker>
+        <H size="md" className="mt-2 max-w-[1150px]">
+          De dónde salen los <Hl>paneles y los inversores</Hl>
+        </H>
+        <div className="mt-4 grid grid-cols-4 gap-4">
+          <IconCard icon={Sun} tone="sun" title="Paneles" text={<><b className="text-[26px]">USD 1.300</b><br />Importación directa de fabricantes Tier 1: LONGi, JA Solar, Trina, Canadian</>} />
+          <IconCard icon={Cpu} tone="green" title="Inversor" text={<><b className="text-[26px]">USD 400</b><br />DEYE como principal y Huawei como premium. Garantía de 10 a 15 años</>} />
+          <IconCard icon={Boxes} tone="sun" title="Estructura y BOS" text={<><b className="text-[26px]">USD 500</b><br />Rieles, cableado, protecciones y medidor. Contratos marco</>} />
+          <IconCard icon={HardHat} tone="green" title="Instalación" text={<><b className="text-[26px]">USD 350</b><br />Técnicos propios al inicio y red certificada al escalar</>} />
+        </div>
+        <div className="mt-auto grid grid-cols-[1.3fr_1fr] items-center gap-6 pb-3">
+          <Panel className="flex items-center gap-6 !py-3">
+            <div>
+              <div className="whitespace-nowrap font-serif text-[40px] font-extrabold leading-none text-accent">USD 3.000</div>
+              <div className="mt-1 text-[17px] opacity-70">llave en mano con importación directa</div>
+            </div>
+            <div className="text-[28px] opacity-40">vs</div>
+            <div>
+              <div className="whitespace-nowrap font-serif text-[40px] font-extrabold leading-none text-destructive">USD 3.500</div>
+              <div className="mt-1 text-[17px] opacity-70">comprando a distribuidores</div>
+            </div>
+          </Panel>
+          <div className="flex flex-col gap-2">
+            <Chip tone="ink" className="!text-[17px]">Aranceles de módulos: 14% a 28%</Chip>
+            <Chip tone="ink" className="!text-[17px]">Stock de 15 a 20 sistemas: la importación tarda 60 a 90 días</Chip>
+          </div>
+        </div>
+      </Frame>
     ),
   },
 
@@ -346,38 +288,52 @@ export const tecnico: SlideDef[] = [
     nav: 'Dimensionamiento con PVGIS',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.2.4 y 3.4.2, Tabla 3.6" source="PVGIS (Comisión Europea, 2024); INDEC EPH 2022 y Edenor para consumo; cálculo propio.">
-        <Title>Dimensionamiento: E = P × GII × PR</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Table
-            align="left"
-            compact
-            headers={['Parámetro', 'Valor', 'Fuente / método']}
-            rows={[
-              ['Potencia instalada (P)', '5,22 kWp', '9 × 580 Wp'],
-              ['Irradiación inclinada anual (GII)', '1.985 kWh/m²/año', 'PVGIS, Buenos Aires, 34° norte'],
-              ['Performance Ratio (PR)', '0,80', 'Temperatura -5%, soiling y sombra -2,5%, cableado -1,5%, inversor -2%, mismatch -1,5%, otros -1%'],
-              ['Producción anual estimada', '5,22 × 1.985 × 0,80 = 8.289 kWh', 'Año 0'],
-              ['Con degradación año 1 / 10 / 20', '8.206 / 7.866 / 7.493 kWh', 'LID 1% + 0,45%/año'],
-              ['Consumo típico hogar N1 AMBA', '4.440 kWh/año (370 kWh/mes)', 'INDEC EPH 2022 + Edenor'],
-              ['Cobertura solar año 1 (kWh generados / kWh consumidos)', '185%', 'No implica ahorro del 185% en la factura'],
+      <Frame block={B} source="PVGIS (Comisión Europea, 2024); INDEC EPH 2022 y Edenor para el consumo; cálculo propio">
+        <H size="lg" className="max-w-[1100px]">
+          Cuánta energía produce: <Hl>E = P × GII × PR</Hl>
+        </H>
+        <div className="mt-8 flex items-center gap-4">
+          {[
+            ['5,22', 'kWp instalados'],
+            ['×', ''],
+            ['1.985', 'kWh/m²/año (PVGIS)'],
+            ['×', ''],
+            ['0,80', 'performance ratio'],
+            ['=', ''],
+            ['8.289', 'kWh por año'],
+          ].map(([v, l], i) =>
+            l ? (
+              <div key={i} className={`flex-1 rounded-2xl p-5 text-center ${i === 6 ? 'bg-primary text-white' : 'border border-black/10 bg-white/70 shadow-sm'}`}>
+                <div className="font-serif text-[52px] font-extrabold leading-none">{v}</div>
+                <div className="mt-2 text-[16px] opacity-75">{l}</div>
+              </div>
+            ) : (
+              <div key={i} className="font-serif text-[44px] font-bold opacity-50">
+                {v}
+              </div>
+            ),
+          )}
+        </div>
+        <div className="mt-auto grid grid-cols-[1.3fr_1fr] items-center gap-8 pb-4">
+          <HBars
+            labelW={210}
+            rowH={44}
+            gap={14}
+            fontSize={21}
+            max={8289}
+            fmt={(v) => `${v.toLocaleString('es-AR')} kWh`}
+            data={[
+              { label: 'Producción del sistema', value: 8289, tone: 'sun' },
+              { label: 'Consumo del hogar N1', value: 4440, tone: 'mute' },
             ]}
           />
-          <div className="flex flex-col gap-3">
-            <Body>
-              Ejemplo del informe (La Matanza, losa plana, 430 kWh/mes): potencia mínima para cubrir el 100% del consumo = 5.160 /
-              (1.940 × 0,80) = 3,32 kWp. El estándar de 5,22 kWp produce 8.101 kWh/año, una cobertura de 157%. El sobredimensionamiento
-              asegura cobertura total incluso al final del contrato, con degradación, y genera crédito de balance neto.
-            </Body>
-            <Body>
-              Esta cobertura es energética, no económica: que el sistema genere más kWh al año de los que el hogar consume no significa
-              que la factura desaparezca. Solo se ahorra al 100% la energía que se autoconsume en el momento en que se genera; el
-              excedente se inyecta a precio MEM (menor que la tarifa minorista) y el consumo nocturno se sigue pagando a tarifa plena,
-              descontando el crédito acumulado. El ahorro económico real es el 42% que muestra la Ecuación de ahorro, no el 185%.
-            </Body>
-          </div>
+          <Panel className="!p-5">
+            <div className="text-[21px] leading-snug">
+              Cubre <b>185%</b> del consumo en energía, <b>no en dinero</b>. El ahorro económico real es <span className="hl-g font-bold">42%</span>.
+            </div>
+          </Panel>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -385,38 +341,29 @@ export const tecnico: SlideDef[] = [
     nav: 'Evaluación del sitio e instalación',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.4.1 y 3.4.3" source="Informe TPP, secciones 3.4.1 y 3.4.3; normas CIRSOC 102, IRAM 2281, AEA 90364-7-712.">
-        <Title>Evaluación del sitio e instalación en un día</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <div>
-            <div className="mb-2 text-sm font-semibold">Visita técnica (site assessment)</div>
-            <Bullets
-              dense
-              items={[
-                'Techo: tipo de cubierta, superficie, orientación norte (±45° con pérdidas menores a 5%), inclinación óptima 30 a 35°, sombras entre 9:00 y 15:00 en el solsticio de invierno (diagrama de trayectoria solar para 34° S).',
-                'Estructura: 9 módulos de 33,5 kg = 301,5 kg de carga muerta; sin problema en losas (150 a 200 kg/m² de uso); en chapa o teja se verifican correas y viguetas.',
-                'Tablero: disyuntor dedicado, espacio disponible, sección del cableado hasta el punto de medición.',
-                'Consumo: una factura reciente alcanza para verificar que el sistema estándar es adecuado.',
-              ]}
-            />
-          </div>
-          <div>
-            <div className="mb-2 text-sm font-semibold">Obra: jornada de 8 horas, equipo de 2 técnicos</div>
-            <Steps
-              steps={[
-                { title: 'Replanteo y estructura', detail: 'Rieles de aluminio anodizado sobre tacos químicos (losa) o grampas sin perforar (chapa). Puesta a tierra con cobre 4 mm².' },
-                { title: 'Montaje de módulos', detail: 'Fijación reversible con abrazaderas; conexión en serie por string con MC4.' },
-                { title: 'Inversor y conexión al tablero', detail: 'Inversor en pared; salida AC en 6 mm² a disyuntor bipolar de 25 A; seccionador DC.' },
-                { title: 'Puesta en marcha', detail: 'Verificación en la app del fabricante, pinza amperimétrica por string, continuidad de tierra, dossier fotográfico para la habilitación.' },
-              ]}
-            />
-          </div>
+      <Frame block={B} source="Informe TPP, 3.4.1 y 3.4.3; CIRSOC 102, IRAM 2281, AEA 90364-7-712">
+        <H size="lg" className="max-w-[1100px]">
+          Se instala en <Hl>un día</Hl> con dos técnicos
+        </H>
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <span className="text-[17px] font-bold uppercase tracking-wider opacity-60">Antes, visita técnica:</span>
+          <Chip tone="ink"><Ruler className="h-5 w-5" /> techo y sombras</Chip>
+          <Chip tone="ink">estructura: 301,5 kg de carga</Chip>
+          <Chip tone="ink">tablero</Chip>
+          <Chip tone="ink">consumo</Chip>
         </div>
-        <Body className="mt-4">
-          Carga de viento de diseño en AMBA: 0,60 a 0,85 kN/m² (CIRSOC 102), hasta 1,5 kN por módulo. Orientación al norte verdadero
-          (declinación magnética en Buenos Aires: -9°).
-        </Body>
-      </Slide>
+        <div className="flex flex-1 items-center pb-4">
+          <FlowSteps
+            tone="sun"
+            steps={[
+              { icon: Ruler, title: 'Replanteo y estructura', text: 'Rieles de aluminio y puesta a tierra' },
+              { icon: Sun, title: 'Montaje de módulos', text: 'Fijación reversible, conexión por string' },
+              { icon: Cpu, title: 'Inversor y conexión', text: 'Inversor en pared y disyuntor de 25 A' },
+              { icon: BadgeCheck, title: 'Puesta en marcha', text: 'Verificación en la app y dossier para habilitar' },
+            ]}
+          />
+        </div>
+      </Frame>
     ),
   },
 
@@ -424,39 +371,44 @@ export const tecnico: SlideDef[] = [
     nav: 'Habilitación ante la distribuidora',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.4.4, Tabla 3.10 (Figura 3.7 recreada) + instructivo TAD de SolarPower" source="Procedimiento Edenor/Edesur (2025), Decreto 986/2018, ENRE 314/2018, Res. SE 235/2024 y 287/2025; SolarPower, instructivo Trámites a Distancia; experiencia operativa 2025 a 2026.">
-        <Title>Habilitación: apoderamiento y ocho pasos, 45 a 70 días hábiles</Title>
-        <div className="mt-3 grid min-h-0 flex-1 gap-6 md:grid-cols-[3fr_2fr]">
-          <Stepper
-            startAt={0}
-            steps={[
-              { title: 'Apoderamiento en TAD (Trámites a Distancia)', detail: 'El cliente autoriza al matriculado de SolarPower solo para el trámite "Usuario-Generador · Generación Distribuida", con clave fiscal nivel 2', owner: 'Cliente, guiado por SolarPower', time: 'Minutos', ownerTone: 'accent' },
-              { title: 'Formulario 1A: solicitud de conexión', owner: 'SolarPower / cliente', time: '10 días háb.' },
-              { title: 'Formulario 1B: proyecto técnico', detail: 'Unifilar firmado, especificaciones, certificados', owner: 'Ingeniero habilitado SolarPower', time: '5 a 10 días háb.' },
-              { title: 'Inspección técnica presencial', owner: 'Inspector de la distribuidora', time: '15 días háb.', ownerTone: 'muted' },
-              { title: 'Formulario 2A: acta de aprobación', owner: 'Edenor / Edesur', time: '5 días háb.', ownerTone: 'muted' },
-              { title: 'Formulario 2B: solicitud de medidor bidireccional', owner: 'SolarPower / cliente', time: 'Inmediato' },
-              { title: 'Instalación del medidor bidireccional', owner: 'Cuadrilla de la distribuidora', time: '10 días háb.', ownerTone: 'muted' },
-              { title: 'Activación de tarifa UGD en facturación', owner: 'Sistema de la distribuidora', time: '5 días háb.', ownerTone: 'muted' },
-              { title: 'Registro en el RUGER', owner: 'SolarPower (apoderado)', time: '15 días háb.' },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              Plazo efectivo 2025 a 2026: <Hi>45 a 70 días hábiles</Hi> (frente a 90 a 120 en 2022 y 2023) gracias a la plataforma digital de
-              las distribuidoras. Entre instalación y medidor, el inversor opera en modo zero-export y el cliente ya autoconsume de día.
-            </Body>
-            <Body>
-              La Res. SE 287/2025 prohíbe cargos por interconexión y fija plazos bajo apercibimiento de multa. Verde: paso del cliente;
-              naranja: a cargo de SolarPower; gris: a cargo de la distribuidora.
-            </Body>
-            <Body>
-              El paso 0 es el que permite que SolarPower gestione todo el trámite en nombre del cliente sin que este tenga que intervenir
-              de nuevo. El instructivo paso a paso está en el anexo (A12b).
-            </Body>
+      <Frame block={B} source="Edenor y Edesur (2025); Decreto 986/2018; ENRE 314/2018; Res. SE 235/2024 y 287/2025. Detalle en el anexo (A12 y A12b)">
+        <H size="md" className="max-w-[1150px]">
+          Cómo se habilita para <Hl g>vender el excedente a la red</Hl>
+        </H>
+        <div className="mt-4 flex gap-3">
+          <Chip tone="green" className="!text-[16px]">Cliente</Chip>
+          <Chip tone="sun" className="!text-[16px]">SolarPower</Chip>
+          <Chip tone="ink" className="!text-[16px]">Distribuidora</Chip>
+        </div>
+        <div className="mt-3 grid flex-1 grid-cols-5 grid-rows-2 gap-3 pb-4">
+          {(
+            [
+              ['0', 'Apoderamiento en TAD', 'minutos', 'green'],
+              ['1', 'Formulario 1A: solicitud', '10 días hábiles', 'sun'],
+              ['2', 'Formulario 1B: proyecto técnico', '5 a 10 días', 'sun'],
+              ['3', 'Inspección presencial', '15 días', 'ink'],
+              ['4', 'Formulario 2A: aprobación', '5 días', 'ink'],
+              ['5', 'Formulario 2B: pedido de medidor', 'inmediato', 'sun'],
+              ['6', 'Medidor bidireccional', '10 días', 'ink'],
+              ['7', 'Tarifa UGD en la factura', '5 días', 'ink'],
+              ['8', 'Registro en el RUGER', '15 días', 'sun'],
+            ] as [string, string, string, 'green' | 'sun' | 'ink'][]
+          ).map(([n, t, d, tone]) => (
+            <div key={n} className="flex flex-col rounded-2xl border border-black/10 bg-white/70 p-4 shadow-sm">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full font-serif text-[20px] font-extrabold text-white" style={{ background: COLOR[tone] }}>
+                {n}
+              </span>
+              <div className="mt-2.5 font-serif text-[19px] font-bold leading-tight">{t}</div>
+              <div className="mt-auto pt-1.5 text-[16px] font-semibold opacity-65">{d}</div>
+            </div>
+          ))}
+          <div className="flex flex-col justify-center rounded-2xl bg-ink p-4 text-white">
+            <div className="font-serif text-[46px] font-extrabold leading-none text-[oklch(0.8_0.16_78)]">45 a 70</div>
+            <div className="mt-1.5 text-[17px] leading-snug text-white/80">días hábiles en total. Antes: 90 a 120</div>
           </div>
         </div>
-      </Slide>
+        <div className="pb-2 text-[17px] opacity-65">Mientras llega el medidor, el inversor opera en zero-export y el cliente ya autoconsume de día.</div>
+      </Frame>
     ),
   },
 
@@ -464,34 +416,20 @@ export const tecnico: SlideDef[] = [
     nav: 'Monitoreo y mantenimiento',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.4.5 y 3.4.6, Tabla 3.11" source="Informe TPP, secciones 3.4.5 y 3.4.6; DEYE Cloud y Huawei FusionSolar (documentación técnica 2024 a 2025).">
-        <Title>Operación: monitoreo remoto y plan de mantenimiento</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Table
-            align="left"
-            compact
-            headers={['Actividad', 'Frecuencia', 'Modalidad']}
-            rows={[
-              ['Monitoreo de producción y alertas', 'Continua (24/7)', 'Remota, automática'],
-              ['Revisión de alertas y diagnóstico', 'Semanal o ante alerta', 'Remota'],
-              ['Actualización de firmware (OTA)', 'Según fabricante', 'Remota'],
-              ['Limpieza de módulos', '1 a 2 veces por año', 'Presencial'],
-              ['Inspección de estructura y cableado', 'Anual', 'Presencial'],
-              ['Verificación de puesta a tierra', 'Cada 2 años', 'Presencial'],
-              ['Reemplazo de inversor o módulo con falla', 'Ante alerta', 'Presencial, bajo garantía'],
-              ['Auditoría de producción vs. garantía', 'Anual', 'Remota; cliente notificado'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Stat tone="accent" value="70%" label="de las actividades de mantenimiento son remotas; más del 60% de las alertas de primer nivel se resuelven sin visita" />
-            <Stat tone="primary" value="7 a 10 días hábiles" label="tiempo objetivo de resolución de un inversor con falla (diagnóstico, RMA, envío, sustitución)" />
-            <Body>
-              Tres niveles de alerta: comunicación (inversor sin reportar), producción reducida (más de 20% bajo lo estimado) y falla del
-              inversor. Configuración remota: firmware, zero-export, potencia de inyección, reinicio.
-            </Body>
+      <Frame block={B} source="DEYE Cloud y Huawei FusionSolar (2024 a 2025); Informe TPP, 3.4.5 y 3.4.6">
+        <H size="lg" className="max-w-[1100px]">
+          El sistema se cuida <Hl>casi todo a distancia</Hl>
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1fr_1.1fr] items-center gap-10 pb-6">
+          <Big value="70%" size={200} tone="green" caption="del mantenimiento es remoto" />
+          <div className="grid grid-cols-2 gap-5">
+            <Stat card value="24/7" size={52} tone="sun" label="monitoreo de producción y alertas" />
+            <Stat card value="> 60%" size={52} tone="sun" label="de las alertas se resuelven sin visita" />
+            <Stat card value="1 a 2" size={52} tone="green" label="limpiezas de módulos por año" />
+            <Stat card value="7 a 10" size={52} tone="green" label="días hábiles para reemplazar un inversor" />
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -499,28 +437,29 @@ export const tecnico: SlideDef[] = [
     nav: 'Modelo operativo end-to-end',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.5.1, Tabla 3.12" source="Informe TPP, Tabla 3.12.">
-        <Title>Modelo operativo end-to-end: diez etapas</Title>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Etapa', 'Descripción', 'Actores', 'Duración', 'Entregable']}
-            rows={[
-              ['1 · Generación de leads', 'Canales digitales (Meta Ads, Google Ads, SEO), referidos, inmobiliarias', 'Marketing / Vendedores', 'Continuo', 'Base de leads'],
-              ['2 · Calificación', 'Propietario, zona AMBA, sin subsidio, consumo > 300 kWh/mes, techo apto', 'Asesor comercial', '1 a 3 días', 'Lead calificado'],
-              ['3 · Propuesta comercial', 'Simulación de ahorro, presentación del contrato UVA', 'Asesor comercial', '1 a 2 días', 'Contrato firmado'],
-              ['4 · Evaluación técnica', 'Visita: techo, sombreado, tablero', 'Técnico', '1 día', 'Informe técnico'],
-              ['5 · Diseño del sistema', 'Dimensionamiento según consumo y sitio', 'Ingeniero', '2 a 3 días', 'Plano y unifilar'],
-              ['6 · Instalación', 'Estructura, módulos, inversor, cableado, protecciones', 'Equipo de 2 técnicos', '1 día', 'Sistema instalado'],
-              ['7 · Habilitación', 'Formularios 1A/1B, inspección, medidor bidireccional', 'SolarPower + distribuidora', '45 a 70 días', 'Medidor operativo'],
-              ['8 · Puesta en marcha', 'Activación en plataforma, verificación de producción', 'Técnico', '1 día', 'Dashboard activo'],
-              ['9 · Operación y facturación', 'Monitoreo, facturación UVA, mantenimiento', 'Operaciones', 'Vigencia', 'Servicio operativo'],
-              ['10 · Fin de contrato', 'Compra a valor residual, renovación o remoción', 'SolarPower + cliente', '30 a 60 días', 'Cierre contractual'],
+      <Frame block={B} source="Informe TPP, Tabla 3.12">
+        <H size="md" className="max-w-[1100px]">
+          Del lead al fin de contrato en <Hl>diez etapas</Hl>
+        </H>
+        <div className="mt-6 flex flex-1 items-center pb-4">
+          <FlowSteps
+            cols={5}
+            tone="sun"
+            steps={[
+              { title: 'Generación de leads', meta: 'continuo' },
+              { title: 'Calificación', meta: '1 a 3 días' },
+              { title: 'Propuesta comercial', meta: '1 a 2 días' },
+              { title: 'Evaluación técnica', meta: '1 día' },
+              { title: 'Diseño del sistema', meta: '2 a 3 días' },
+              { title: 'Instalación', meta: '1 día', tone: 'green' },
+              { title: 'Habilitación', meta: '45 a 70 días', tone: 'red' },
+              { title: 'Puesta en marcha', meta: '1 día', tone: 'green' },
+              { title: 'Operación y facturación', meta: 'toda la vigencia' },
+              { title: 'Fin de contrato', meta: '30 a 60 días' },
             ]}
           />
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -528,31 +467,33 @@ export const tecnico: SlideDef[] = [
     nav: 'Puntos críticos',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 3.5.2 y 3.5.3, Tabla 3.13" source="Informe TPP, Tabla 3.13 y sección 3.5.3.">
-        <Title>Tres puntos críticos del proceso y sus mitigaciones</Title>
-        <div className="mt-5 grid gap-4 md:grid-cols-3">
+      <Frame block={B} source="Informe TPP, Tabla 3.13. Riesgos operativos por etapa en el anexo (A13)">
+        <H size="lg" className="max-w-[1100px]">
+          Tres puntos críticos, <Hl g>tres mitigaciones</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-3 gap-5 pb-4">
           {[
-            ['Habilitación ante la distribuidora (etapa 7)', '45 a 70 días hábiles: principal cuello de botella temporal. Sistemas instalados esperando medidor tienen costo financiero.', 'Pipeline de trámites en paralelo, seguimiento semanal, escalamiento ante ENRE si supera 90 días, zero-export mientras tanto.'],
-            ['Capacidad de instalación (etapa 6)', 'Un equipo de 2 técnicos ejecuta una instalación estándar por día laborable. La tasa de crecimiento depende de equipos certificados disponibles.', 'Programa de formación continua, alianzas con escuelas técnicas e INTI, red de subcontratistas certificados bajo estándar SolarPower.'],
-            ['Cobranza y morosidad (etapa 9)', 'La sostenibilidad depende de una mora controlada. Referencia internacional (Sunrun): 1,8% de default.', 'Débito automático CBU/CVU, gestión temprana de mora desde el primer incumplimiento, penalización contractual.'],
-          ].map(([t, p, m]) => (
-            <div key={t} className="rounded-lg border border-border bg-card/60 p-4">
-              <div className="font-serif font-semibold">{t}</div>
-              <p className="mt-2 text-sm text-muted-foreground">{p}</p>
-              <div className="mt-3 text-xs font-semibold text-accent">Mitigación</div>
-              <p className="text-sm text-muted-foreground">{m}</p>
-            </div>
-          ))}
+            [Landmark, 'Habilitación', '45 a 70 días', 'Trámites en paralelo, seguimiento semanal y zero-export mientras tanto'],
+            [HardHat, 'Capacidad de instalación', '1 por equipo y día', 'Formación continua, escuelas técnicas e INTI y red de subcontratistas certificados'],
+            [ShieldCheck, 'Cobranza', '1,8% de default en Sunrun', 'Débito automático y gestión temprana de la mora'],
+          ].map(([I, t, n, m]) => {
+            const Ic = I as typeof Landmark
+            return (
+              <div key={t as string} className="flex flex-col rounded-2xl border border-black/10 bg-white/70 p-6 shadow-sm">
+                <Ic className="h-10 w-10 text-destructive" strokeWidth={1.8} />
+                <div className="mt-3 font-serif text-[27px] font-bold leading-tight">{t as string}</div>
+                <div className="mt-2 font-serif text-[34px] font-extrabold leading-tight text-destructive">{n as string}</div>
+                <div className="mt-auto rounded-xl bg-accent/10 p-4">
+                  <div className="text-[15px] font-bold uppercase tracking-wider text-accent">Mitigación</div>
+                  <div className="mt-1 text-[19px] leading-snug">{m as string}</div>
+                </div>
+              </div>
+            )
+          })}
         </div>
-        <Body className="mt-5">
-          Otros riesgos operativos por etapa: CAC superior al presupuestado (referidos reducen 40%), techo no apto (pre-evaluación
-          satelital con Google Earth), error de dimensionamiento (doble verificación con PVGIS), accidente en obra (seguro RC, ART,
-          protocolo de altura), falla de inversor (monitoreo 24/7 y stock de repuestos). Tabla completa en el Anexo.
-        </Body>
-      </Slide>
+      </Frame>
     ),
   },
 ]
 
-void Lead
-void Hi
+void AnexoTag

@@ -1,6 +1,6 @@
-import { Slide, Title, Lead, Body, Bullets, Stat, Divider, Table, Bars, Lines, BarsPlusLine, HBars, RiskGrid } from './primitives'
+import { Coins, Gauge, Timer, Target } from 'lucide-react'
 import type { SlideDef } from './types'
-import { Hi, Bad, Ok } from './types'
+import { Frame, H, Hl, Kicker, Big, Stat, Chip, Panel, BlockDivider, VBars, HBars, LineChart, Waterfall, COLOR } from './impact'
 
 const B = '6 · Financiero'
 
@@ -8,24 +8,21 @@ const B = '6 · Financiero'
 const years = Array.from({ length: 15 }, (_, i) => `A${i + 1}`)
 const ingresos = [69600, 327200, 840000, 1661600, 2707650, 3256900, 3256900, 3256900, 3256900, 3256900, 3256900, 3256900, 3256900, 3256900, 3256900]
 const ebitda = [-38400, 140120, 546641, 1198022, 2056014, 2635932, 2624803, 2603340, 2581534, 2559373, 2536847, 2513945, 2490657, 2466969, 2442871]
-const resultadoNeto = [-118400, -139880, -53359, 118022, 364175, 725356, 848122, 1042171, 1339997, 1663592, 1648950, 1634064, 1618927, 1603530, 1587866]
-const fcf = [-438400, -859880, -1053359, -1201978, -635825, 2245356, 2168122, 2042171, 1859997, 1663592, 1648950, 1634064, 1618927, 1603530, 1587866]
 const fcfAcum = [-438400, -1298280, -2351639, -3553617, -4189442, -1944086, 224036, 2266207, 4126204, 5789796, 7438746, 9072811, 10691737, 12295267, 13883134]
-const vanAcum = [-387965, -1061377, -1791408, -2528603, -2873704, -1795218, -873634, -105451, 513713, 1003788, 1433666, 1810654, 2141181, 2430902, 2684787]
 
-const fmtM = (v: number) => `${(v / 1e6).toLocaleString('es-AR', { maximumFractionDigits: 1 })} M`
-const fmtUSD = (v: number) => `USD ${v.toLocaleString('es-AR')}`
+const M = (v: number) => `${(v / 1e6).toLocaleString('es-AR', { maximumFractionDigits: 2 })} M`
+const usd = (v: number) => `USD ${v.toLocaleString('es-AR')}`
 
 export const financiero: SlideDef[] = [
   {
     nav: 'Bloque 6',
     block: B,
     node: (
-      <Divider
+      <BlockDivider
         number="6"
         title="Evaluación económico-financiera"
-        subtitle="Modelo por cohortes a 15 años en USD constantes, TREMA por CAPM ajustado por riesgo país, VAN, TIR, payback, sensibilidad y riesgos."
-        items={['Supuestos y CAPEX', 'Cuota por cohorte y OPEX', 'Ingresos, EBITDA y P&L', 'TREMA por CAPM', 'Economía unitaria y FCF', 'VAN, TIR, payback, MOIC', 'Sensibilidad y escenarios', 'Riesgos y KPIs']}
+        hook="USD 4,19 M de capital máximo, TIR de 26,4% y un modelo que resiste el estrés."
+        topics={['Supuestos y CAPEX', 'Cuota y OPEX', 'Ingresos y flujo', 'TREMA', 'VAN y TIR', 'Sensibilidad', 'Riesgos y KPIs']}
       />
     ),
   },
@@ -34,35 +31,28 @@ export const financiero: SlideDef[] = [
     nav: 'Supuestos del modelo',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.1.5, Tabla 4.6" source="Elaboración propia; BCRA (UVA 30/06/2026); TC oficial 30/06/2026; JP Morgan EMBI+ / Bloomberg (05/07/2026); Damodaran (ene-2026).">
-        <Title>Supuestos macroeconómicos y contractuales del escenario base</Title>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Variable', 'Supuesto base', 'Justificación']}
-            rows={[
-              ['Moneda del análisis', 'USD constantes 2026', 'Elimina el ruido inflacionario'],
-              ['Tipo de cambio', '1.485 ARS/USD (30/06/2026)', 'TC oficial bajo crawling peg; modelar en USD elimina riesgo devaluatorio del análisis'],
-              ['UVA', '2.007 ARS (30/06/2026)', 'Cuota 42,94 UVA/mes = 86.189 ARS/mes = USD 58/mes'],
-              ['Cuota de nuevas cohortes', '+8% Años 1 a 3; +2% Años 4 a 5', 'Sigue la normalización tarifaria; las cuotas ya firmadas quedan fijas en UVA'],
-              ['OPEX directo por sistema', 'USD 80/año, +3% anual', 'Inflación de mano de obra local'],
-              ['Plazo del contrato', '5 años + renovación automática', 'Horizonte de análisis 15 años = tres ciclos'],
-              ['Amortización contable', '5 años lineal (USD 400/sistema/año)', 'Coincide con el plazo contractual; genera escudo fiscal en la fase de inversión'],
-              ['Tasa de churn', '0%', 'Cláusula de salida (pago del costo de desinstalación) y ahorro neto de USD 42/mes desincentivan la rescisión'],
-              ['Impuesto a las ganancias', '35%', 'Con traslado de quebrantos hasta absorción total'],
-              ['EMBI+ Argentina', '450 bps', 'Valor al 05/07/2026: 412 bps, redondeado conservadoramente. Mínimo desde agosto de 2019 (2.400 bps en dic-2023)'],
-              ['TREMA', '13% anual en USD', 'CAPM: rf 4,50% + β 0,71 × ERP 5,50% + 4,50% riesgo país'],
-            ]}
-          />
+      <Frame block={B} source="BCRA (UVA 30/06/2026); TC oficial 30/06/2026; JP Morgan EMBI+ (05/07/2026); Damodaran (ene-2026)">
+        <H size="lg" className="max-w-[1100px]">
+          Los supuestos que <Hl>sostienen el modelo</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-4 grid-rows-2 gap-4 pb-4">
+          {[
+            ['USD 2026', 'moneda constante: sin ruido inflacionario'],
+            ['1.485', 'ARS por USD (30/06/2026)'],
+            ['$2.007', 'valor de la UVA: cuota de 42,94 UVA = USD 58'],
+            ['+8% / +2%', 'cuota de las nuevas cohortes: Años 1 a 3 y Años 4 a 5'],
+            ['USD 80', 'de OPEX directo por sistema y año, +3% anual'],
+            ['0%', 'de churn: la salida cuesta la desinstalación'],
+            ['35%', 'de impuesto a las ganancias, con quebrantos'],
+            ['13%', 'de TREMA anual en USD'],
+          ].map(([v, l], i) => (
+            <div key={l} className={`flex flex-col justify-center rounded-2xl p-5 ${i === 7 ? 'bg-ink text-white' : 'border border-black/10 bg-white/70 shadow-sm'}`}>
+              <div className={`font-serif text-[44px] font-extrabold leading-none ${i === 7 ? 'text-[oklch(0.8_0.16_78)]' : 'text-primary'}`}>{v}</div>
+              <div className={`mt-2 text-[18px] leading-snug ${i === 7 ? 'text-white/80' : 'opacity-75'}`}>{l}</div>
+            </div>
+          ))}
         </div>
-        <Body className="mt-4">
-          Todo el capítulo 4 está en USD constantes: flujos y TREMA son magnitudes reales, sin un componente adicional de inflación en
-          dólares. Esto asume que el tipo de cambio real ARS/USD se mantiene estable en el horizonte de evaluación (paridad de poder
-          adquisitivo). Bajo ese supuesto, una cuota fija en UVA equivale a una cuota fija en USD reales, que es como se presenta en todo
-          el modelo.
-        </Body>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -70,35 +60,28 @@ export const financiero: SlideDef[] = [
     nav: 'CAPEX por sistema',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.1.1, Tabla 4.1" source="Elaboración propia con base en cotizaciones FOB + costos de internación, 2026.">
-        <Title>CAPEX: USD 3.000 llave en mano, USD 2.000 netos para SolarPower</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <HBars
-            max={3000}
-            valueFormat={(v) => `USD ${v.toLocaleString('es-AR')}`}
-            data={[
-              { label: 'Módulos (9 × 580 Wp TOPCon)', value: 1300, tone: 'primary' },
-              { label: 'Inversor de string 5 kW', value: 400, tone: 'primary' },
-              { label: 'Estructura y BOS', value: 500, tone: 'primary' },
-              { label: 'Mano de obra y habilitación', value: 350, tone: 'primary' },
-              { label: 'Logística y contingencia 5%', value: 250, tone: 'primary' },
-              { label: 'Total llave en mano (incl. IVA)', value: 3000, tone: 'default' },
-              { label: '(-) Pago inicial del cliente', value: 600, tone: 'destructive' },
-              { label: '(-) Crédito fiscal IVA recuperable', value: 400, tone: 'destructive' },
-              { label: 'CAPEX neto SolarPower', value: 2000, tone: 'accent' },
+      <Frame block={B} source="Elaboración propia con cotizaciones FOB e internación, 2026">
+        <H size="lg" className="max-w-[1150px]">
+          USD 3.000 llave en mano, <Hl g>USD 2.000 netos</Hl> para SolarPower
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.5fr_1fr] items-center gap-8 pb-6">
+          <Waterfall
+            w={760}
+            h={390}
+            fmt={(v) => `${v.toLocaleString('es-AR')}`}
+            steps={[
+              { label: 'Costo llave\nen mano', value: 3000, kind: 'total', tone: 'ink' },
+              { label: 'Pago inicial\ndel cliente', value: -600, kind: 'delta', tone: 'sun' },
+              { label: 'IVA crédito\nfiscal', value: -400, kind: 'delta', tone: 'sun' },
+              { label: 'CAPEX neto\nSolarPower', value: 2000, kind: 'total', tone: 'green' },
             ]}
           />
-          <div className="flex flex-col gap-3">
-            <Stat tone="accent" value="USD 2.000" label="capital que inmoviliza SolarPower por sistema instalado" />
-            <Stat tone="primary" value="USD 8.000.000" label="inversión total en 5 años para 4.000 sistemas" />
-            <Body>
-              El precio de USD 3.000 (frente a USD 3.500 de distribución) se logra por importación directa de módulos e inversores. El
-              pago inicial de USD 600 cubre íntegramente la mano de obra y funciona como señal de compromiso. El crédito fiscal de IVA
-              (USD 400) se recupera en el período fiscal. Amortización contable: USD 400/sistema/año durante 5 años.
-            </Body>
+          <div className="flex flex-col gap-6">
+            <Stat value="USD 8 M" size={78} tone="sun" label="de inversión total: 4.000 sistemas en 5 años" />
+            <div className="text-[19px] leading-snug opacity-70">La importación directa baja el precio de USD 3.500 (distribución) a USD 3.000.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -106,39 +89,34 @@ export const financiero: SlideDef[] = [
     nav: 'Cuota por cohorte',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.1.2, Tabla 4.3" source="Elaboración propia. Cuota base: tarifa Edenor/Edesur sin subsidio julio 2026; TC 1.485; UVA 2.007.">
-        <Title>Modelo de cohortes: cada contrato fija su cuota en UVA; cada nueva cohorte entra más alta</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Table
-            headers={['Año', 'Cohorte (sistemas nuevos)', 'Cuota anual (USD)', 'Cuota mensual (USD)', 'Variación']}
-            rows={[
-              ['1', '200', '696', '58', 'Cohorte base'],
-              ['2', '500', '752', '63', '+8%'],
-              ['3', '800', '812', '68', '+8%'],
-              ['4', '1.200', '828', '69', '+2%'],
-              ['5', '1.300', '845', '70', '+2%'],
-              ['6 a 15', 'Sin instalaciones', 'Fijas', 'Fijas', 'Flota plena'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              Una vez firmado, el contrato queda fijo en UVA: no hay crecimiento real de la cuota para ese cliente. Pero la tarifa de
-              referencia sin solar sigue creciendo durante la normalización, así que cada cohorte anual nueva se calibra con una cuota
-              mayor manteniendo el umbral de 30% de ahorro para el cliente nuevo.
-            </Body>
-            <Body>
-              El crecimiento aplicado es 8% anual mientras la normalización tarifaria está activa (Años 1 a 3) y 2% cuando se considera
-              esencialmente completada (Años 4 y 5). A partir del Año 6 no se instalan sistemas nuevos en el escenario base, por lo que
-              los ingresos quedan constantes en USD.
-            </Body>
-            <Body>
-              La cuota está fijada en UVA, que sigue el IPC argentino, y se reporta en USD constantes bajo el supuesto de paridad de
-              poder adquisitivo (nota en Supuestos del modelo). Por eso el equivalente en USD de una cuota ya firmada se mantiene estable
-              en términos reales durante todo el contrato, sin necesidad de indexarla por una inflación en dólares aparte.
-            </Body>
+      <Frame block={B} source="Elaboración propia. Cuota base: tarifa Edenor y Edesur sin subsidio, jul-2026">
+        <H size="lg" className="max-w-[1150px]">
+          Cada cohorte entra con una cuota más alta. <Hl>Las ya firmadas no cambian</Hl>
+        </H>
+        <div className="mt-3 grid flex-1 grid-cols-[1.4fr_1fr] items-center gap-8 pb-6">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">Cuota mensual de cada cohorte, USD</div>
+            <VBars
+              w={640}
+              h={340}
+              fmt={(v) => `USD ${v}`}
+              data={[
+                { label: 'Año 1', value: 58, tone: 'mute', sub: '200 sistemas' },
+                { label: 'Año 2', value: 63, tone: 'sun', sub: '500' },
+                { label: 'Año 3', value: 68, tone: 'sun', sub: '800' },
+                { label: 'Año 4', value: 69, tone: 'green', sub: '1.200' },
+                { label: 'Año 5', value: 70, tone: 'green', sub: '1.300' },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-5">
+            <Chip tone="sun" className="!text-[20px]">+8% por año en los Años 1 a 3</Chip>
+            <Chip tone="green" className="!text-[20px]">+2% por año en los Años 4 y 5</Chip>
+            <div className="text-[20px] leading-snug opacity-75">Cada cohorte sigue la normalización de la tarifa y mantiene el piso de 30% de ahorro para el cliente nuevo.</div>
+            <div className="text-[20px] leading-snug opacity-75">Desde el Año 6 no se instalan sistemas nuevos: los ingresos quedan constantes.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -146,41 +124,38 @@ export const financiero: SlideDef[] = [
     nav: 'OPEX',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.1.3, Tabla 4.4" source="Elaboración propia. Monitoreo en capa gratuita: DEYE Cloud y Huawei FusionSolar para flotas residenciales.">
-        <Title>Costos operativos: USD 80 por sistema y año, más estructura corporativa</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            headers={['OPEX directo por sistema (Año 1)', 'USD/año']}
-            rows={[
-              ['Mantenimiento preventivo anual (limpieza + revisión)', '60'],
-              ['Monitoreo remoto (plataformas cloud en free tier)', '0'],
-              ['Seguro de equipos (póliza de flota)', '10'],
-              ['Mantenimiento correctivo promedio', '10'],
-              ['Total OPEX directo por sistema', '80'],
-            ]}
-            highlightLast
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              compact
-              headers={['Año', 'OPEX directo flota (USD)', 'OPEX corporativo (USD)']}
-              rows={[
-                ['1', '8.000', '100.000'],
-                ['2', '37.080', '150.000'],
-                ['3', '93.359', '200.000'],
-                ['4', '183.578', '280.000'],
-                ['5', '301.636', '350.000'],
-                ['6 a 15', '370.968 a 484.029', '250.000 a 330.000'],
+      <Frame block={B} source="Elaboración propia. Monitoreo en capa gratuita de DEYE Cloud y Huawei FusionSolar">
+        <H size="lg" className="max-w-[1100px]">
+          Operar un sistema cuesta <Hl>USD 80 por año</Hl>
+        </H>
+        <div className="mt-4 grid flex-1 grid-cols-[1.3fr_1fr] items-center gap-10 pb-6">
+          <div>
+            <div className="mb-3 text-[17px] opacity-65">OPEX directo por sistema, USD por año</div>
+            <HBars
+              labelW={250}
+              rowH={46}
+              gap={14}
+              fontSize={21}
+              max={60}
+              fmt={(v) => `${v}`}
+              data={[
+                { label: 'Mantenimiento preventivo', value: 60, tone: 'sun' },
+                { label: 'Seguro de equipos', value: 10, tone: 'sun' },
+                { label: 'Mantenimiento correctivo', value: 10, tone: 'sun' },
+                { label: 'Monitoreo remoto', value: 0.4, tone: 'mute', display: '0', sub: 'capa gratuita' },
               ]}
             />
-            <Body>
-              El OPEX directo crece 3% anual por inflación de mano de obra y se aplica sobre la flota promedio del año. El corporativo
-              (dirección, administración, comercial) baja en el Año 6 al terminar la expansión y luego crece gradualmente.
-            </Body>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Panel>
+              <div className="text-[16px] font-bold uppercase tracking-wider opacity-60">Estructura corporativa</div>
+              <div className="mt-2 font-serif text-[44px] font-extrabold leading-none text-ink">USD 100 k a 350 k</div>
+              <div className="mt-2 text-[18px] opacity-70">por año entre los Años 1 y 5, dirección, administración y comercial</div>
+            </Panel>
+            <div className="text-[19px] opacity-70">El OPEX directo crece 3% por año y se aplica sobre la flota promedio.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -188,31 +163,32 @@ export const financiero: SlideDef[] = [
     nav: 'Ingresos y EBITDA a 15 años',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.2 y 4.3, Tablas 4.7 y 4.8" source="Elaboración propia. Ingresos por cohortes; sistemas nuevos generan 6 meses de cuota en su primer año.">
-        <Title>Perfil en J: ingresos crecen con las cohortes y se estabilizan en USD 3,26 M</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Lines
-            height={270}
-            unit="USD (millones)"
-            valueFormat={fmtM}
-            labels={years}
-            series={[
-              { name: 'Ingresos', values: ingresos, tone: 'primary' },
-              { name: 'EBITDA', values: ebitda, tone: 'accent' },
-              { name: 'Resultado neto', values: resultadoNeto, tone: 'default', dashed: true },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Stat tone="primary" value="USD 3.256.900" label="ingresos anuales constantes con la flota plena de 4.000 sistemas (Años 6 a 15)" />
-            <Stat tone="accent" value="79% a 81%" label="margen EBITDA en los Años 6 a 10; 75% a 78% en los Años 11 a 15 por crecimiento del OPEX" />
-            <Body>
-              EBITDA positivo desde el Año 2 (43% de margen). El resultado neto es negativo en los Años 1 a 3 por la amortización
-              acelerada frente a ingresos todavía chicos, y salta a partir del Año 4. Resultado neto Año 10: USD 1.663.592; Año 15: USD
-              1.587.866.
-            </Body>
+      <Frame block={B} source="Elaboración propia. Los sistemas nuevos generan 6 meses de cuota en su primer año">
+        <H size="lg" className="max-w-[1150px]">
+          Una cartera que cobra: <Hl>USD 3,26 M por año</Hl> con la flota plena
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.7fr_1fr] items-center gap-4 pb-4">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">USD millones por año</div>
+            <LineChart
+              w={780}
+              h={360}
+              labels={years}
+              labelEvery={2}
+              fmt={M}
+              area
+              series={[
+                { name: 'Ingresos', values: ingresos, tone: 'sun' },
+                { name: 'EBITDA', values: ebitda, tone: 'green' },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-7">
+            <Stat value="79% a 81%" size={52} tone="green" label="de margen EBITDA en los Años 6 a 10" />
+            <Stat value="Año 2" size={52} tone="sun" label="EBITDA positivo: margen de 43%" />
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -220,32 +196,37 @@ export const financiero: SlideDef[] = [
     nav: 'Break-even y escudo fiscal',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.3.1 y 4.3.2, Tabla 4.9" source="Elaboración propia. Tabla 4.9 del informe.">
-        <Title>Cuatro break-even y el escudo fiscal de la amortización</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            headers={['Indicador de break-even', 'Se alcanza en', 'Nivel de ingresos']}
-            rows={[
-              ['EBITDA', 'Año 2', 'USD 327.200 (flota ~700)'],
-              ['EBIT', 'Año 4', 'USD 1.661.600 (flota 2.700)'],
-              ['Resultado neto', 'Año 4', 'Impuesto = 0 por quebranto acumulado'],
-              ['FCF acumulado (payback)', 'Año 6,9', 'FCF acumulado positivo en el transcurso del Año 7'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              La amortización en 5 años sobre activos con vida útil mayor (módulos 25 años, inversores 10 a 15) crea un escudo fiscal
-              diferido: crece de USD 80.000 (Año 1) a USD 1.600.000 (Año 5), baja escalonadamente (1.520.000, 1.320.000, 1.000.000,
-              520.000) y llega a cero en el Año 10, cuando EBIT = EBITDA.
-            </Body>
-            <Body>
-              El quebranto acumulado de los Años 1 a 3 (USD 311.639) se absorbe a partir del Año 4; el primer año con impuesto efectivo
-              es el Año 5 (USD 91.839). Ese patrón explica el salto del resultado neto entre los Años 6 y 10.
-            </Body>
+      <Frame block={B} source="Elaboración propia. Tabla 4.9 del informe">
+        <H size="lg" className="max-w-[1100px]">
+          Cuatro puntos de equilibrio en <Hl g>siete años</Hl>
+        </H>
+        <div className="mt-10 flex-1">
+          <div className="relative mx-6 mt-16 h-3 rounded-full bg-black/10">
+            <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: '100%', background: `linear-gradient(90deg, ${COLOR.red}, ${COLOR.sun}, ${COLOR.green})` }} />
+            {[
+              [2, 'EBITDA', 'Año 2', 'USD 327.200 de ingresos'],
+              [4, 'EBIT', 'Año 4', 'USD 1,66 M de ingresos'],
+              [4, 'Resultado neto', 'Año 4', 'Sin impuesto por quebranto'],
+              [6.9, 'Payback', 'Año 6,9', 'El flujo acumulado cruza cero'],
+            ].map(([y, t, a, d], i) => {
+              const left = ((y as number) / 8) * 100
+              const up = i % 2 === 0
+              const shift = i === 1 ? -150 : i === 2 ? 20 : 0
+              return (
+                <div key={i} className="absolute" style={{ left: `${left}%` }}>
+                  <div className="absolute -top-2 h-7 w-7 -translate-x-1/2 rounded-full border-4 border-white shadow" style={{ background: COLOR.ink }} />
+                  <div className={`absolute w-[250px] -translate-x-1/2 text-center ${up ? '-top-[104px]' : 'top-12'}`} style={{ marginLeft: shift }}>
+                    <div className="font-serif text-[22px] font-extrabold">{t as string}</div>
+                    <div className="font-serif text-[34px] font-extrabold leading-none text-primary">{a as string}</div>
+                    <div className="mt-1 text-[16px] opacity-65">{d as string}</div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
-      </Slide>
+        <div className="pb-3 text-[19px] opacity-70">La amortización en 5 años genera un escudo fiscal que llega a USD 1,6 M en el Año 5 y se agota en el Año 10.</div>
+      </Frame>
     ),
   },
 
@@ -253,36 +234,38 @@ export const financiero: SlideDef[] = [
     nav: 'TREMA por CAPM',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.4, Tabla 4.10" source="U.S. Treasury / Bloomberg (jul-2026); Damodaran Online, Betas by Sector y ERP (ene-2026); JP Morgan EMBI+ Argentina (05/07/2026, vía Bloomberg y Ámbito). Metodología: Damodaran (2012) para mercados emergentes.">
-        <Title>Tasa de corte: CAPM ajustado por riesgo soberano</Title>
-        <div className="mt-4 rounded-lg border border-primary/40 bg-primary/10 p-4 text-center font-serif text-lg md:text-2xl">
-          TREMA = r<sub>f</sub> + β × (R<sub>m</sub> − r<sub>f</sub>) + r<sub>país</sub> = 4,50% + 0,71 × 5,50% + 4,50% = <Hi>12,91% ≈ 13%</Hi>
+      <Frame block={B} source="US Treasury (jul-2026); Damodaran (ene-2026); JP Morgan EMBI+ Argentina (05/07/2026: 412 pb, redondeado a 450 pb)">
+        <H size="lg" className="max-w-[1100px]">
+          La tasa de corte: <Hl>13% anual en dólares</Hl>
+        </H>
+        <div className="mt-8 flex items-stretch gap-3">
+          {[
+            ['4,50%', 'tasa libre de riesgo', 'Treasury a 10 años'],
+            ['+', '', ''],
+            ['0,71 × 5,50%', 'riesgo del sector solar', 'beta × prima de mercado'],
+            ['+', '', ''],
+            ['4,50%', 'riesgo país', 'EMBI+ Argentina'],
+            ['=', '', ''],
+            ['12,9%', 'TREMA', 'redondeada a 13%'],
+          ].map(([v, l, s], i) =>
+            l ? (
+              <div key={i} className={`flex flex-1 flex-col justify-center rounded-2xl p-5 text-center ${i === 6 ? 'bg-primary text-white' : 'border border-black/10 bg-white/70 shadow-sm'}`}>
+                <div className="font-serif text-[40px] font-extrabold leading-none">{v}</div>
+                <div className="mt-2 text-[18px] font-semibold leading-tight">{l}</div>
+                <div className="mt-1 text-[15px] leading-tight opacity-70">{s}</div>
+              </div>
+            ) : (
+              <div key={i} className="flex items-center font-serif text-[40px] font-bold opacity-45">
+                {v}
+              </div>
+            ),
+          )}
         </div>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Table
-            align="left"
-            compact
-            headers={['Componente', 'Valor', 'Fuente y justificación']}
-            rows={[
-              ['Tasa libre de riesgo (rf)', '4,50%', 'US Treasury 10 años, julio 2026 (rango 4,46% a 4,49%)'],
-              ['Beta desapalancado (β)', '0,71', 'Damodaran, sector Power / Solar-Renewable, ene-2026. Sunrun β = 0,73, SunPower β = 0,69; media 0,71'],
-              ['Prima de riesgo de mercado (ERP)', '5,50%', 'Damodaran, ERP Estados Unidos ene-2026; prima geométrica 1928 a 2025; centro del rango 4,5% a 6,0%'],
-              ['Riesgo soberano (EMBI+)', '4,50% (450 bps)', 'JP Morgan EMBI+ Argentina 05/07/2026: 412 bps, redondeado conservadoramente. Mínimo desde ago-2019; 2.400 bps en dic-2023'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              Descomposición: 4,50% libre de riesgo + 3,91% de riesgo sistemático del sector = 8,41%. Los 4,50 puntos restantes son el
-              riesgo país, cuyo peso relativo se redujo mucho desde 2023. La TREMA de 13% es comparable con proyectos de renovables en
-              mercados emergentes de riesgo moderado (Brasil, Colombia, Perú, 2019 a 2022).
-            </Body>
-            <Body>
-              Sensibilidad al EMBI+: 300 bps llevan la TREMA a 11,4%; 700 bps a 15,4%. Factor de descuento del Año 15 a 13%: (1,13)^-15 =
-              0,1599. Criterio de decisión: TIR mayor que TREMA equivale a VAN positivo.
-            </Body>
-          </div>
+        <div className="mt-auto flex gap-3 pb-5">
+          <Chip tone="green" className="!text-[19px]">Con EMBI+ de 300 pb: 11,4%</Chip>
+          <Chip tone="red" className="!text-[19px]">Con EMBI+ de 700 pb: 15,4%</Chip>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -290,37 +273,31 @@ export const financiero: SlideDef[] = [
     nav: 'Economía unitaria',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.5.1, Tabla 4.11" source="Elaboración propia. Cohorte base: cuota USD 696/año fija, OPEX USD 80/año +3%, CAPEX neto USD 2.000, descuento al 13%.">
-        <Title>Economía unitaria: cada sistema crea valor desde el primer contrato</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Bars
-            height={300}
-            unit="TIR unitaria por horizonte (%)"
-            valueFormat={(v) => `${v.toLocaleString('es-AR')}%`}
-            data={[
-              { label: '5 años (primer contrato)', value: 16.1, tone: 'primary' },
-              { label: '10 años (una renovación)', value: 27.9, tone: 'primary' },
-              { label: '15 años (dos renovaciones)', value: 29.5, tone: 'accent' },
-              { label: 'TREMA', value: 13, tone: 'destructive' },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              headers={['Horizonte', 'VAN unitario (USD, 13%)', 'TIR unitaria']}
-              rows={[
-                ['5 años', '151,86', '≈ 16,1%'],
-                ['10 años', '1.295,32', '≈ 27,9%'],
-                ['15 años', '1.899,80', '≈ 29,5%'],
+      <Frame block={B} source="Elaboración propia. Cohorte base: cuota de USD 696 por año, CAPEX neto de USD 2.000, descuento al 13%">
+        <H size="lg" className="max-w-[1150px]">
+          Cada sistema <Hl g>crea valor desde el primer contrato</Hl>
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.3fr_1fr] items-center gap-8 pb-5">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">TIR de un sistema según el horizonte</div>
+            <VBars
+              w={640}
+              h={350}
+              fmt={(v) => `${v.toLocaleString('es-AR')}%`}
+              data={[
+                { label: '5 años', value: 16.1, tone: 'sun', sub: 'primer contrato' },
+                { label: '10 años', value: 27.9, tone: 'green', sub: 'una renovación' },
+                { label: '15 años', value: 29.5, tone: 'green', sub: 'dos renovaciones' },
+                { label: 'TREMA', value: 13, tone: 'red' },
               ]}
             />
-            <Body>
-              Flujo neto anual del sistema: USD 616 en el Año 1 bajando a USD 576 en el Año 15 por el crecimiento del OPEX. Con CAPEX
-              de USD 2.500 (compra a distribuidores) la TIR a 5 años era 7,1% y no cubría la TREMA: la importación directa transforma la
-              rentabilidad unitaria. Cada renovación agrega TIR sin nueva inversión.
-            </Body>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Stat value="USD 1.900" size={64} tone="green" label="de VAN por sistema a 15 años" />
+            <div className="text-[19px] leading-snug opacity-70">Con CAPEX de USD 2.500 la TIR a 5 años era 7,1% y no cubría la tasa. La importación directa lo cambia todo.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -328,21 +305,31 @@ export const financiero: SlideDef[] = [
     nav: 'Flujo de caja libre',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.5.2, Tabla 4.12" source="Elaboración propia. FCF = Resultado neto + Amortización − CAPEX, con impuesto al 35% y traslado de quebrantos.">
-        <Title>Flujo de caja libre: cinco años de inversión, diez de distribución</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <BarsPlusLine labels={years} bars={fcf} line={fcfAcum} unit="USD (millones)" valueFormat={fmtM} barName="FCF anual" lineName="FCF acumulado" />
-          <div className="flex flex-col gap-3">
-            <Stat tone="destructive" value="USD 4.189.442" label="máximo drawdown de capital al cierre del Año 5: pico de capital requerido" />
-            <Stat tone="primary" value="6,9 años" label="payback: el acumulado pasa de -1.944.086 (fin Año 6) a +224.036 (fin Año 7); 6 + 1.944.086 / 2.168.122" />
-            <Stat tone="accent" value="USD 13.883.134" label="FCF neto acumulado al cierre del Año 15" />
-            <Body>
-              No hace falta aportar los USD 8 M de golpe: desde el break-even de EBITDA en el Año 2, la propia cartera financia una parte
-              creciente del CAPEX. Las llamadas de capital netas de los Años 1 a 5 suman USD 4,19 M.
-            </Body>
+      <Frame block={B} source="Elaboración propia. FCF = resultado neto + amortización - CAPEX, con impuesto de 35% y quebrantos. Tabla 4.12 (completa en el anexo, A18)">
+        <H size="lg" className="max-w-[1150px]">
+          Cinco años de inversión, <Hl g>diez de distribución</Hl>
+        </H>
+        <div className="mt-0 grid flex-1 grid-cols-[1.7fr_1fr] items-center gap-6 pb-4">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">Flujo de caja libre acumulado, USD millones</div>
+            <VBars
+              w={800}
+              h={350}
+              maxBar={40}
+              labelSize={15}
+              valueSize={0}
+              fmt={() => ''}
+              data={fcfAcum.map((v, i) => ({ label: String(i + 1), value: v, tone: v < 0 ? 'red' : 'green' }))}
+            />
+            <div className="-mt-1 text-center text-[16px] opacity-60">Año del proyecto</div>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Stat value="-USD 4,19 M" size={44} tone="red" label="máximo capital requerido, al cierre del Año 5" />
+            <Stat value="6,9 años" size={46} tone="sun" label="de payback" />
+            <Stat value="+USD 13,88 M" size={44} tone="green" label="acumulado al Año 15" />
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -350,34 +337,19 @@ export const financiero: SlideDef[] = [
     nav: 'VAN, TIR, payback',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.5.3 y 4.5.4, Tablas 4.13 y 4.14" source="Elaboración propia. VAN al 13% sobre los FCF de la Tabla 4.12; TIR obtenida numéricamente.">
-        <Title>Indicadores del proyecto: viable con holgura amplia</Title>
-        <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Stat tone="accent" value="USD +2.684.787" label="VAN a TREMA 13%, 15 años" />
-          <Stat tone="accent" value="26,4%" label="TIR anual en USD; spread de +13,4 pp sobre la TREMA" />
-          <Stat tone="primary" value="6,9 años" label="payback (FCF acumulado = 0)" />
-          <Stat tone="primary" value="4,31×" label="MOIC: distribuciones sobre capital llamado" />
+      <Frame tone="dark" block={B} source="Elaboración propia. VAN al 13% sobre los FCF de la Tabla 4.12; TIR calculada numéricamente">
+        <Kicker>Indicadores del proyecto</Kicker>
+        <H size="lg" className="mt-3 max-w-[1100px]">
+          Viable con <Hl g>amplia holgura</Hl>
+        </H>
+        <div className="mt-auto grid grid-cols-4 gap-6 pb-6">
+          <Stat value="+2,68 M" size={64} tone="green" label="VAN en USD, con TREMA de 13% y 15 años" />
+          <Stat value="26,4%" size={64} tone="green" label="TIR en USD: 13,4 puntos sobre la TREMA" />
+          <Stat value="6,9" size={64} tone="sun" label="años de payback" />
+          <Stat value="4,31×" size={64} tone="sun" label="MOIC: lo que recibe el inversor por cada dólar" />
         </div>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Lines
-            height={300}
-            unit="VAN acumulado (USD millones, descontado al 13%)"
-            valueFormat={fmtM}
-            labels={years}
-            series={[{ name: 'VAN acumulado', values: vanAcum, tone: 'accent' }]}
-          />
-          <div className="flex flex-col gap-3">
-            <Body>
-              El VAN acumulado se vuelve positivo entre los Años 8 y 9. La TIR de 26,4% queda dentro del rango de 15% a 30% fijado como
-              criterio de viabilidad en los objetivos del trabajo, y el ahorro del cliente (42%) supera el mínimo de 20%.
-            </Body>
-            <Body>
-              El VAN sería cero recién a una TREMA de 26,4%, equivalente a un EMBI+ de aproximadamente 1.800 bps, nivel que Argentina
-              no registra desde 2020.
-            </Body>
-          </div>
-        </div>
-      </Slide>
+        <div className="pb-2 text-[21px] text-white/70">Para que el VAN fuera cero, la TREMA tendría que llegar a 26,4%: un riesgo país de unos 1.800 pb, que Argentina no tiene desde 2020.</div>
+      </Frame>
     ),
   },
 
@@ -385,39 +357,31 @@ export const financiero: SlideDef[] = [
     nav: 'Perspectiva del inversor',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.5.5, Tabla 4.15" source="Elaboración propia. Estructura all-equity: el flujo del inversor es idéntico al FCF de la compañía.">
-        <Title>Propuesta al inversor: USD 4,19 M llamados, USD 18,07 M distribuidos</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Bars
-            height={300}
-            unit="USD (millones)"
-            valueFormat={fmtM}
-            data={[
-              { label: 'Llamadas de capital (Años 1 a 5)', value: -4189442, tone: 'destructive' },
-              { label: 'Distribuciones (Años 6 a 15)', value: 18072576, tone: 'accent' },
-              { label: 'Neto acumulado (Año 15)', value: 13883134, tone: 'primary' },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              align="left"
-              headers={['Concepto', 'Valor']}
-              rows={[
-                ['Total llamadas de capital (Años 1 a 5)', 'USD 4.189.442'],
-                ['Total distribuciones (Años 6 a 15)', 'USD 18.072.576'],
-                ['FCF neto acumulado (Año 15)', 'USD 13.883.134'],
-                ['MOIC (distribuciones / llamadas)', '4,31×'],
-                ['TIR del inversor', '26,4% anual en USD'],
-                ['Payback del capital', '6,9 años'],
+      <Frame block={B} source="Elaboración propia. Estructura sin deuda: el flujo del inversor es idéntico al FCF de la compañía">
+        <H size="lg" className="max-w-[1150px]">
+          Entran <Hl r>USD 4,19 M</Hl>. Vuelven <Hl g>USD 18,07 M</Hl>
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.2fr_1fr] items-center gap-8 pb-5">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">USD millones</div>
+            <VBars
+              w={600}
+              h={350}
+              fmt={(v) => `${v < 0 ? '-' : ''}${Math.abs(v / 1e6).toLocaleString('es-AR', { maximumFractionDigits: 2 })}`}
+              data={[
+                { label: 'Aportes', value: -4189442, tone: 'red', sub: 'Años 1 a 5' },
+                { label: 'Distribuciones', value: 18072576, tone: 'green', sub: 'Años 6 a 15' },
+                { label: 'Neto', value: 13883134, tone: 'sun', sub: 'Año 15' },
               ]}
             />
-            <Body>
-              Sin deuda, la TIR del inversor coincide con la del proyecto. El perfil (inversión intensiva 5 años, distribución 10 años,
-              activos con contratos recurrentes) es el de los inversores de infraestructura en mercados emergentes.
-            </Body>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Big value="4,31×" size={130} tone="sun" caption="MOIC del inversor" />
+            <Chip tone="green" className="!text-[19px]">TIR de 26,4% en USD</Chip>
+            <Chip tone="ink" className="!text-[19px]">Infraestructura con contratos recurrentes</Chip>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -425,36 +389,29 @@ export const financiero: SlideDef[] = [
     nav: 'Sensibilidad a la TREMA',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.6.1, Tabla 4.16" source="Elaboración propia. EMBI+ implícito = TREMA − 8,41%.">
-        <Title>Sensibilidad a la TREMA: VAN positivo en todo el rango de 8% a 20%</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Lines
-            height={250}
-            unit="VAN del proyecto (USD millones)"
-            valueFormat={fmtM}
-            labels={['8%', '9%', '10%', '11%', '12%', '13%', '14%', '15%', '16%', '18%', '20%']}
-            series={[{ name: 'VAN', values: [5186728, 4568622, 4016508, 3522789, 3080822, 2684787, 2329578, 2010709, 1724230, 1234920, 838381], tone: 'accent' }]}
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              compact
-              headers={['TREMA', 'EMBI+ implícito', 'VAN (USD)']}
-              rows={[
-                ['8%', '≈ 0 bps', '5.186.728'],
-                ['11%', '≈ 250 bps', '3.522.789'],
-                ['13% (base)', '≈ 450 bps', '2.684.787'],
-                ['15%', '≈ 650 bps', '2.010.709'],
-                ['18%', '≈ 950 bps', '1.234.920'],
-                ['20%', '≈ 1.150 bps', '838.381'],
-              ]}
+      <Frame block={B} source="Elaboración propia. EMBI+ implícito = TREMA - 8,41%. Tabla completa en el anexo (A21)">
+        <H size="lg" className="max-w-[1150px]">
+          VAN positivo con una tasa de <Hl g>8% a 20%</Hl>
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.7fr_1fr] items-center gap-4 pb-4">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">VAN del proyecto según la TREMA, USD millones</div>
+            <LineChart
+              w={780}
+              h={350}
+              area
+              labels={['8%', '9%', '10%', '11%', '12%', '13%', '14%', '15%', '16%', '18%', '20%']}
+              labelEvery={2}
+              fmt={M}
+              series={[{ name: 'VAN', values: [5186728, 4568622, 4016508, 3522789, 3080822, 2684787, 2329578, 2010709, 1724230, 1234920, 838381], tone: 'green' }]}
             />
-            <Body>
-              La TREMA es la variable de mayor impacto porque afecta el descuento de todos los flujos. Incluso a 20% (EMBI+ de 1.150
-              bps) el VAN sigue siendo positivo. El margen de 13,4 pp entre TIR y TREMA absorbe deterioros severos del riesgo país.
-            </Body>
+          </div>
+          <div className="flex flex-col gap-6">
+            <Stat value="+USD 0,84 M" size={44} tone="green" label="de VAN aun con TREMA de 20% (EMBI+ de 1.150 pb)" />
+            <div className="text-[19px] leading-snug opacity-70">La TREMA es la variable de mayor impacto. El margen de 13,4 puntos absorbe un deterioro severo del riesgo país.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -462,43 +419,33 @@ export const financiero: SlideDef[] = [
     nav: 'Sensibilidad al CAPEX',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.6.2, Tabla 4.17" source="Elaboración propia. TREMA 13%, horizonte 15 años.">
-        <Title>Sensibilidad al CAPEX: viable incluso volviendo al precio de distribución</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-2">
-          <Bars
-            height={300}
-            unit="VAN del proyecto (USD millones)"
-            valueFormat={fmtM}
-            data={[
-              { label: 'USD 1.500', value: 3625355, tone: 'accent' },
-              { label: 'USD 1.750', value: 3157462, tone: 'accent' },
-              { label: 'USD 2.000 (base)', value: 2684787, tone: 'primary' },
-              { label: 'USD 2.250', value: 2206387, tone: 'primary' },
-              { label: 'USD 2.500', value: 1722252, tone: 'muted' },
-              { label: 'USD 3.000', value: 721212, tone: 'destructive' },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              compact
-              headers={['CAPEX neto por sistema', 'VAN (USD)', 'TIR']}
-              rows={[
-                ['1.500', '3.625.355', '36,1%'],
-                ['1.750', '3.157.462', '30,7%'],
-                ['2.000 (base)', '2.684.787', '26,4%'],
-                ['2.250', '2.206.387', '23,0%'],
-                ['2.500', '1.722.252', '20,1%'],
-                ['3.000', '721.212', '15,5%'],
+      <Frame block={B} source="Elaboración propia. TREMA de 13%, horizonte de 15 años">
+        <H size="lg" className="max-w-[1150px]">
+          Viable incluso si el CAPEX sube <Hl>50%</Hl>
+        </H>
+        <div className="mt-2 grid flex-1 grid-cols-[1.5fr_1fr] items-center gap-8 pb-5">
+          <div>
+            <div className="mb-1 text-[17px] opacity-65">VAN según el CAPEX neto por sistema, USD millones</div>
+            <VBars
+              w={700}
+              h={350}
+              fmt={(v) => (v / 1e6).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              data={[
+                { label: '1.500', value: 3625355, tone: 'green', sub: 'TIR 36,1%' },
+                { label: '1.750', value: 3157462, tone: 'green', sub: '30,7%' },
+                { label: '2.000', value: 2684787, tone: 'sun', sub: '26,4% (base)' },
+                { label: '2.250', value: 2206387, tone: 'mute', sub: '23,0%' },
+                { label: '2.500', value: 1722252, tone: 'mute', sub: '20,1%' },
+                { label: '3.000', value: 721212, tone: 'red', sub: '15,5%' },
               ]}
             />
-            <Body>
-              Si los costos de importación subieran 50% (de USD 2.000 a USD 3.000 netos), el proyecto mantiene VAN de USD 721.212 y TIR
-              de 15,5%, todavía por encima de la TREMA. El CAPEX es la segunda variable de mayor palanca porque determina la inversión
-              total y el drawdown máximo.
-            </Body>
+          </div>
+          <div className="flex flex-col gap-5">
+            <Stat value="15,5%" size={84} tone="red" label="de TIR con CAPEX de USD 3.000: todavía sobre la TREMA" />
+            <div className="text-[19px] leading-snug opacity-70">Con USD 3.000 netos el VAN sigue positivo: USD 721.212.</div>
           </div>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -506,43 +453,40 @@ export const financiero: SlideDef[] = [
     nav: 'Tres escenarios',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.6.3, Tabla 4.18" source="Elaboración propia. Horizonte 15 años. Los escenarios combinan EMBI+, escala de instalaciones y CAPEX por sistema.">
-        <Title>Escenarios: el pesimista es levemente negativo, el optimista supera USD 6 M</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[3fr_2fr]">
-          <Table
-            align="left"
-            compact
-            headers={['Variable', 'Pesimista', 'Base', 'Optimista']}
-            rows={[
-              ['EMBI+ Argentina', '700 bps', '450 bps', '300 bps'],
-              ['TREMA resultante', '15,4%', '12,9% ≈ 13%', '11,4%'],
-              ['Sistemas instalados', '2.700', '4.000', '4.850'],
-              ['CAPEX neto por sistema', 'USD 2.500', 'USD 2.000', 'USD 1.500'],
-              ['Inversión total', 'USD 6.750.000', 'USD 8.000.000', 'USD 7.275.000'],
-              ['VAN del proyecto', <Bad key="v1">(USD 30.368)</Bad>, <Ok key="v2">USD 2.684.787</Ok>, <Ok key="v3">USD 6.065.491</Ok>],
-              ['TIR del proyecto', '15,2%', '26,4%', '40,0%'],
-              ['Payback', '8,3 años', '6,9 años', '6,0 años'],
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Bars
-              height={300}
-              unit="TIR por escenario (%)"
-              valueFormat={(v) => `${v.toLocaleString('es-AR')}%`}
-              data={[
-                { label: 'Pesimista', value: 15.2, tone: 'destructive' },
-                { label: 'Base', value: 26.4, tone: 'primary' },
-                { label: 'Optimista', value: 40.0, tone: 'accent' },
-              ]}
-            />
-            <Body>
-              En el pesimista (EMBI 700 bps, CAPEX de distribución, menor escala), TIR 15,2% frente a TREMA 15,4%: el proyecto destruye
-              valor de forma leve (VAN de USD -30.368 sobre USD 6,75 M invertidos, apenas 0,45% de la inversión). La conclusión de
-              viabilidad del trabajo se apoya en el escenario base, no en el optimista.
-            </Body>
-          </div>
+      <Frame block={B} source="Elaboración propia. Los escenarios combinan EMBI+, escala de instalaciones y CAPEX por sistema">
+        <H size="lg" className="max-w-[1150px]">
+          Tres escenarios: el peor queda <Hl>en equilibrio</Hl>
+        </H>
+        <div className="mt-5 grid flex-1 grid-cols-3 gap-5 pb-4">
+          {[
+            ['Pesimista', 'red', '(USD 30.368)', '15,2%', '8,3 años', 'EMBI+ 700 pb · 2.700 sistemas · CAPEX USD 2.500'],
+            ['Base', 'sun', 'USD 2.684.787', '26,4%', '6,9 años', 'EMBI+ 450 pb · 4.000 sistemas · CAPEX USD 2.000'],
+            ['Optimista', 'green', 'USD 6.065.491', '40,0%', '6,0 años', 'EMBI+ 300 pb · 4.850 sistemas · CAPEX USD 1.500'],
+          ].map(([n, t, van, tir, pb, sup]) => (
+            <div key={n} className="flex flex-col rounded-2xl border border-black/10 bg-white/70 p-6 shadow-sm" style={{ borderTop: `8px solid ${COLOR[t as 'sun']}` }}>
+              <div className="font-serif text-[28px] font-extrabold" style={{ color: COLOR[t as 'sun'] }}>
+                {n}
+              </div>
+              <div className="mt-3 text-[15px] font-bold uppercase tracking-wider opacity-55">VAN</div>
+              <div className="font-serif text-[36px] font-extrabold leading-none" style={{ color: COLOR[t as 'sun'] }}>
+                {van}
+              </div>
+              <div className="mt-4 flex gap-8">
+                <div>
+                  <div className="text-[15px] font-bold uppercase tracking-wider opacity-55">TIR</div>
+                  <div className="font-serif text-[34px] font-extrabold leading-none">{tir}</div>
+                </div>
+                <div>
+                  <div className="text-[15px] font-bold uppercase tracking-wider opacity-55">Payback</div>
+                  <div className="font-serif text-[34px] font-extrabold leading-none">{pb}</div>
+                </div>
+              </div>
+              <div className="mt-auto pt-4 text-[16px] leading-snug opacity-65">{sup}</div>
+            </div>
+          ))}
         </div>
-      </Slide>
+        <div className="pb-2 text-[18px] opacity-70">En el pesimista el VAN es levemente negativo: 0,45% de la inversión. La conclusión se apoya en el caso base, no en el optimista.</div>
+      </Frame>
     ),
   },
 
@@ -550,56 +494,37 @@ export const financiero: SlideDef[] = [
     nav: 'Matriz de riesgos',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.8, Tablas 4.23 a 4.27" source="Elaboración propia. Escala 1 a 5 de probabilidad (P) e impacto (I); índice = P × I; crítico si ≥ 12.">
-        <Title>Diecinueve riesgos evaluados; uno crítico: el acceso a financiamiento de largo plazo</Title>
-        <div className="mt-4 grid gap-6 md:grid-cols-[2fr_3fr]">
-          <RiskGrid
-            risks={[
-              { id: 'M1', name: 'Aceleración inflacionaria', p: 2, i: 3 },
-              { id: 'M2', name: 'Devaluación abrupta', p: 2, i: 4 },
-              { id: 'M3', name: 'Congelamiento tarifario', p: 2, i: 5 },
-              { id: 'M4', name: 'Restricción a importaciones', p: 2, i: 4 },
-              { id: 'M5', name: 'Recesión', p: 2, i: 3 },
-              { id: 'R1', name: 'Modificación adversa Ley 27.424', p: 1, i: 5 },
-              { id: 'R2', name: 'Cargos de respaldo', p: 2, i: 4 },
-              { id: 'R3', name: 'Cambio normativa UVA', p: 1, i: 4 },
-              { id: 'R4', name: 'Demoras certificación IRAM', p: 3, i: 2 },
-              { id: 'O1', name: 'Falla masiva de inversores', p: 1, i: 5 },
-              { id: 'O2', name: 'Insuficiencia de técnicos', p: 3, i: 3 },
-              { id: 'O3', name: 'Daño a propiedad del cliente', p: 2, i: 3 },
-              { id: 'O4', name: 'Pérdida de conectividad', p: 3, i: 2 },
-              { id: 'O5', name: 'Rescisión anticipada', p: 1, i: 4 },
-              { id: 'F1', name: 'Morosidad > 5%', p: 2, i: 4 },
-              { id: 'F2', name: 'Sin financiamiento de largo plazo', p: 3, i: 5 },
-              { id: 'F3', name: 'Deterioro spread UVA/tarifa', p: 2, i: 3 },
-              { id: 'F4', name: 'OPEX superior', p: 2, i: 2 },
-              { id: 'F5', name: 'Devaluación encarece CAPEX', p: 2, i: 4 },
-            ]}
-          />
-          <div className="flex flex-col gap-3">
-            <Table
-              compact
-              headers={['Categoría', 'Riesgos', 'Críticos (≥ 12)', 'Moderados (6 a 11)', 'Bajos (< 6)']}
-              rows={[
-                ['Macroeconómicos', '5', '0', '3', '2'],
-                ['Regulatorios', '4', '0', '2', '2'],
-                ['Operativos', '5', '0', '3', '2'],
-                ['Financieros', '5', '1 (F2)', '2', '2'],
-                ['Total', '19', '1', '10', '8'],
-              ]}
-              highlightLast
-            />
-            <Bullets
-              dense
-              items={[
-                <><Bad>F2 (índice 15)</Bad>: el CAPEX de USD 8 M excede la capacidad de autofinanciamiento de una empresa nueva. Mitigación: bancos locales, fondos verdes, multilaterales, flota como colateral.</>,
-                <><Hi>M3 (índice 10)</Hi>, congelamiento tarifario: cláusula de revisión de cuota y diversificación hacia almacenamiento con baterías.</>,
-                <>O5, rescisión anticipada, baja a índice 4 por la cláusula de salida (pago del costo de desinstalación) y el ahorro neto de USD 42/mes.</>,
-              ]}
-            />
+      <Frame block={B} source="Elaboración propia. Escala de 1 a 5; índice = probabilidad × impacto; crítico si es 12 o más. Detalle en el anexo (A22 y A23)">
+        <H size="lg" className="max-w-[1150px]">
+          19 riesgos evaluados, <Hl r>uno crítico</Hl>
+        </H>
+        <div className="mt-6 grid flex-1 grid-cols-[1fr_1.1fr] items-center gap-10 pb-5">
+          <div className="flex flex-col gap-5">
+            <div className="flex h-16 overflow-hidden rounded-2xl text-[22px] font-extrabold text-white">
+              <div className="flex items-center justify-center" style={{ width: `${(1 / 19) * 100}%`, background: COLOR.red, minWidth: 60 }}>1</div>
+              <div className="flex items-center justify-center" style={{ width: `${(10 / 19) * 100}%`, background: COLOR.sun }}>10</div>
+              <div className="flex items-center justify-center" style={{ width: `${(8 / 19) * 100}%`, background: COLOR.green }}>8</div>
+            </div>
+            <div className="flex gap-4 text-[17px]">
+              <Chip tone="red">crítico</Chip>
+              <Chip tone="sun">moderados</Chip>
+              <Chip tone="green">bajos</Chip>
+            </div>
+            <div className="text-[19px] leading-snug opacity-70">Cinco macroeconómicos, cuatro regulatorios, cinco operativos y cinco financieros.</div>
           </div>
+          <Panel className="border-destructive/40 !bg-destructive/5">
+            <div className="text-[16px] font-bold uppercase tracking-wider text-destructive">El crítico · F2 · índice 15</div>
+            <div className="mt-2 font-serif text-[32px] font-extrabold leading-tight">Conseguir financiamiento de largo plazo</div>
+            <div className="mt-3 text-[19px] leading-snug opacity-75">USD 8 M exceden lo que una empresa nueva puede autofinanciar.</div>
+            <div className="mt-4 text-[15px] font-bold uppercase tracking-wider text-accent">Mitigación</div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {['Bancos locales', 'Fondos verdes', 'Multilaterales', 'La flota como colateral'].map((t) => (
+                <Chip key={t} tone="green" className="!text-[17px]">{t}</Chip>
+              ))}
+            </div>
+          </Panel>
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -607,23 +532,26 @@ export const financiero: SlideDef[] = [
     nav: 'KPIs comerciales',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.7, Tabla 4.19" source="Elaboración propia con base en Sunrun (2024).">
-        <Title>Indicadores comerciales: qué miden y qué deciden</Title>
-        <Lead>Miden si el motor de adquisición de clientes funciona a un costo sostenible.</Lead>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
-            rows={[
-              ['CAC (costo de adquisición)', 'Gasto de marketing y ventas ÷ contratos firmados en el período', '≤ USD 250', 'Si sube, hay que ajustar campañas o reforzar referidos antes de escalar'],
-              ['Tasa de conversión', 'Contratos firmados ÷ leads calificados', '≥ 8%', 'Mide la calidad del discurso comercial y la calificación previa del lead'],
-              ['Tasa de referidos', 'Contratos originados por referido ÷ total de contratos', '≥ 25% desde el Año 3', 'El CAC de un referido es ~60% menor: más referidos, mejor margen'],
-              ['Pipeline', 'Leads calificados en curso ÷ meta mensual de instalaciones', '≥ 3×', 'Anticipa si va a faltar o sobrar demanda para la capacidad de instalación del mes'],
-            ]}
-          />
+      <Frame block={B} source="Elaboración propia con base en Sunrun (2024). Tabla completa en el anexo (A24)">
+        <Kicker>Tablero de control · Comerciales</Kicker>
+        <H size="lg" className="mt-2 max-w-[1100px]">
+          ¿Funciona el motor de <Hl>conseguir clientes</Hl>?
+        </H>
+        <div className="mt-auto grid grid-cols-4 gap-5 pb-5">
+          {[
+            ['≤ USD 250', 'CAC', 'costo de adquisición por contrato firmado'],
+            ['≥ 8%', 'Conversión', 'contratos sobre leads calificados'],
+            ['≥ 25%', 'Referidos', 'de los contratos, desde el Año 3'],
+            ['≥ 3×', 'Pipeline', 'leads en curso sobre la meta mensual'],
+          ].map(([v, t, l]) => (
+            <Panel key={t}>
+              <div className="text-[16px] font-bold uppercase tracking-wider opacity-55">{t}</div>
+              <div className="mt-2 whitespace-nowrap font-serif text-[44px] font-extrabold leading-none text-primary">{v}</div>
+              <div className="mt-2 text-[18px] leading-snug opacity-75">{l}</div>
+            </Panel>
+          ))}
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -631,27 +559,26 @@ export const financiero: SlideDef[] = [
     nav: 'KPIs de retención y cobranza',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.7, Tablas 4.19 y 4.20" source="Elaboración propia con base en Sunrun (2024).">
-        <Title>Indicadores de retención y cobranza: la salud de la cartera</Title>
-        <Lead>El negocio es una cartera de contratos de largo plazo: estos indicadores dicen si esa cartera se sostiene.</Lead>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
-            rows={[
-              ['LTV (valor de vida del cliente)', 'Suma de (cuota − OPEX) de todo el contrato, descontada a la TREMA', '≥ USD 3.000', 'Define el techo de lo que conviene gastar en CAC (LTV / CAC ≥ 3×)'],
-              ['Morosidad a 30 días', 'Cuotas impagas hace más de 30 días ÷ cuotas emitidas', '< 3%', 'Cada punto de morosidad de más resta ~USD 32.000/año de ingresos con la flota plena'],
-              ['Continuidad contractual', 'Contratos que NO ejercen la cláusula de salida al llegar al año 5 ÷ contratos que llegan al año 5', '≥ 90% desde el Año 6', 'El contrato se renueva automáticamente; este indicador mide qué porción de clientes decide no rescindir, no una firma nueva'],
-              ['Rescisión anticipada', 'Contratos rescindidos antes de tiempo ÷ contratos activos', '< 1% anual', 'Valida que la cláusula de salida (pago de la desinstalación) desincentive la baja'],
-            ]}
-          />
+      <Frame block={B} source="Elaboración propia con base en Sunrun (2024). Tabla completa en el anexo (A24)">
+        <Kicker>Tablero de control · Retención y cobranza</Kicker>
+        <H size="lg" className="mt-2 max-w-[1100px]">
+          ¿Se sostiene <Hl g>la cartera</Hl> de contratos?
+        </H>
+        <div className="mt-auto grid grid-cols-4 gap-5 pb-5">
+          {[
+            ['≥ USD 3.000', 'LTV', 'valor de vida del cliente. LTV sobre CAC de 3× o más'],
+            ['< 3%', 'Morosidad', 'cuotas impagas a más de 30 días'],
+            ['≥ 90%', 'Continuidad', 'de contratos que siguen al llegar al año 5'],
+            ['< 1%', 'Rescisión', 'anual de contratos antes de tiempo'],
+          ].map(([v, t, l]) => (
+            <Panel key={t}>
+              <div className="text-[16px] font-bold uppercase tracking-wider opacity-55">{t}</div>
+              <div className="mt-2 whitespace-nowrap font-serif text-[36px] font-extrabold leading-none text-accent">{v}</div>
+              <div className="mt-2 text-[18px] leading-snug opacity-75">{l}</div>
+            </Panel>
+          ))}
         </div>
-        <Body className="mt-3">
-          El contrato no se vuelve a firmar cada 5 años: se renueva solo, salvo que el cliente avise con 90 días de anticipación o ejerza
-          la compra o la salida. "Continuidad contractual" y "rescisión anticipada" miden ese comportamiento, no una renovación activa.
-        </Body>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -659,24 +586,27 @@ export const financiero: SlideDef[] = [
     nav: 'KPIs técnicos',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.7, Tabla 4.21" source="Elaboración propia.">
-        <Title>Indicadores técnicos: la flota funciona como se prometió</Title>
-        <Lead>Sostienen la garantía de producción del contrato y anticipan el OPEX correctivo.</Lead>
-        <div className="mt-4">
-          <Table
-            align="left"
-            compact
-            headers={['Indicador', 'Qué mide', 'Meta', 'Qué decisión habilita']}
-            rows={[
-              ['Producción real vs. estimada', 'Energía generada ÷ energía estimada por PVGIS para ese sistema y mes', '≥ 95%', 'Por debajo del 80% (umbral contractual) activa la garantía de producción y un crédito al cliente'],
-              ['Performance Ratio (PR)', 'Energía real ÷ (potencia pico × irradiación incidente)', '≥ 0,78', 'Mide pérdidas por temperatura, suciedad y cableado; detecta degradación anormal'],
-              ['Tasa de fallas técnicas', 'Sistemas con falla en el período ÷ sistemas activos', '< 2%', 'Dimensiona el stock de repuestos y el equipo de mantenimiento correctivo'],
-              ['Tiempo medio de resolución', 'Tiempo entre la alerta y la resolución, promediado', '< 72 horas', 'Minimiza la energía no generada por una falla no resuelta'],
-              ['Disponibilidad', 'Horas con el sistema operativo ÷ horas de sol del período', '≥ 99%', 'Cada punto de disponibilidad perdido equivale a ~1% de ingresos'],
-            ]}
-          />
+      <Frame block={B} source="Elaboración propia. Tabla completa en el anexo (A24)">
+        <Kicker>Tablero de control · Técnicos</Kicker>
+        <H size="lg" className="mt-2 max-w-[1100px]">
+          ¿La flota <Hl>funciona como prometimos</Hl>?
+        </H>
+        <div className="mt-auto grid grid-cols-5 gap-4 pb-5">
+          {[
+            ['≥ 95%', 'Producción', 'real sobre la estimada con PVGIS'],
+            ['≥ 0,78', 'Performance Ratio', 'detecta pérdidas anormales'],
+            ['< 2%', 'Fallas', 'de los sistemas activos'],
+            ['< 72 h', 'Resolución', 'desde la alerta hasta la solución'],
+            ['≥ 99%', 'Disponibilidad', 'en horas de sol'],
+          ].map(([v, t, l]) => (
+            <Panel key={t} className="!p-5">
+              <div className="text-[15px] font-bold uppercase tracking-wider opacity-55">{t}</div>
+              <div className="mt-2 font-serif text-[40px] font-extrabold leading-none text-primary">{v}</div>
+              <div className="mt-2 text-[17px] leading-snug opacity-75">{l}</div>
+            </Panel>
+          ))}
         </div>
-      </Slide>
+      </Frame>
     ),
   },
 
@@ -684,31 +614,30 @@ export const financiero: SlideDef[] = [
     nav: 'KPIs de satisfacción',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.7, Tabla 4.22" source="Elaboración propia con base en Sunrun (2024).">
-        <Title>Indicadores de satisfacción: por qué el cliente se queda</Title>
-        <Lead>Complementan a los financieros: un cliente satisfecho refiere y no rescinde.</Lead>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <Table
-            align="left"
-            compact
-            headers={['Indicador', 'Qué mide', 'Meta']}
-            rows={[
-              ['NPS (Net Promoter Score)', 'Encuesta 0 a 10: % promotores menos % detractores', '≥ 50'],
-              ['CSAT', 'Encuesta de satisfacción post-instalación, escala 1 a 5', '≥ 4,2 / 5'],
-            ]}
-          />
-          <Body>
-            Ambos se relacionan directamente con la tasa de referidos (KPI comercial) y con la continuidad contractual (KPI de
-            retención): en el benchmark de Sunrun, la satisfacción con el servicio de monitoreo y mantenimiento es el principal
-            predictor de que un cliente refiera a otro.
-          </Body>
+      <Frame block={B} source="Elaboración propia con base en Sunrun (2024)">
+        <Kicker>Tablero de control · Satisfacción</Kicker>
+        <H size="lg" className="mt-2 max-w-[1100px]">
+          Un cliente satisfecho <Hl g>refiere y no rescinde</Hl>
+        </H>
+        <div className="mt-8 grid grid-cols-2 gap-5">
+          <Panel>
+            <div className="text-[16px] font-bold uppercase tracking-wider opacity-55">NPS</div>
+            <div className="mt-2 font-serif text-[72px] font-extrabold leading-none text-accent">≥ 50</div>
+            <div className="mt-2 text-[19px] opacity-75">promotores menos detractores</div>
+          </Panel>
+          <Panel>
+            <div className="text-[16px] font-bold uppercase tracking-wider opacity-55">CSAT</div>
+            <div className="mt-2 font-serif text-[72px] font-extrabold leading-none text-accent">≥ 4,2 / 5</div>
+            <div className="mt-2 text-[19px] opacity-75">satisfacción post-instalación</div>
+          </Panel>
         </div>
-        <Body className="mt-4">
-          Tablero en tres niveles: ejecutivo (flota activa, ingreso mensual recurrente, morosidad, NPS en semáforo), operativo (KPIs
-          técnicos y comerciales semanales y mensuales con alertas de desvío) y analítico (por cohorte, zona y perfil de cliente).
-          Implementación sobre Looker Studio o Metabase, alimentado por CRM, API de monitoreo y módulo de facturación UVA.
-        </Body>
-      </Slide>
+        <div className="mt-auto flex flex-wrap items-center gap-3 pb-5">
+          <span className="text-[17px] font-bold uppercase tracking-wider opacity-60">Tablero en tres niveles:</span>
+          <Chip tone="sun" className="!text-[19px]">Ejecutivo</Chip>
+          <Chip tone="green" className="!text-[19px]">Operativo</Chip>
+          <Chip tone="ink" className="!text-[19px]">Analítico</Chip>
+        </div>
+      </Frame>
     ),
   },
 
@@ -716,29 +645,25 @@ export const financiero: SlideDef[] = [
     nav: 'Conclusiones financieras',
     block: B,
     node: (
-      <Slide block={B} chapter="Informe 4.9" source="Informe TPP, conclusiones del capítulo 4.">
-        <Title>Conclusiones de la evaluación económico-financiera</Title>
-        <div className="mt-4">
-          <Bullets
-            items={[
-              <>CAPEX neto de USD 2.000 por sistema (USD 3.000 llave en mano por importación directa, menos USD 600 de inicial y USD 400 de IVA) es financiable para una empresa emergente con acceso a capital de crecimiento.</>,
-              <>La economía unitaria arroja TIR de 16,1% a 5 años (ya sobre la TREMA) y 29,5% a 15 años: cada sistema crea valor desde el primer contrato.</>,
-              <>Ingresos de USD 69.600 (Año 1) a un plateau de USD 3.256.900 (Años 6 a 15). EBITDA Año 10: USD 2.559.373 (79%); Año 15: USD 2.442.871 (75%).</>,
-              <>VAN <Hi>USD +2.684.787</Hi>, TIR <Hi>26,4%</Hi>, payback <Hi>6,9 años</Hi>, drawdown máximo USD 4.189.442, MOIC <Hi>4,31×</Hi>.</>,
-              <>Sensibilidad: VAN positivo para casi toda la TREMA entre 8% y 20% y para todo CAPEX entre USD 1.500 y 3.000. En el extremo pesimista (TREMA 15,4%, CAPEX de distribución, menor escala), el VAN es levemente negativo (USD -30.368).</>,
-              <>Un único riesgo crítico (F2, financiamiento de largo plazo), mitigable con diversificación de fuentes y la flota como colateral.</>,
-            ]}
-          />
-          <Body className="mt-4">
-            Estas conclusiones están condicionadas a los supuestos del modelo: USD constantes con paridad de poder adquisitivo estable,
-            CAPEX de USD 2.000 netos por importación directa, y ausencia de deuda. Cambios materiales en esos supuestos (por ejemplo una
-            devaluación real sostenida, o CAPEX por encima de USD 3.000) requieren volver a correr el modelo.
-          </Body>
+      <Frame tone="dark" block={B} source="Informe TPP, conclusiones del capítulo 4">
+        <Kicker>Conclusión financiera</Kicker>
+        <H size="lg" className="mt-3 max-w-[1150px]">
+          El negocio cierra, <Hl>y resiste el estrés</Hl>
+        </H>
+        <div className="mt-auto grid grid-cols-4 gap-6 pb-6">
+          <Stat value="USD 2.000" size={46} tone="sun" label="de CAPEX neto por sistema, por importación directa" />
+          <Stat value="26,4%" size={46} tone="green" label="de TIR, con VAN de +USD 2,68 M" />
+          <Stat value="6,9 años" size={46} tone="sun" label="de payback y 4,31× de MOIC" />
+          <Stat value="1" size={46} tone="red" label="riesgo crítico: el financiamiento de largo plazo" />
         </div>
-      </Slide>
+        <div className="pb-2 text-[18px] text-white/65">Condicionado a USD constantes con paridad estable, CAPEX de USD 2.000 netos y ausencia de deuda.</div>
+      </Frame>
     ),
   },
 ]
 
-void Lead
-void fmtUSD
+void Coins
+void Gauge
+void Timer
+void Target
+void usd

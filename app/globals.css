@@ -24,6 +24,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-ink: oklch(0.2 0.035 255);
+  --color-ink-2: oklch(0.27 0.04 255);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -80,3 +82,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ---- Impact deck helpers (additive; the annex does not use these) ---- */
+.hl { color: var(--primary); }
+.hl-g { color: var(--accent); }
+.hl-r { color: var(--destructive); }
+.on-dark .hl { color: oklch(0.83 0.16 78); }
+.on-dark .hl-g { color: oklch(0.8 0.15 162); }
+.on-dark .hl-r { color: oklch(0.76 0.17 25); }
